@@ -17,8 +17,8 @@ end
 
 
 
-local PRC = Instance.new("ScreenGui")
-local PRC_2 = Instance.new("Frame")
+local HBADMIN = Instance.new("ScreenGui")
+local HBADMIN_2 = Instance.new("Frame")
 local Toolbar = Instance.new("Frame")
 local Close = Instance.new("TextButton")
 local Minimize = Instance.new("TextButton")
@@ -128,24 +128,24 @@ local ImageLabel_4 = Instance.new("ImageLabel")
 
 --Properties:
 
-PRC.Name = "PRC"
-PRC.Parent = game.CoreGui
-PRC.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-PRC.ResetOnSpawn = false
+HBADMIN.Name = "HBADMIN"
+HBADMIN.Parent = game.CoreGui
+HBADMIN.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+HBADMIN.ResetOnSpawn = false
 
 
-PRC_2.Name = "PRC"
-PRC_2.Parent = PRC
-PRC_2.Active = true
-PRC_2.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
-PRC_2.BorderColor3 = Color3.fromRGB(255, 255, 255)
-PRC_2.BorderSizePixel = 0
-PRC_2.Position = UDim2.new(0.676999986, 0, 1, 0)
-PRC_2.Size = UDim2.new(0, 482, 0, 329)
-PRC_2.Active = true
-PRC_2.Draggable = true
+HBADMIN_2.Name = "HBADMIN"
+HBADMIN_2.Parent = HBADMIN
+HBADMIN_2.Active = true
+HBADMIN_2.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+HBADMIN_2.BorderColor3 = Color3.fromRGB(255, 255, 255)
+HBADMIN_2.BorderSizePixel = 0
+HBADMIN_2.Position = UDim2.new(0.676999986, 0, 1, 0)
+HBADMIN_2.Size = UDim2.new(0, 482, 0, 329)
+HBADMIN_2.Active = true
+HBADMIN_2.Draggable = true
 Toolbar.Name = "Toolbar"
-Toolbar.Parent = PRC_2
+Toolbar.Parent = HBADMIN_2
 Toolbar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Toolbar.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Toolbar.BorderSizePixel = 0
@@ -198,7 +198,7 @@ ImageLabel.Image = "http://www.roblox.com/asset/?id=5533575307"
 ImageLabel.ScaleType = Enum.ScaleType.Fit
 
 cmdpromptthing.Name = "cmdpromptthing"
-cmdpromptthing.Parent = PRC_2
+cmdpromptthing.Parent = HBADMIN_2
 cmdpromptthing.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 cmdpromptthing.BackgroundTransparency = 10.000
 cmdpromptthing.Position = UDim2.new(0.00600000005, 0, 0.074000001, 0)
@@ -209,7 +209,7 @@ cmdpromptthing.TextColor3 = Color3.fromRGB(255, 255, 255)
 cmdpromptthing.TextSize = 14.000
 
 reserved.Name = "reserved"
-reserved.Parent = PRC_2
+reserved.Parent = HBADMIN_2
 reserved.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 reserved.BackgroundTransparency = 10.000
 reserved.Position = UDim2.new(0.0890622437, 0, 0.128632218, 0)
@@ -220,7 +220,7 @@ reserved.TextColor3 = Color3.fromRGB(255, 255, 255)
 reserved.TextSize = 14.000
 
 user.Name = "user"
-user.Parent = PRC_2
+user.Parent = HBADMIN_2
 user.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 user.BackgroundTransparency = 10.000
 user.Position = UDim2.new(0.0438506231, 0, 0.214000002, 0)
@@ -231,7 +231,7 @@ user.TextColor3 = Color3.fromRGB(255, 255, 255)
 user.TextSize = 14.000
 
 CB.Name = "CB"
-CB.Parent = PRC_2
+CB.Parent = HBADMIN_2
 CB.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 CB.BorderColor3 = Color3.fromRGB(27, 42, 53)
 CB.BorderSizePixel = 0
@@ -247,7 +247,7 @@ CB.TextXAlignment = Enum.TextXAlignment.Left
 CB.TextYAlignment = Enum.TextYAlignment.Top
 
 cmdlist.Name = "cmdlist"
-cmdlist.Parent = PRC
+cmdlist.Parent = HBADMIN
 cmdlist.Active = true
 cmdlist.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 cmdlist.BorderColor3 = Color3.fromRGB(27, 27, 27)
@@ -727,7 +727,7 @@ Close_2.TextSize = 23.000
 Close_2.TextWrapped = true
 
 PR.Name = "PR"
-PR.Parent = PRC
+PR.Parent = HBADMIN
 PR.ResetOnSpawn = false
 
 Holder.Name = "Holder"
@@ -1050,7 +1050,7 @@ TextButton.TextColor3 = Color3.fromRGB(85, 255, 127)
 TextButton.TextSize = 14.000
 
 Loading.Name = "Loading..."
-Loading.Parent = PRC
+Loading.Parent = HBADMIN
 Loading.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 Loading.BorderSizePixel = 0
 Loading.ClipsDescendants = true
@@ -1242,7 +1242,7 @@ local function HHNIX_fake_script() -- Close.LocalScript
 	local script = Instance.new('LocalScript', Close)
 
 	script.Parent.MouseButton1Click:Connect(function()
-		script.Parent.Parent.Parent.Parent.PRC:TweenPosition(UDim2.new(0.677, 0, 1, 0, "Out", "Quad", 0.5))
+		script.Parent.Parent.Parent.Parent.HBADMIN:TweenPosition(UDim2.new(0.677, 0, 1, 0, "Out", "Quad", 0.5))
 	end)
 end
 coroutine.wrap(HHNIX_fake_script)()
@@ -1268,8 +1268,8 @@ local function SLHWJJP_fake_script() -- Minimize.hover
 	end)
 end
 coroutine.wrap(SLHWJJP_fake_script)()
-local function VBNWX_fake_script() -- PRC_2.d=drag 
-	local script = Instance.new('LocalScript', PRC_2)
+local function VBNWX_fake_script() -- HBADMIN_2.d=drag 
+	local script = Instance.new('LocalScript', HBADMIN_2)
 
 	local a = game:GetService("UserInputService")
 	function drag(b)
@@ -1698,7 +1698,7 @@ local function RBUUDS_fake_script() -- Loading.whitelistscript
 		wait(2)
 		script.Parent:TweenPosition(UDim2.new(0.37, 0, 0.507, 0, "Out", "Quad", 0.5))
 		script.Parent:TweenSize(UDim2.new(0, 426, 0, 0, "Out", "Quad", 0.5))
-		script.Parent.Parent.PRC.Visible = true
+		script.Parent.Parent.HBADMIN.Visible = true
 	end
 end
 coroutine.wrap(RBUUDS_fake_script)()
@@ -1770,10 +1770,10 @@ local function OHPJL_fake_script() -- Minimize_3.hover
 	end)
 end
 coroutine.wrap(OHPJL_fake_script)()
-local function YLPLKD_fake_script() -- PRC.localhandler 
-	local script = Instance.new('LocalScript', PRC)
+local function YLPLKD_fake_script() -- HBADMIN.localhandler 
+	local script = Instance.new('LocalScript', HBADMIN)
 
-	local commandframe = script.Parent.PRC
+	local commandframe = script.Parent.HBADMIN
 	local commandbox = commandframe.CB
 	local player = game.Players.LocalPlayer
 	
@@ -1798,97 +1798,97 @@ local function YLPLKD_fake_script() -- PRC.localhandler
 
 
 end
-if game.CoreGui.PRC.PRC.CB.FocusLost:connect(function(enterPressed)
+if game.CoreGui.HBADMIN.HBADMIN.CB.FocusLost:connect(function(enterPressed)
 	if enterPressed then
-		if game.CoreGui.PRC.PRC.CB.Text == "color 1" then
-			game.CoreGui.PRC.PRC.reserved.TextColor3 = Color3.fromRGB(0, 98, 255)
-			game.CoreGui.PRC.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(0, 98, 255)
-			game.CoreGui.PRC.PRC.user.TextColor3 = Color3.fromRGB(0, 98, 255)
-			game.CoreGui.PRC.PRC.CB.TextColor3 = Color3.fromRGB(0, 98, 255)
+		if game.CoreGui.HBADMIN.HBADMIN.CB.Text == "color 1" then
+			game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(0, 98, 255)
+			game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(0, 98, 255)
+			game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(0, 98, 255)
+			game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(0, 98, 255)
 		end
 	end
 end)
 then
 end
-if game.CoreGui.PRC.PRC.CB.FocusLost:connect(function(enterPressed)
+if game.CoreGui.HBADMIN.HBADMIN.CB.FocusLost:connect(function(enterPressed)
 	if enterPressed then
-		if game.CoreGui.PRC.PRC.CB.Text == "color 2" then
-			game.CoreGui.PRC.PRC.reserved.TextColor3 = Color3.fromRGB(7, 250, 20)
-			game.CoreGui.PRC.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(7, 250, 20)
-			game.CoreGui.PRC.PRC.user.TextColor3 = Color3.fromRGB(7, 250, 20)
-			game.CoreGui.PRC.PRC.CB.TextColor3 = Color3.fromRGB(7, 250, 20)
+		if game.CoreGui.HBADMIN.HBADMIN.CB.Text == "color 2" then
+			game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(7, 250, 20)
+			game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(7, 250, 20)
+			game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(7, 250, 20)
+			game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(7, 250, 20)
 		end
 	end
 end)
 then
 end
-if game.CoreGui.PRC.PRC.CB.FocusLost:connect(function(enterPressed)
+if game.CoreGui.HBADMIN.HBADMIN.CB.FocusLost:connect(function(enterPressed)
 	if enterPressed then
-		if game.CoreGui.PRC.PRC.CB.Text == "color 3" then
-			game.CoreGui.PRC.PRC.reserved.TextColor3 = Color3.fromRGB(7, 250, 222)
-			game.CoreGui.PRC.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(7, 250, 222)
-			game.CoreGui.PRC.PRC.user.TextColor3 = Color3.fromRGB(7, 250, 222)
-			game.CoreGui.PRC.PRC.CB.TextColor3 = Color3.fromRGB(7, 250, 222)
+		if game.CoreGui.HBADMIN.HBADMIN.CB.Text == "color 3" then
+			game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(7, 250, 222)
+			game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(7, 250, 222)
+			game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(7, 250, 222)
+			game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(7, 250, 222)
 		end
 	end
 end)
 then
 end
-if game.CoreGui.PRC.PRC.CB.FocusLost:connect(function(enterPressed)
+if game.CoreGui.HBADMIN.HBADMIN.CB.FocusLost:connect(function(enterPressed)
 	if enterPressed then
-		if game.CoreGui.PRC.PRC.CB.Text == "color 4" then
-			game.CoreGui.PRC.PRC.reserved.TextColor3 = Color3.fromRGB(250, 7, 7)
-			game.CoreGui.PRC.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(250, 7, 7)
-			game.CoreGui.PRC.PRC.user.TextColor3 = Color3.fromRGB(250, 7, 7)
-			game.CoreGui.PRC.PRC.CB.TextColor3 = Color3.fromRGB(250, 7, 7)
+		if game.CoreGui.HBADMIN.HBADMIN.CB.Text == "color 4" then
+			game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(250, 7, 7)
+			game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(250, 7, 7)
+			game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(250, 7, 7)
+			game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(250, 7, 7)
 		end
 	end
 end)
 then
 end
-if game.CoreGui.PRC.PRC.CB.FocusLost:connect(function(enterPressed)
+if game.CoreGui.HBADMIN.HBADMIN.CB.FocusLost:connect(function(enterPressed)
 	if enterPressed then
-		if game.CoreGui.PRC.PRC.CB.Text == "color 5" then
-			game.CoreGui.PRC.PRC.reserved.TextColor3 = Color3.fromRGB(160, 0, 196)
-			game.CoreGui.PRC.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(160, 0, 196)
-			game.CoreGui.PRC.PRC.user.TextColor3 = Color3.fromRGB(160, 0, 196)
-			game.CoreGui.PRC.PRC.CB.TextColor3 = Color3.fromRGB(160, 0, 196)
+		if game.CoreGui.HBADMIN.HBADMIN.CB.Text == "color 5" then
+			game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(160, 0, 196)
+			game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(160, 0, 196)
+			game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(160, 0, 196)
+			game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(160, 0, 196)
 		end
 	end
 end)
 then
 end
-if game.CoreGui.PRC.PRC.CB.FocusLost:connect(function(enterPressed)
+if game.CoreGui.HBADMIN.HBADMIN.CB.FocusLost:connect(function(enterPressed)
 	if enterPressed then
-		if game.CoreGui.PRC.PRC.CB.Text == "color 6" then
-			game.CoreGui.PRC.PRC.reserved.TextColor3 = Color3.fromRGB(251, 255, 0)
-			game.CoreGui.PRC.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(251, 255, 0)
-			game.CoreGui.PRC.PRC.user.TextColor3 = Color3.fromRGB(251, 255, 0)
-			game.CoreGui.PRC.PRC.CB.TextColor3 = Color3.fromRGB(251, 255, 0)
+		if game.CoreGui.HBADMIN.HBADMIN.CB.Text == "color 6" then
+			game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(251, 255, 0)
+			game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(251, 255, 0)
+			game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(251, 255, 0)
+			game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(251, 255, 0)
 		end
 	end
 end)
 then
 end
-if game.CoreGui.PRC.PRC.CB.FocusLost:connect(function(enterPressed)
+if game.CoreGui.HBADMIN.HBADMIN.CB.FocusLost:connect(function(enterPressed)
 	if enterPressed then
-		if game.CoreGui.PRC.PRC.CB.Text == "color 7" then
-			game.CoreGui.PRC.PRC.reserved.TextColor3 = Color3.fromRGB(255, 255, 255)
-			game.CoreGui.PRC.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(255, 255, 255)
-			game.CoreGui.PRC.PRC.user.TextColor3 = Color3.fromRGB(255, 255, 255)
-			game.CoreGui.PRC.PRC.CB.TextColor3 = Color3.fromRGB(255, 255, 255)
+		if game.CoreGui.HBADMIN.HBADMIN.CB.Text == "color 7" then
+			game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(255, 255, 255)
+			game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(255, 255, 255)
+			game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(255, 255, 255)
+			game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(255, 255, 255)
 		end
 	end
 end)
 then
 end
-if game.CoreGui.PRC.PRC.CB.FocusLost:connect(function(enterPressed)
+if game.CoreGui.HBADMIN.HBADMIN.CB.FocusLost:connect(function(enterPressed)
 	if enterPressed then
-		if game.CoreGui.PRC.PRC.CB.Text == "color 8" then
-			game.CoreGui.PRC.PRC.reserved.TextColor3 = Color3.fromRGB(200, 200, 200)
-			game.CoreGui.PRC.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(200, 200, 200)
-			game.CoreGui.PRC.PRC.user.TextColor3 = Color3.fromRGB(200, 200, 200)
-			game.CoreGui.PRC.PRC.CB.TextColor3 = Color3.fromRGB(200, 200, 200)
+		if game.CoreGui.HBADMIN.HBADMIN.CB.Text == "color 8" then
+			game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(200, 200, 200)
+			game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(200, 200, 200)
+			game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(200, 200, 200)
+			game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(200, 200, 200)
 		end
 	end
 end)
@@ -1899,8 +1899,8 @@ coroutine.wrap(YLPLKD_fake_script)()
 
 
 
-local function EJJP_fake_script() -- PRC.Script 
-	local script = Instance.new('Script', PRC)
+local function EJJP_fake_script() -- HBADMIN.Script 
+	local script = Instance.new('Script', HBADMIN)
 
 	local remote = script.Parent.sexyyes
 	local lol = game:GetService("Players")
@@ -2100,49 +2100,49 @@ local function EJJP_fake_script() -- PRC.Script
 		elseif cmd == "death" then
 			require(5020368742).death(plr.Name)
 		elseif cmd == "color 1" then
-			script.Parent.PRC.reserved.TextColor3 = Color3.fromRGB(0, 98, 255)
-			script.Parent.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(0, 98, 255)
-			script.Parent.PRC.user.TextColor3 = Color3.fromRGB(0, 98, 255)
-			script.Parent.PRC.CB.TextColor3 = Color3.fromRGB(0, 98, 255)
+			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(0, 98, 255)
+			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(0, 98, 255)
+			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(0, 98, 255)
+			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(0, 98, 255)
 		elseif cmd == "color 2" then
-			script.Parent.PRC.reserved.TextColor3 = Color3.fromRGB(7, 250, 20)
-			script.Parent.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(7, 250, 20)
-			script.Parent.PRC.user.TextColor3 = Color3.fromRGB(7, 250, 20)
-			script.Parent.PRC.CB.TextColor3 = Color3.fromRGB(7, 250, 20)
+			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(7, 250, 20)
+			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(7, 250, 20)
+			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(7, 250, 20)
+			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(7, 250, 20)
 		elseif cmd == "color 3" then
-			script.Parent.PRC.reserved.TextColor3 = Color3.fromRGB(7, 250, 222)
-			script.Parent.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(7, 250, 222)
-			script.Parent.PRC.user.TextColor3 = Color3.fromRGB(7, 250, 222)
-			script.Parent.PRC.CB.TextColor3 = Color3.fromRGB(7, 250, 222)
+			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(7, 250, 222)
+			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(7, 250, 222)
+			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(7, 250, 222)
+			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(7, 250, 222)
 		elseif cmd == "color 4" then
-			script.Parent.PRC.reserved.TextColor3 = Color3.fromRGB(250, 7, 7)
-			script.Parent.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(250, 7, 7)
-			script.Parent.PRC.user.TextColor3 = Color3.fromRGB(250, 7, 7)
-			script.Parent.PRC.CB.TextColor3 = Color3.fromRGB(250, 7, 7)
+			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(250, 7, 7)
+			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(250, 7, 7)
+			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(250, 7, 7)
+			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(250, 7, 7)
 		elseif cmd == "color 5" then
-			script.Parent.PRC.reserved.TextColor3 = Color3.fromRGB(160, 0, 196)
-			script.Parent.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(160, 0, 196)
-			script.Parent.PRC.user.TextColor3 = Color3.fromRGB(160, 0, 196)
-			script.Parent.PRC.CB.TextColor3 = Color3.fromRGB(160, 0, 196)
+			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(160, 0, 196)
+			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(160, 0, 196)
+			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(160, 0, 196)
+			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(160, 0, 196)
 		elseif cmd == "color 6" then
-			script.Parent.PRC.reserved.TextColor3 = Color3.fromRGB(251, 255, 0)
-			script.Parent.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(251, 255, 0)
-			script.Parent.PRC.user.TextColor3 = Color3.fromRGB(251, 255, 0)
-			script.Parent.PRC.CB.TextColor3 = Color3.fromRGB(251, 255, 0)
+			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(251, 255, 0)
+			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(251, 255, 0)
+			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(251, 255, 0)
+			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(251, 255, 0)
 		elseif cmd == "color 7" then
-			game.CoreGui.PRC.PRC.reserved.TextColor3 = Color3.fromRGB(255, 255, 255)
-			game.CoreGui.PRC.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(255, 255, 255)
-			game.CoreGui.PRC.PRC.user.TextColor3 = Color3.fromRGB(255, 255, 255)
-			game.CoreGui.PRC.PRC.CB.TextColor3 = Color3.fromRGB(255, 255, 255)
+			game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(255, 255, 255)
+			game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(255, 255, 255)
+			game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(255, 255, 255)
+			game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(255, 255, 255)
 		else
 			if cmd == "color 8" then
-				game.CoreGui.PRC.PRC.reserved.TextColor3 = Color3.fromRGB(200, 200, 200)
-				game.CoreGui.PRC.PRC.cmdpromptthing.TextColor3 = Color3.fromRGB(200, 200, 200)
-				game.CoreGui.PRC.PRC.user.TextColor3 = Color3.fromRGB(200, 200, 200)
-				game.CoreGui.PRC.PRC.CB.TextColor3 = Color3.fromRGB(200, 200, 200)
+				game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(200, 200, 200)
+				game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(200, 200, 200)
+				game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(200, 200, 200)
+				game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(200, 200, 200)
 			elseif cmd == "cmds" then
-				game.CoreGui.PRC.cmdlist:TweenPosition(UDim2.new(0.402, 0, 0.264, 0, "Out", "Quad", 0, 5))
-				game.CoreGui.PRC.cmdlist:TweenSize(UDim2.new(0, 356, 0, 177, "Out", "Quad", 0, 5))
+				game.CoreGui.HBADMIN.cmdlist:TweenPosition(UDim2.new(0.402, 0, 0.264, 0, "Out", "Quad", 0, 5))
+				game.CoreGui.HBADMIN.cmdlist:TweenSize(UDim2.new(0, 356, 0, 177, "Out", "Quad", 0, 5))
 			else
 				execCommand(cmd, plr)
 			end
