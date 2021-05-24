@@ -1,9 +1,18 @@
-## Welcome to GitHub Pages
+## Welcome to the HB Admin documents.
 
-You can use the [editor on GitHub](https://github.com/mgamingpro/HomebrewAdmin/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+## Spotify API
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
+To get started with the spotify API, you will first need a  key. You can get that from  [here](https://developer.spotify.com/console/get-users-currently-playing-track/)
+Tick the boxes shown below, and press "Request Token"
+```token
+user-read-currently-playing
+user-read-playback-position
+user-modify-playback-state
+```
+After getting the token use the spotikey command with your token.
+```sk
+spotikey arg
+```
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
