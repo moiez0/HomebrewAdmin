@@ -1,4 +1,4 @@
-_G.CustomUI = false
+if not _G.CustomUI then _G.CustomUI = false end
 VERSION = "1.0.0"
 if AlreadyLoaded then
   return
