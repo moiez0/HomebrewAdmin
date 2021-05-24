@@ -3,15 +3,24 @@
 ## Spotify API
 
 To get started with the spotify API, you will first need a  key. You can get that from  [here](https://developer.spotify.com/console/get-users-currently-playing-track/)
-Tick the boxes shown below, and press "Request Token"
-```token
+
+Tick the boxes shown below, and press "Request Token":
+```
 user-read-currently-playing
 user-read-playback-position
 user-modify-playback-state
 ```
 After getting the token use the spotikey command with your token.
-```sk
+```
 spotikey arg
+```
+Please note that the token only lasts one hour until you will need to renew it but until then you can use the following commands:
+
+```
+spotipause - Pauses the current playing song.
+spotiplay - Plays/unpauses the current song.
+spotilast - Goes back to the last song.
+spotinext - Skips to the next song.
 ```
 ### Markdown
 
