@@ -22,6 +22,13 @@ spotiplay - Plays/unpauses the current song.
 spotilast - Goes back to the last song.
 spotinext - Skips to the next song.
 ```
+
+## Custom UIs
+
+To get started with your own custom UI, first put ```_G.CustomUI = true``` at the top of Homebrew Admin.
+Then use the ```_G.enterframe(textbox)``` function on the text box you want to use a custom UI.
+Please note that this will only make it so that every time enter is pressed it will ```getCommand``` with the args of the text of the textbox.
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
