@@ -14,14 +14,31 @@ After getting the token use the spotikey command with your token.
 ```
 spotikey arg
 ```
+Then open the spotify app on your smart device and play a song!
+You are all set up.
 Please note that the token only lasts one hour until you will need to renew it but until then you can use the following commands:
 
 ```
-spotipause - Pauses the current playing song.
-spotiplay - Plays/unpauses the current song.
-spotilast - Goes back to the last song.
-spotinext - Skips to the next song.
+spotipause -- Pauses the current playing song.
+spotiplay -- Plays/unpauses the current song.
+spotilast -- Goes back to the last song.
+spotinext -- Skips to the next song.
 ```
+
+## Plugins
+
+To make a plugin, first find your exploits workspace folder. Then open the "Admin" folder and then the "plugins"  create a text file with your code in the following layout:
+```markdown
+cmd = {
+  name = cmdname,
+  args = Args,
+  description = desc,
+  aliases = Aliases,
+  command = functionhere
+}
+return cmd```
+The type of file (ending) can be anything as long as your exploit can read it.
+Remember to return the plugin!
 
 ## Custom UIs
 
@@ -30,6 +47,7 @@ Then use the ```_G.enterframe(textbox)``` function on the text box you want to u
 Please note that this will only make it so that every time enter is pressed it will ```getCommand``` with the args of the text of the textbox.
 
 ## Commands
+
 
 
 ### Markdown
