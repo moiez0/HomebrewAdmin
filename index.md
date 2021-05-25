@@ -39,7 +39,20 @@ cmd = {
 return cmd
 ```
 The type of file (ending) can be anything as long as your exploit can read it.
-Remember to return the plugin!
+
+Let's make an example plugin:
+```markdown
+cmd = {
+  name = "test",
+  args = 0,
+  description = "a plugin!",
+  aliases = {"testyep","analiase"},
+  command = function()
+   print("it works!")
+  end
+}
+return cmd
+```
 
 ## Custom UIs
 
@@ -49,7 +62,7 @@ Please note that this will only make it so that every time enter is pressed it w
 
 ## Commands (Complicated Ones)
 
-# fakechat
+### fakechat
 Fake chat uses 3 arguments:
 ```user chat yourmessage```
 It uses the chat remote to make it look like someone else said a message, but due to the nature of the command you will need to say a message before that hence the your command.
