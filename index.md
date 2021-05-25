@@ -21,6 +21,7 @@ spotify
 
 Then open the spotify app on your smart device and play a song!
 You are all set up.
+Enjoy!
 Please note that the token only lasts one hour until you will need to renew it but until then you can use the following commands:
 
 ```
