@@ -14,7 +14,7 @@ After getting the token use the spotikey command with your token.
 ```
 spotikey arg
 ```
-Finally, unlock the spotify api with the spotify command:
+Almost done, now use the "spotify" command to unlock the API.
 ```spotify```
 
 Then open the spotify app on your smart device and play a song!
