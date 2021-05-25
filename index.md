@@ -36,7 +36,8 @@ cmd = {
   aliases = Aliases,
   command = functionhere
 }
-return cmd```
+return cmd
+```
 The type of file (ending) can be anything as long as your exploit can read it.
 Remember to return the plugin!
 
