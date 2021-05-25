@@ -59,13 +59,14 @@ return cmd
 To get started with your own custom UI, first put ```_G.CustomUI = true``` at the top of Homebrew Admin.
 Then use the ```_G.enterframe(textbox)``` function on the text box you want to use a custom UI.
 Please note that this will only make it so that every time enter is pressed it will ```getCommand``` with the args of the text of the textbox.
+Place your custom UI underneath HB Admin.
 
 ## Commands (Complicated Ones)
 
 ### fakechat
 Fake chat uses 3 arguments:
 ```user chat yourmessage```
-It uses the chat remote to make it look like someone else said a message, but due to the nature of the command you will need to say a message before that hence the your command.
+It uses the chat remote to make it look like someone else said a message, but due to the nature of the command you will need to say a message before that hence the yourmessage.
 
 
 
