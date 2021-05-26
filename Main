@@ -1,18 +1,20 @@
 if not _G.CustomUI then _G.CustomUI = false end
-VERSION = "1.0.1"
+VERSION = "1.0.2"
+
 if AlreadyLoaded then
-  return
+    return 
 end
-getgenv().AlreadyLoaded = true
+getgenv().AlreadyLoaded = true -- So that you can't execute the script twice
 
 if not game:IsLoaded() then
   print("Homebrew Admin is waiting for the game to load..")
 end
 prefix = "."
 
+-- Destroys UI for Custom UI's
 function ToCustomUI()
   if game.CoreGui.HBADMIN then
-    game.CoreGui.HBADMIN:Destroy()
+    game.CoreGui.HBADMIN:Destroy() 
   end
 end
 
@@ -26,14 +28,14 @@ plr.CharacterAdded:Connect(
 function(char)
   char:WaitForChild("Humanoid").Died:Connect(
   function()
-    _G.spawn = char.HumanoidRootPart.CFrame
+    _G.spawn = char.HumanoidRootPart.CFrame -- For the dpos command.
   end
   )
 end
 )
 
 
-function _G.notify(text)
+function _G.notify(text) -- Notification system with args as text
   coroutine.wrap(
   function()
     local ScreenGui = Instance.new("ScreenGui")
@@ -122,7 +124,7 @@ function _G.notify(text)
 end
 notify = _G.notify
 
-function changelog()
+function changelog() -- Changelog everytime a new script is executed.
 local ScreenGui = Instance.new("ScreenGui")
 local Changelog = Instance.new("Frame")
 local Penumbra = Instance.new("ImageLabel")
@@ -240,7 +242,7 @@ Close.TextSize = 23.000
 Close.TextWrapped = true
 Close.ZIndex = 2
 -- Scripts:
-
+-- Close Button Function
 local function JRNGOD_fake_script() -- Close.hover 
 	local script = Instance.new('LocalScript', Close)
 
@@ -278,6 +280,7 @@ coroutine.wrap(HHNIX_fake_script)()
 
 Changelog:TweenPosition(UDim2.new(0.499635637, 0, 0.499820173, 0), "Out", "Back", "1")
 end
+-- Calls for changelog if new version is executed for the first time.
 local valid = isfile("Admin/VERSION.hb")
 if valid then
   contents = readfile("Admin/VERSION.hb")
@@ -289,7 +292,8 @@ else
  changelog()
 end
 
-writefile("Admin/VERSION.hb", VERSION)
+writefile("Admin/VERSION.hb", VERSION) -- Writes the version of the script used.
+
 
 function whisper(player, text)
   wait()
@@ -314,12 +318,28 @@ _G.commands = {
   end
 }
 }
+
+function addcommand(named, desc, Args, Aliases, command)
+cmd = {
+  name = named,
+  args = Args,
+  description = desc,
+  aliases = Aliases,
+  command = command
+}
+table.insert(commands, cmd)
+end
+
 local created = false
 if isfolder("Admin") then
 created = true
 for _,pluginz in pairs(listfiles("Admin/plugins")) do
-  local plug = loadfile(pluginz)()
-  table.insert(_G.commands,plug)
+    local succ,err = pcall(function()
+    local plug = loadfile(pluginz)()
+    for index, data in pairs(plug.commands) do
+        table.insert(_G.commands,data)
+    end
+end)
 end
 end
 _G.utils = {}
@@ -377,16 +397,8 @@ end
 return player
 end
 
-function addcommand(named, desc, Args, Aliases, command)
-cmd = {
-  name = named,
-  args = Args,
-  description = desc,
-  aliases = Aliases,
-  command = command
-}
-table.insert(commands, cmd)
-end
+
+
 
 function addutil(named, command)
 util = {
