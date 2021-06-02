@@ -1,5 +1,5 @@
 if not _G.CustomUI then _G.CustomUI = false end
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 if AlreadyLoaded then
     return 
@@ -9,7 +9,24 @@ getgenv().AlreadyLoaded = true -- So that you can't execute the script twice
 if not game:IsLoaded() then
   print("Homebrew Admin is waiting for the game to load..")
 end
-prefix = "."
+prefix = "." -- After running hb admin for the first time changing this won't do anything.
+
+function _G.getPlayer(shortcut)
+local player
+local g = game.Players:getPlayers()
+for i = 1, #g do
+  if string.lower(string.sub(g[i].Name, 1, string.len(shortcut))) == string.lower(shortcut) then
+    player = g[i]
+    break
+  elseif string.lower(string.sub(g[i].DisplayName, 1, string.len(shortcut))) == string.lower(shortcut) then
+    player = g[i]
+    break
+  end
+end
+return player
+end
+
+getPlayer = _G.getPlayer
 
 -- Destroys UI for Custom UI's
 function ToCustomUI()
@@ -201,7 +218,7 @@ MAOWQ.Position = UDim2.new(0.440408856, 0, 0.197908744, 0)
 MAOWQ.Size = UDim2.new(0, 56, 0, 23)
 MAOWQ.ZIndex = 2
 MAOWQ.Font = Enum.Font.Gotham
-MAOWQ.Text = "CHANGELOG //"
+MAOWQ.Text = "CHANGELOG // "..VERSION
 MAOWQ.TextColor3 = Color3.fromRGB(255, 255, 255)
 MAOWQ.TextSize = 12.000
 
@@ -311,7 +328,7 @@ _G.commands = {
   a = {
     name = "reset",
     args = 0,
-    aliases = {},
+    aliases = {"re","refresh"},
     description = "resets you",
     command = function()
     game.Players.LocalPlayer.Character.Humanoid.Health = 0
@@ -342,6 +359,124 @@ for _,pluginz in pairs(listfiles("Admin/plugins")) do
 end)
 end
 end
+
+local Plugin = {
+    author = "Mizt",
+    name = "Who is net",
+    commands = {
+        whoisnet = {
+            name = "whoisnet",
+            args = 0,
+            description = "notify you who have net.",
+            aliases = {'win'},
+            command = function()
+                local plrChild = game.Players:GetChildren()
+                local finalTab = {}
+                for i=1,#plrChild do
+                    local semiC = plrChild[i]
+                    if gethiddenproperty(semiC,"SimulationRadius") > 1000 then
+                        table.insert(finalTab,semiC.Name)
+                    end
+                end
+                if #finalTab == 0 then
+                    _G.notify('Net Player',"None")
+                else
+                    _G.notify('Net Players',table.concat(finalTab,","))
+                end
+            end
+        },
+        whoisnetchat = {
+            name = "whoisnetchat",
+            args = 0,
+            description = "Chat who have net.",
+            aliases = {'winchat'},
+            command = function()
+                local plrChild = game.Players:GetChildren()
+                local finalTab = {}
+                for i=1,#plrChild do
+                    local semiC = plrChild[i]
+                    if gethiddenproperty(semiC,"SimulationRadius") > 1000 then
+                        table.insert(finalTab,semiC.Name)
+                    end
+                end
+                if #finalTab == 0 then
+                    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Net Player: None","All")
+                else
+                    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Net Players: "..table.concat(finalTab,","),"All")
+                end
+            end
+        },
+        whoisbiggestnet = {
+            name = "whoisbiggestnet",
+            args = 0,
+            description = "notify you who have the biggest net.",
+            aliases = {'winbig'},
+            command = function()
+                local plrChild = game.Players:GetChildren()
+                local finalNum = 0
+                local finalPlr = 0
+                for i=1,#plrChild do
+                    local semiC = plrChild[i]
+                    local semiN = gethiddenproperty(semiC,"SimulationRadius")
+                    if semiN > finalNum then
+                        finalPlr = i
+                        finalNum = semiN
+                    end
+                end
+                if finalPlr ~= 0 then
+                    _G.notify('Biggest player net',plrChild[finalPlr].Name.." :"..finalNum)
+                else
+                    _G.notify('Biggest player net',"None")
+                end
+            end
+        },
+        whoissmallestnet = {
+            name = "whoissmallestnet",
+            args = 0,
+            description = "notify you who have the smallest net.",
+            aliases = {'winsmall'},
+            command = function()
+                local plrChild = game.Players:GetChildren()
+                local finalNum = 100000000
+                local finalPlr = 0
+                for i=1,#plrChild do
+                    local semiC = plrChild[i]
+                    local semiN = gethiddenproperty(semiC,"SimulationRadius")
+                    if semiN < finalNum then
+                        finalPlr = i
+                        finalNum = semiN
+                    end
+                end
+                if finalPlr ~= 0 then
+                    _G.notify('Smallest player net',plrChild[finalPlr].Name.." :"..finalNum)
+                else
+                    _G.notify('Smallest player net',"None")
+                end
+            end
+        },
+        howmuchnet = {
+            name = "howmuchnet",
+            args = 1,
+            description = "notify you other ppl net.",
+            aliases = {'nt'},
+            command = function(target)
+                local succ,err = pcall(function()
+                local plr = _G.getPlayer(target)
+                local user = plr.Name
+                print(user)
+                    _G.notify('Player net '..user.." : "..gethiddenproperty(plr,"SimulationRadius"))
+                end)
+                if err then
+                    _G.notify('Player net ',err)
+                end
+            end
+        }
+    }
+}
+for index, data in pairs(Plugin.commands) do
+        table.insert(_G.commands,data)
+end
+-- Inserting plugin into commands
 _G.utils = {}
 
 commands = _G.commands
@@ -382,20 +517,7 @@ prefix = text
 end
 update()
 
-function getPlayer(shortcut)
-local player
-local g = game.Players:getPlayers()
-for i = 1, #g do
-  if string.lower(string.sub(g[i].Name, 1, string.len(shortcut))) == string.lower(shortcut) then
-    player = g[i]
-    break
-  elseif string.lower(string.sub(g[i].DisplayName, 1, string.len(shortcut))) == string.lower(shortcut) then
-    player = g[i]
-    break
-  end
-end
-return player
-end
+
 
 
 
@@ -523,6 +645,66 @@ for _, hat in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
 end
 end
 )
+
+-- fencing only
+if game.PlaceId == 12109643 then
+addcommand(
+"killall",
+"Kills everyone.",
+0,
+{"spraykillall"},
+function()
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local Character = Player.Character
+local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+local RootPart = Humanoid.RootPart
+local Handle = workspace:FindFirstChild("Handle")
+
+if not Character or not Humanoid or not RootPart or not Handle or not Character:FindFirstChild("Right Arm") then return end
+
+local Old = RootPart.CFrame
+
+RootPart.CFrame = CFrame.new(0,8e9,0)
+
+for i = 1,#Players:GetPlayers() - 1 do
+    firetouchinterest(RootPart,Handle,0)
+    firetouchinterest(RootPart,Handle,1)
+    Character:WaitForChild("Spray").Parent = workspace
+    game:GetService("RunService").Heartbeat:wait()
+end
+for _,x in next, workspace:GetChildren() do
+    if x:IsA("Tool") and x.Name == "Spray" then
+        firetouchinterest(RootPart,x.Handle,0)
+    end
+end
+
+RootPart.Velocity = Vector3.new()
+RootPart.CFrame = Old
+repeat game:GetService("RunService").Heartbeat:wait() until Character:FindFirstChild("Spray")
+wait(.25)
+local NewHumanoid = Humanoid:Clone()
+Humanoid:Destroy()
+NewHumanoid.Parent = Character
+
+NewHumanoid:UnequipTools()
+repeat game:GetService("RunService").Heartbeat:wait() until not Character:FindFirstChild("Spray")
+wait(.25)
+for _,x in next, Player.Backpack:GetChildren() do
+    if x:IsA("Tool") and x.Name == "Spray" then
+        x.Parent = Character
+        if Players:GetPlayers()[_] and Players:GetPlayers()[_].Character and Players:GetPlayers()[_].Character:FindFirstChildOfClass("Humanoid") and not Players:GetPlayers()[_].Character:FindFirstChildOfClass("Humanoid").Sit and Players:GetPlayers()[_].Character:FindFirstChildOfClass("Humanoid").Health > 0 and Players:GetPlayers()[_].Character:FindFirstChild("Right Arm") then
+            firetouchinterest(x.Handle,Players:GetPlayers()[_].Character.PrimaryPart,0)
+            firetouchinterest(x.Handle,Players:GetPlayers()[_].Character.PrimaryPart,1)
+            game:GetService("RunService").Stepped:wait()
+        end
+    end
+end
+Player.Character = nil
+NewHumanoid.Health = 0
+end
+)
+end
 
 addcommand(
 "spotify",
@@ -933,240 +1115,7 @@ addcommand(
 0,
 {"2007anim"},
 function()
-notify("Loading 2007 animations.")
-if game.Players.LocalPlayer.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
-  oldpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-  game.Players.LocalPlayer.Character:BreakJoints()
-  game.Players.LocalPlayer.Character = nil
-  bruh = true
-  Connection =
-  game.Workspace.DescendantAdded:Connect(
-  function(a)
-    if a.Name == "Animate" then
-      if bruh == true then
-        a.Disabled = true
-        bruh = false
-      end
-      wait()
-    end
-  end
-  )
-  repeat
-    wait()
-  until game.Players.LocalPlayer.Character
-  Char = game.Players.LocalPlayer.Character
-  Died =
-  game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Died:Connect(
-  function()
-    Connection:Disconnect()
-    Died:Disconnect()
-  end
-  )
-  function waitForChild(b, c)
-    local d = b:findFirstChild(c)
-    if d then
-      return d
-    end
-    while true do
-      d = b.ChildAdded:wait()
-      if d.Name == c then
-        return d
-      end
-    end
-  end
-  game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(oldpos)
-  local e = game.Players.LocalPlayer.Character
-  local f = waitForChild(e, "Torso")
-  local g = waitForChild(f, "Right Shoulder")
-  local h = waitForChild(f, "Left Shoulder")
-  local i = waitForChild(f, "Right Hip")
-  local j = waitForChild(f, "Left Hip")
-  local k = waitForChild(f, "Neck")
-  local l = waitForChild(e, "Humanoid")
-  local m = "Standing"
-  local n = "None"
-  local o = 0
-  local p = 0.75
-  function onRunning(q)
-    if q > 0 then
-      m = "Running"
-    else
-      m = "Standing"
-    end
-  end
-  function onDied()
-    m = "Dead"
-  end
-  function onJumping()
-    m = "Jumping"
-  end
-  function onClimbing()
-    m = "Climbing"
-  end
-  function onGettingUp()
-    m = "GettingUp"
-  end
-  function onFreeFall()
-    m = "FreeFall"
-  end
-  function onFallingDown()
-    m = "FallingDown"
-  end
-  function onSeated()
-    m = "Seated"
-  end
-  function onPlatformStanding()
-    m = "PlatformStanding"
-  end
-  function onSwimming(q)
-    if q > 0 then
-      m = "Running"
-    else
-      m = "Standing"
-    end
-  end
-  function moveJump()
-    g.MaxVelocity = p
-    h.MaxVelocity = p
-    g:SetDesiredAngle(3.14)
-    h:SetDesiredAngle(-3.14)
-    i:SetDesiredAngle(0)
-    j:SetDesiredAngle(0)
-  end
-  function moveFreeFall()
-    g.MaxVelocity = p
-    h.MaxVelocity = p
-    g:SetDesiredAngle(3.14)
-    h:SetDesiredAngle(-3.14)
-    i:SetDesiredAngle(0)
-    j:SetDesiredAngle(0)
-  end
-  function moveSit()
-    g.MaxVelocity = 0.15
-    h.MaxVelocity = 0.15
-    g:SetDesiredAngle(3.14 / 2)
-    h:SetDesiredAngle(-3.14 / 2)
-    i:SetDesiredAngle(3.14 / 2)
-    j:SetDesiredAngle(-3.14 / 2)
-  end
-  function getTool()
-    for r, s in ipairs(e:GetChildren()) do
-      if s.className == "Tool" then
-        return s
-      end
-    end
-    return nil
-  end
-  function getToolAnim(t)
-    for r, a in ipairs(t:GetChildren()) do
-      if a.Name == "toolanim" and a.className == "StringValue" then
-        return a
-      end
-    end
-    return nil
-  end
-  function animateTool()
-    if n == "None" then
-      g:SetDesiredAngle(1.57)
-      return
-    end
-    if n == "Slash" then
-      g.MaxVelocity = 0.5
-      g:SetDesiredAngle(0)
-      return
-    end
-    if n == "Lunge" then
-      g.MaxVelocity = 0.5
-      h.MaxVelocity = 0.5
-      i.MaxVelocity = 0.5
-      j.MaxVelocity = 0.5
-      g:SetDesiredAngle(1.57)
-      h:SetDesiredAngle(1.0)
-      i:SetDesiredAngle(1.57)
-      j:SetDesiredAngle(1.0)
-      return
-    end
-  end
-  function move(u)
-    local v
-    local w
-    if m == "Jumping" then
-      moveJump()
-      return
-    end
-    if m == "FreeFall" then
-      moveFreeFall()
-      return
-    end
-    if m == "Seated" then
-      moveSit()
-      return
-    end
-    local x = 0
-    if m == "Running" then
-      if g.CurrentAngle > 1.5 or g.CurrentAngle < -1.5 then
-        g.MaxVelocity = p
-      else
-        g.MaxVelocity = 0.15
-      end
-      if h.CurrentAngle > 1.5 or h.CurrentAngle < -1.5 then
-        h.MaxVelocity = p
-      else
-        h.MaxVelocity = 0.15
-      end
-      v = 1
-      w = 9
-    elseif m == "Climbing" then
-      g.MaxVelocity = 0.5
-      h.MaxVelocity = 0.5
-      v = 1
-      w = 9
-      x = 3.14
-    else
-      v = 0.1
-      w = 1
-    end
-    desiredAngle = v * math.sin(u * w)
-    g:SetDesiredAngle(desiredAngle + x)
-    h:SetDesiredAngle(desiredAngle - x)
-    i:SetDesiredAngle(-desiredAngle)
-    j:SetDesiredAngle(-desiredAngle)
-    local t = getTool()
-    if t then
-      animStringValueObject = getToolAnim(t)
-      if animStringValueObject then
-        n = animStringValueObject.Value
-        animStringValueObject.Parent = nil
-        o = u + .3
-      end
-      if u > o then
-        o = 0
-        n = "None"
-      end
-      animateTool()
-    else
-      n = "None"
-      o = 0
-    end
-  end
-  l.Died:connect(onDied)
-  l.Running:connect(onRunning)
-  l.Jumping:connect(onJumping)
-  l.Climbing:connect(onClimbing)
-  l.GettingUp:connect(onGettingUp)
-  l.FreeFalling:connect(onFreeFall)
-  l.FallingDown:connect(onFallingDown)
-  l.Seated:connect(onSeated)
-  l.PlatformStanding:connect(onPlatformStanding)
-  l.Swimming:connect(onSwimming)
-  local y = game:service("RunService")
-  while e.Parent ~= nil do
-    local r, u = wait(0.1)
-    move(u)
-  end
-else
-  notify("Doesn't work on r15!")
-end
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/mgamingpro/HomebrewAdmin/master/scripts/2007anims.lua'),true))()
 end
 )
 
