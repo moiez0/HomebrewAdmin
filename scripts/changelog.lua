@@ -1,6 +1,7 @@
 changelog = [[
 Changelog:
--- Plugin system completely re-written
--- Plugins are now pcall'ed
+-- Added aliases to some commands.
+-- Added "killall" command only works in fencing.
+-- Added mizt's net plugin commands to the built in commands.
 ]]
 return changelog
