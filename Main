@@ -1,5 +1,5 @@
 if not _G.CustomUI then _G.CustomUI = false end
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 
 if AlreadyLoaded then
     return 
@@ -9,7 +9,7 @@ getgenv().AlreadyLoaded = true -- So that you can't execute the script twice
 if not game:IsLoaded() then
   print("Homebrew Admin is waiting for the game to load..")
 end
-prefix = "." -- After running hb admin for the first time changing this won't do anything.
+prefix = ";" -- After running hb admin for the first time changing this won't do anything.
 
 function _G.getPlayer(shortcut)
 local player
