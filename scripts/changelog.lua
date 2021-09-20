@@ -1,7 +1,5 @@
 changelog = [[
 Changelog:
--- Added aliases to some commands.
--- Added "killall" command only works in fencing.
--- Added mizt's net plugin commands to the built in commands.
+-- Changed default prefix to ;  (does not affect old users)
 ]]
 return changelog
