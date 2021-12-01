@@ -7,10 +7,11 @@ A open-sourced ROBLOX admin with unique scripts and features.
 
 ## Developers
 
-- Syntax 64 - Creator
-- Whited - Developer
-- Anthonylol - Developer/Contributor 
-- Bird - UI Developer
+- Syntax 64 - Creator / External Developer / Internal Developer
+- Luk - External Developer
+- Whited - Internal Developer
+- Anthonylol - Internal Script Contributor 
+- Bird - Old UI Developer
 
   
 ## Links
