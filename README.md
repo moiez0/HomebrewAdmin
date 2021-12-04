@@ -12,7 +12,10 @@ A open-sourced ROBLOX admin with unique scripts and features.
 - Anthonylol - Internal Script Contributor 
 - Bird - Old UI Developer
 
-  
+## Contributors
+- zuhn#1337 - UI Contributor
+- akkrilic.#6798 - UI Contributor
+
 ## Links
 
  - [Docs](https://mgamingpro.github.io/HomebrewAdmin/)
