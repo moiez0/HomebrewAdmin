@@ -1,7 +1,7 @@
 
 # Homebrew Admin
 
-A open-sourced ROBLOX admin with unique scripts and features.
+A open-sourced admin with unique scripts and features.
 
  [Discord Server](https://discord.gg/FtDczuhv4b)
 
