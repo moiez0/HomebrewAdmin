@@ -17,22 +17,21 @@ prefix = ";" -- After running hb admin for the first time changing this won't do
 
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
+local LocalPlayer = Players.LocalPlayer
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-function _G.getPlayer(shortcut)
-local player
-local g = Players:GetPlayers()
-for i = 1, #g do
-  if string.lower(string.sub(g[i].Name, 1, string.len(shortcut))) == string.lower(shortcut) then
-    player = g[i]
-    break
-  elseif string.lower(string.sub(g[i].DisplayName, 1, string.len(shortcut))) == string.lower(shortcut) then
-    player = g[i]
-    break
-  end
-end
-return player
+function _G.getPlayer(Name)
+    Name = Name:lower():gsub(" ","")
+    for _,x in next, Players:GetPlayers() do
+        if x ~= LocalPlayer then
+            if x.Name:lower():match("^"..Name) then
+                return x;
+            elseif x.DisplayName:lower():match("^"..Name) then
+                return x;
+            end
+        end
+    end
 end
 
 getPlayer = _G.getPlayer
@@ -1002,6 +1001,102 @@ end
 )
 
 addcommand(
+"grab",
+"Grabs Player [tool required]",
+0,
+{"grabknife","gk"},
+function(playerx)
+
+local Character = Player.Character
+Target = playerx
+local Anim = Instance.new("Animation")
+Anim.AnimationId = "rbxassetid://35978879" --35978879
+local track = Character.Humanoid:LoadAnimation(Anim)
+track.Looped = false
+track:Play()
+track:AdjustSpeed(0.4)
+wait(0.3)
+track:AdjustSpeed(0)
+
+for i,v in pairs(Players:GetChildren()) do
+if (string.sub(string.lower(v.Name),1,string.len(Target))) == string.lower(Target) then
+Target = v.Name
+end
+end
+Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame -(Vector3.new(0,0,-3))
+
+
+local backpack = Player.Backpack
+local hrp = Character.HumanoidRootPart
+local targetinstance = Character.Humanoid
+--targetinstance.HipHeight = 1
+
+local tool = Character:FindFirstChildOfClass("Tool") or backpack:FindFirstChildOfClass("Tool")
+local rarm = Character:FindFirstChild("Right Arm") or Character:FindFirstChild("RightHand")
+
+local function genrgrip(tool)
+    local rgrip = Instance.new("Weld")
+    rgrip.Name = "RightGrip"
+    rgrip.Part0 = rarm
+    rgrip.Part1 = tool.Handle
+    rgrip.C0 = CFrame.new(0,-2, -0.5) * CFrame.Angles(math.rad(-110),0,0)
+    rgrip.C1 = tool.Grip
+    rgrip.Parent = rarm
+    return rgrip
+end
+
+genrgrip(tool)
+tool.Parent = backpack
+tool.Parent = targetinstance
+tool.Parent = Character
+tool.Handle:BreakJoints()
+tool.Parent = backpack
+tool.Parent = targetinstance
+genrgrip(tool)
+local uis = game:GetService("UserInputService")
+wtf = uis.InputBegan:connect(function(inp, GP) if GP then return end
+if inp.KeyCode == Enum.KeyCode.K then
+local Anim = Instance.new("Animation")
+Anim.AnimationId = "rbxassetid://204062532" --35978879
+local track = Character.Humanoid:LoadAnimation(Anim)
+track.Looped = false
+track:Play()
+track:AdjustSpeed(1)
+wait(1)
+local a = Character:WaitForChild('HumanoidRootPart').Position
+Character.Humanoid.Name = 1
+local l = Character["1"]:Clone()
+l.Parent = Character
+l.Name = "Humanoid"
+Character["1"]:Destroy()
+game.Workspace.CurrentCamera.CameraSubject = 
+Character
+Character.Animate.Disabled = true
+Character.Animate.Disabled = false
+Character.Humanoid.DisplayDistanceType = "None"
+local function CFrameBypass(tool,pos)
+    local Arm = Character['Right Arm'].CFrame * CFrame.new(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, -1, 0)
+    local cframe = Arm:toObjectSpace(pos):inverse()
+    tool.Parent = Player.Backpack
+    tool.Grip = cframe
+    tool.Parent = Character
+end
+tool1 = Player.Backpack:FindFirstChildOfClass("Tool")
+CFrameBypass(tool1,Players[Target].Character.HumanoidRootPart.CFrame)
+local a = Character:WaitForChild('HumanoidRootPart').Position
+wait()
+Character.Humanoid.Health = 0
+wtf:Disconnect()
+Character = nil
+wait(7)
+Character:WaitForChild('HumanoidRootPart').CFrame = CFrame.new(a)
+end
+end)
+
+end
+)
+
+addcommand(
 "fakechat",
 "fake chats as a user with specified message (you need to chat too)",
 3,
@@ -1771,6 +1866,12 @@ if not THumanoidRootPart then
     return
   end
 end
+
+local fun = Instance.new("BodyAngularVelocity")
+fun.Name = "funfunfun"
+fun.MaxTorque = Vector3.new(0, math.huge, 0)
+fun.AngularVelocity = Vector3.new(0,50,0)
+fun.Parent = Player.Character.HumanoidRootPart
 
 Humanoid:Destroy()
 local NewHumanoid = Instance.new("Humanoid", Character)
