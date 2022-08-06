@@ -1008,7 +1008,11 @@ addcommand(
 function(playerx)
 
 local Character = Player.Character
-Target = playerx
+Target = getPlayer(playerx)
+Target = Target.Name
+if not Target then
+    notify("Invalid player")
+end
 local Anim = Instance.new("Animation")
 Anim.AnimationId = "rbxassetid://35978879" --35978879
 local track = Character.Humanoid:LoadAnimation(Anim)
@@ -1018,13 +1022,14 @@ track:AdjustSpeed(0.4)
 wait(0.3)
 track:AdjustSpeed(0)
 
-for i,v in pairs(Players:GetChildren()) do
-if (string.sub(string.lower(v.Name),1,string.len(Target))) == string.lower(Target) then
-Target = v.Name
-end
-end
-Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame -(Vector3.new(0,0,-3))
 
+for i=1, 10 do
+Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame --(Vector3.new(0,0,-3))
+end
+
+notify("Walk into the target to grab")
+wait(1)
+notify("K to kill")
 
 local backpack = Player.Backpack
 local hrp = Character.HumanoidRootPart
@@ -1752,6 +1757,20 @@ else
 end
 end
 )
+
+addcommand(
+"rtools",
+"Drops all tools.",
+0,
+{"droptools","dtools"},
+function()
+pcall(function()
+Player.Character:FindFirstChildOfClass('Humanoid'):UnequipTools()
+Player.Backpack:ClearAllChildren()
+end)
+end
+)
+
 addcommand(
 "whisper",
 "sends a pm to specified player with specified text",
@@ -2171,6 +2190,57 @@ function(msg)
 notify("Chatting " .. msg .. "!")
 wait()
 ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("" .. msg, "All")
+end
+)
+
+addcommand(
+"spinfling",
+"Spins you!",
+0,
+{},
+function()
+local fun = Instance.new("BodyAngularVelocity")
+fun.Name = "funfunfun"
+fun.MaxTorque = Vector3.new(0, math.huge, 0)
+fun.AngularVelocity = Vector3.new(0,50,0)
+fun.Parent = Player.Character.HumanoidRootPart
+notify("Flinging!")
+end
+)
+
+addcommand(
+"unspinfling",
+"Stops you from spin flinging!",
+0,
+{},
+function()
+local succ,err = pcall(function()
+Player.Character.HumanoidRootPart.funfunfun:Destroy()
+end)
+if err then
+    notify("Something went wrong.")
+end
+end
+)
+
+addcommand(
+"netlag",
+"Lag annoying network skids!",
+1,
+{},
+function(p)
+target = getPlayer(p)
+notify("Lagging "..target.Name.."!")
+while RunService.Stepped:wait() do
+    if target.Character then
+    for _,x in next, target.Character:GetDescendants() do
+        if x:IsA("BasePart") then
+            sethiddenproperty(x, "NetworkIsSleeping", true)
+            print("hi")
+        end
+    end
+    end
+end
 end
 )
 
@@ -3189,16 +3259,16 @@ function(enterPressed)
       table.remove(args, 1)
       if cmd then
         pcall(function()
+        cmd.command(unpack(args))
+        end)
+      end
+    end
         open = false
         game:GetService("TweenService"):Create(
         Frame,
         TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut),
         {Position = UDim2.new(.5, 0, 1.25, 0)}
         ):Play()
-        cmd.command(unpack(args))
-        end)
-      end
-    end
   end
 end
 )
