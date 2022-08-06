@@ -20,6 +20,7 @@ local Player = Players.LocalPlayer
 local LocalPlayer = Players.LocalPlayer
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
 
 function _G.getPlayer(Name)
     Name = Name:lower():gsub(" ","")
@@ -1001,6 +1002,21 @@ end
 )
 
 addcommand(
+"setfps",
+"sets your fps cap to arg",
+1,
+{"setfpscap"},
+function(fps)
+if setfpscap then
+setfpscap(fps)
+notify("Set fps cap to "..fps..".")
+else
+notify("Exploit does not support setfpscap")
+end
+end
+)
+
+addcommand(
 "grab",
 "Grabs Player [tool required]",
 0,
@@ -1058,7 +1074,7 @@ tool.Handle:BreakJoints()
 tool.Parent = backpack
 tool.Parent = targetinstance
 genrgrip(tool)
-local uis = game:GetService("UserInputService")
+local uis = UserInputService
 wtf = uis.InputBegan:connect(function(inp, GP) if GP then return end
 if inp.KeyCode == Enum.KeyCode.K then
 local Anim = Instance.new("Animation")
@@ -1082,19 +1098,19 @@ Character.Humanoid.DisplayDistanceType = "None"
 local function CFrameBypass(tool,pos)
     local Arm = Character['Right Arm'].CFrame * CFrame.new(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, -1, 0)
     local cframe = Arm:toObjectSpace(pos):inverse()
-    tool.Parent = Player.Backpack
+    tool.Parent = LocalPlayer.Backpack
     tool.Grip = cframe
-    tool.Parent = Character
+    tool.Parent = LocalPlayer.Character
 end
-tool1 = Player.Backpack:FindFirstChildOfClass("Tool")
+tool1 = LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
 CFrameBypass(tool1,Players[Target].Character.HumanoidRootPart.CFrame)
-local a = Character:WaitForChild('HumanoidRootPart').Position
+local a = LocalPlayer.Character:WaitForChild('HumanoidRootPart').Position
 wait()
-Character.Humanoid.Health = 0
+LocalPlayer.Character.Humanoid.Health = 0
 wtf:Disconnect()
-Character = nil
+LocalPlayer.Character = nil
 wait(7)
-Character:WaitForChild('HumanoidRootPart').CFrame = CFrame.new(a)
+LocalPlayer.Character:WaitForChild('HumanoidRootPart').CFrame = CFrame.new(a)
 end
 end)
 
