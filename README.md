@@ -11,7 +11,6 @@ A open-sourced admin with unique scripts and features.
 - Whited - Developer
 - Anthonylol - Developer
 - ArianBlack - Developer
-- Furore - Developer
 - Bird - UI 
 
 
