@@ -751,10 +751,93 @@ AddCommand(
     end
 )
 
+
+AddCommand(
+    "default",
+    "Resets JP, WS, HH to defaults values.",
+    0,
+    {},
+    function()
+       if Player.Character.Humanoid ~= nil then
+           Player.Character.Humanoid.JumpPower = 50
+           Player.Character.Humanoid.WalkSpeed = 16
+           Player.Character.Humanoid.HipHeight = 0
+           notify("Reset values.")
+       end
+    end
+)
+
+AddCommand(
+    "freeze",
+    "Freezes your character..",
+    0,
+    {},
+    function()
+       if Player.Character.Humanoid ~= nil then
+           for i, v in pairs(Player.Character:GetDescendants()) do
+                if v:IsA("BasePart") then
+                    v.Anchored = true
+                end
+            end
+           notify("Froze.")
+       end
+    end
+)
+
+AddCommand(
+    "unfreeze",
+    "Unfreezes your character..",
+    0,
+    {},
+    function()
+       if Player.Character.Humanoid ~= nil then
+           for i, v in pairs(Player.Character:GetDescendants()) do
+                if v:IsA("BasePart") then
+                    v.Anchored = false
+                end
+            end
+           notify("Unfroze!")
+       end
+    end
+)
+
+
+AddCommand(
+    "loopdtools",
+    "Loop drops any equipped tools",
+    0,
+    {"loopdroptools","loopdt"},
+    function()
+       if dtools then
+           dtools:Disconnect()
+       end
+       dtools = RunService.Heartbeat:Connect(function()
+           if Player.Character.Humanoid ~= nil then
+               Player.Character.Humanoid:UnequipTools()
+               Player.Backpack:ClearAllChildren()
+           end
+       end)
+       notify("Loop dropping tools.")
+    end
+)
+
+AddCommand(
+    "unloopdtools",
+    "Unloop drops equipped tools",
+    0,
+    {"unloopdroptools","unloopdt"},
+    function()
+       if dtools then
+           dtools:Disconnect()
+           notify("Loop disconnected.")
+       end
+    end
+)
+
 AddCommand(
     "bring",
     "Carrys player [tool required]",
-    0,
+    1,
     {"carry"},
     function(playerx)
         local Target = playerx
