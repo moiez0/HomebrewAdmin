@@ -17,6 +17,7 @@ local Prefix = ";"
 -- // Service Declarations
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
+local StarterGui = game:GetService("StarterGui")
 local GuiService = game:GetService("GuiService")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
@@ -70,7 +71,7 @@ local GetCommand = function(Name)
 end
 
 local notify = function(Message)
-    print(Message)
+StarterGui:SetCore("SendNotification",{ Title = "Homebrew Admin"; Text = Message; Duration = 2; })
 end
 
 AddCommand(
@@ -89,6 +90,50 @@ AddCommand(
         end
         Tool.Handle.Massless = true
         Tool.GripPos = Vector3.new(0, -10000, 0)
+    end
+)
+
+AddCommand(
+    "view",
+    "views specified player",
+    1,
+    {},
+    function(targ)
+        if death then
+            death:Disconnect()
+            viewing:Disconnect()
+        end
+        local Target = GetPlayer(targ)
+        if Target then
+            repeat wait() until Target.Character
+            workspace.CurrentCamera.CameraSubject = Target.Character
+            local function died()
+    			repeat wait() until Target.Character.Humanoid
+    			workspace.CurrentCamera.CameraSubject = Target.Character
+            end
+            death = Target.CharacterAdded:Connect(died)
+            viewing = workspace.CurrentCamera:GetPropertyChangedSignal("CameraSubject"):Connect(died)
+            notify("Viewing: "..Target.Name)
+        else
+            notify("No such player.")
+        end
+    end
+)
+
+AddCommand(
+    "unview",
+    "unviews",
+    0,
+    {},
+    function()
+        if death then
+            death:Disconnect()
+            viewing:Disconnect()
+            workspace.CurrentCamera.CameraSubject = Player.Character
+            notify("Unviewed..")
+        else
+            notify("You are not viewing anyone!")
+        end
     end
 )
 
