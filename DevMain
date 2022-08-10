@@ -752,6 +752,89 @@ AddCommand(
 )
 
 AddCommand(
+    "bring",
+    "Carrys player [tool required]",
+    0,
+    {"carry"},
+    function(playerx)
+        local Target = playerx
+        local Character = Player.Character
+        local PlayerGui = Player:WaitForChild("PlayerGui")
+        local Backpack = Player:WaitForChild("Backpack")
+        local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
+        local RootPart = Character and Humanoid and Humanoid.RootPart or false
+        local RightArm = Character and Character:FindFirstChild("Right Arm") or Character:FindFirstChild("RightHand")
+        if not Humanoid or not RootPart or not RightArm then
+            return
+        end
+
+        local GetPlayer = GetPlayer
+        local CreateRightGrip = function(Tool)
+            if Tool and RightArm then
+                local Handle = Tool and Tool:FindFirstChild("Handle") or false
+                if Handle then
+                    local Weld = Instance.new("Weld")
+                    Weld.Name = "RightGrip"
+                    Weld.Part0 = RightArm
+                    Weld.Part1 = Handle
+                    if Humanoid.RigType == Enum.HumanoidRigType.R6 then
+                        Weld.C0 = CFrame.new(0, -2, 0) * CFrame.Angles(math.rad(-110), 0, math.rad(45))
+                    else
+                        Weld.C0 = CFrame.new(2, -1, 1) * CFrame.Angles(math.rad(-90), math.rad(-25), math.rad(-110))
+                     --math.rad(-90)
+                    end
+                    Weld.C1 = Tool.Grip
+                    Weld.Parent = RightArm
+                    return Weld
+                end
+            end
+        end
+
+        Humanoid:UnequipTools()
+        local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
+        if not MainTool or not MainTool:FindFirstChild("Handle") then
+            return
+        end
+
+        local TPlayer = GetPlayer(Target)
+        local TCharacter = TPlayer and TPlayer.Character
+
+        local THumanoid = TCharacter and TCharacter:FindFirstChildWhichIsA("Humanoid") or false
+        local TRootPart = TCharacter and THumanoid and THumanoid.RootPart or false
+        if not THumanoid or not TRootPart then
+            return
+        end
+
+        CreateRightGrip(MainTool)
+        MainTool.Parent = Character
+        MainTool.Handle:BreakJoints()
+        MainTool.Parent = Backpack
+        MainTool.Parent = Humanoid
+        CreateRightGrip(MainTool)
+        if firetouchinterest then
+            firetouchinterest(MainTool.Handle, TRootPart, 0)
+            firetouchinterest(MainTool.Handle, TRootPart, 1)
+        else
+            if Humanoid.RigType == Enum.HumanoidRigType.R6 then
+                local OldCFrame = RootPart.CFrame
+                local OldTick = tick()
+                repeat
+                    task.wait()
+                    RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
+                    if MainTool.Parent ~= Humanoid then
+                        break
+                    end
+                until (tick() - OldTick) > 3
+                RootPart.CFrame = OldCFrame
+            else
+                return
+            end
+        end
+    end
+)
+
+
+AddCommand(
     "fakechat",
     "fake chats as a user with specified message (you need to chat too)",
     3,
