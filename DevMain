@@ -1,4 +1,5 @@
 -- // HB Admin: Reborn
+local Loading = tick()
 local VERSION = "1.0.6a"
 local getgenv = getgenv()
 
@@ -2675,6 +2676,89 @@ AddCommand(
         connectcl = RunService.Stepped:Connect(nocl)
     end
 )
+
+AddCommand(
+    "loopws",
+    "Loops walkspeed to specified value",
+    1,
+    {"loopwalkspeed"},
+    function(speed)
+        if wsloop then
+            wsloop:Disconnect()
+        end
+        local function ws()
+            if Player.Character.Humanoid ~= nil then
+                Player.Character.Humanoid.WalkSpeed = speed
+            end
+        end
+        wsloop = RunService.Stepped:Connect(ws)
+        notify("Looped walkspeed!")
+    end
+)
+
+AddCommand(
+    "unloopws",
+    "Unloops walkspeed",
+    0,
+    {"unloopwalkspeed"},
+    function()
+        if wsloop then
+            wsloop:Disconnect()
+            notify("Walkspeed has been unlooped.")
+        end
+    end
+)
+
+AddCommand(
+    "loopjp",
+    "Loops JumpPower to specified value",
+    1,
+    {"loopjumppower"},
+    function(height)
+        if jploop then
+            jploop:Disconnect()
+        end
+        local function jp()
+            if Player.Character.Humanoid ~= nil then
+                Player.Character.Humanoid.UseJumpPower = true
+                Player.Character.Humanoid.JumpPower = height
+            end
+        end
+        jploop = RunService.Stepped:Connect(jp)
+        notify("Looped JumpPower!")
+    end
+)
+
+AddCommand(
+    "unloopjp",
+    "Unloops JumpPower",
+    0,
+    {"unloopjumppower"},
+    function()
+        if jploop then
+            jploop:Disconnect()
+            notify("JumpPower has been unlooped.")
+        end
+    end
+)
+
+AddCommand(
+    "chardelete",
+    "Deletes specified part from character",
+    1,
+    {"characterdelete"},
+    function(partn)
+        local succ,err=pcall(function()
+        Player.Character[partn]:Destroy()
+        end)
+        if err then
+            notify("Something went wrong..")
+        else
+            notify("Deleted!")
+        end
+    end
+)
+
 AddCommand(
     "clip",
     "turns on collisions for your bodyparts",
@@ -2721,3 +2805,5 @@ game.Players.PlayerChatted:Connect(
         end
     end
 )
+notify("Loaded in "..tick()-Loading)
+notify("Total of "..#Commands.." commands.")
