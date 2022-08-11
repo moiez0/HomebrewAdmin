@@ -1,6 +1,6 @@
 -- // HB Admin: Reborn
 local Loading = tick()
-local VERSION = "1.0.6a"
+local VERSION = "DEV"
 local getgenv = getgenv()
 
 if HB_Loaded then
@@ -691,21 +691,6 @@ AddCommand(
                 return
             end
         end
-        local CS
-        CS =
-            RunService.Heartbeat:Connect(
-            function()
-                if Humanoid then
-                    if Humanoid.Health > 0 then
-                        Humanoid:ChangeState("GettingUp")
-                    end
-                else
-                    CS:Disconnect()
-                end
-            end
-        )
-        THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
-        THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
         local MainAnimation = Instance.new("Animation", Humanoid)
         local Animation
         local WaitTime
@@ -812,7 +797,7 @@ AddCommand(
             firetouchinterest(MainTool.Handle, TRootPart, 0)
             firetouchinterest(MainTool.Handle, TRootPart, 1)
             MainTool.Handle.AncestryChanged:Wait()
-		    wait(.5)
+		    wait(.3)
 		    Character["Right Arm"].RightGrip:Destroy()
         else
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
@@ -892,7 +877,7 @@ AddCommand(
             firetouchinterest(MainTool.Handle, TRootPart, 0)
             firetouchinterest(MainTool.Handle, TRootPart, 1)
             MainTool.Handle.AncestryChanged:Wait()
-		    wait(.5)
+		    wait(.3)
 		    Character["Right Arm"].RightGrip:Destroy()
         else
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
@@ -929,111 +914,6 @@ AddCommand(
         Event:FireServer(A_1, A_2)
     end
 )
-
--- Changelog
-
-local ScreenGui = Instance.new("ScreenGui")
-local Changelog = Instance.new("Frame")
-local Penumbra = Instance.new("ImageLabel")
-local ImageLabel = Instance.new("ImageLabel")
-local CMDTITLE = Instance.new("TextLabel")
-local ImageLabel_2 = Instance.new("ImageLabel")
-local MAOWQ = Instance.new("TextLabel")
-local ImageLabel_3 = Instance.new("ImageLabel")
-local Chanelog = Instance.new("TextLabel")
-
---Properties:
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.Name = "HBLOG"
-
-Changelog.Name = "Changelog"
-Changelog.Parent = ScreenGui
-Changelog.AnchorPoint = Vector2.new(0.5, 0.5)
-Changelog.BackgroundColor3 = Color3.fromRGB(5, 11, 24)
-Changelog.Position = UDim2.new(0.499635637, 0, 0.499820173, 0)
-Changelog.Size = UDim2.new(0, 479, 0, 288)
-Changelog.ZIndex = 2
-Changelog.Visible = false
-
-Penumbra.Name = "Penumbra"
-Penumbra.Parent = Changelog
-Penumbra.Active = true
-Penumbra.AnchorPoint = Vector2.new(0.5, 0.5)
-Penumbra.BackgroundTransparency = 1.000
-Penumbra.BorderSizePixel = 0
-Penumbra.Position = UDim2.new(0.45726496, 0, 0.584302306, 1)
-Penumbra.Size = UDim2.new(1, 18, 1, 18)
-Penumbra.Image = "rbxassetid://1316045217"
-Penumbra.ImageColor3 = Color3.fromRGB(0, 0, 0)
-Penumbra.ImageTransparency = 0.880
-Penumbra.ScaleType = Enum.ScaleType.Slice
-Penumbra.SliceCenter = Rect.new(10, 10, 118, 118)
-
-ImageLabel.Parent = Changelog
-ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ImageLabel.BackgroundTransparency = 1.000
-ImageLabel.Position = UDim2.new(-0.0132315634, 0, 0.770409405, 0)
-ImageLabel.Size = UDim2.new(0, 101, 0, 83)
-ImageLabel.ZIndex = 2
-ImageLabel.Image = "http://www.roblox.com/asset/?id=217370037"
-ImageLabel.ImageTransparency = 0.600
-
-CMDTITLE.Name = "CMDTITLE"
-CMDTITLE.Parent = Changelog
-CMDTITLE.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-CMDTITLE.BackgroundTransparency = 1.000
-CMDTITLE.Position = UDim2.new(0.362217844, 0, 0.074537456, 0)
-CMDTITLE.Size = UDim2.new(0, 131, 0, 36)
-CMDTITLE.ZIndex = 2
-CMDTITLE.Font = Enum.Font.GothamBlack
-CMDTITLE.Text = "HOMEBREW ADMIN"
-CMDTITLE.TextColor3 = Color3.fromRGB(255, 255, 255)
-CMDTITLE.TextSize = 20.000
-
-ImageLabel_2.Parent = Changelog
-ImageLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ImageLabel_2.BackgroundTransparency = 1.000
-ImageLabel_2.Position = UDim2.new(0.16108036, 0, 0.810999811, 0)
-ImageLabel_2.Size = UDim2.new(0, 88, 0, 61)
-ImageLabel_2.ZIndex = 2
-ImageLabel_2.Image = "http://www.roblox.com/asset/?id=217370037"
-ImageLabel_2.ImageTransparency = 0.800
-
-MAOWQ.Name = "MAOWQ"
-MAOWQ.Parent = Changelog
-MAOWQ.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-MAOWQ.BackgroundTransparency = 1.000
-MAOWQ.Position = UDim2.new(0.440408856, 0, 0.197908744, 0)
-MAOWQ.Size = UDim2.new(0, 56, 0, 23)
-MAOWQ.ZIndex = 2
-MAOWQ.Font = Enum.Font.Gotham
-MAOWQ.Text = "CHANGELOG //"
-MAOWQ.TextColor3 = Color3.fromRGB(255, 255, 255)
-MAOWQ.TextSize = 12.000
-
-ImageLabel_3.Parent = Changelog
-ImageLabel_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ImageLabel_3.BackgroundTransparency = 1.000
-ImageLabel_3.Position = UDim2.new(0.20083572, 0, 0.89956069, 0)
-ImageLabel_3.Size = UDim2.new(0, 105, 0, 37)
-ImageLabel_3.ZIndex = 2
-ImageLabel_3.Image = "http://www.roblox.com/asset/?id=217370037"
-ImageLabel_3.ImageTransparency = 0.800
-
-Chanelog.Name = "Chanelog"
-Chanelog.Parent = Changelog
-Chanelog.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Chanelog.BackgroundTransparency = 1.000
-Chanelog.Position = UDim2.new(0.0921858922, 0, 0.276124328, 0)
-Chanelog.Size = UDim2.new(0, 391, 0, 194)
-Chanelog.ZIndex = 2
-Chanelog.Font = Enum.Font.Gotham
-Chanelog.Text = ""
-Chanelog.TextColor3 = Color3.fromRGB(255, 255, 255)
-Chanelog.TextScaled = true
-Chanelog.TextSize = 12.000
-Chanelog.TextWrapped = true
 
 AddCommand(
     "2007anims",
@@ -1735,7 +1615,13 @@ AddCommand(
     1,
     {},
     function(play)
-        TargetPlayer = GetPlayer(play)
+        if play == "all" then
+            AllBool = true
+        else
+         TargetPlayer = GetPlayer(play)
+         AllBool = false
+        end
+        function flingem(TargetPlayer)
         local Character = Player.Character
         local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
         local RootPart = Humanoid and Humanoid.RootPart
@@ -1943,7 +1829,15 @@ AddCommand(
         else
             return Message("Error Occurred", "Random error", 5)
         end
-    end
+        end
+        if AllBool == true then
+          for _,x in next, Players:GetPlayers() do
+           flingem(x)
+           end
+        else
+            flingem(TargetPlayer)
+        end
+end
 )
 
 AddCommand(
