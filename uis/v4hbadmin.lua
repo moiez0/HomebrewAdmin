@@ -1382,8 +1382,8 @@ local function YLPLKD_fake_script() -- HBADMIN.localhandler
 	commandframe:TweenPosition(UDim2.new(0.677, 0, 1, 0), "Out", "Quad", .5)
 	
 	
-	UIS.InputBegan:connect(function(input)
-		if input.KeyCode == Enum.KeyCode[getgenv().UPrefix]  then
+	UIS.InputBegan:connect(function(input, typing)
+		if input.KeyCode == Enum.KeyCode[getgenv().UPrefix] and not typing  then
 			commandbox.Text = ''
 			commandframe:TweenPosition(UDim2.new(0.677, 0, 0.249, 0), "Out", "Quad", .5)
 			wait(0.001)
