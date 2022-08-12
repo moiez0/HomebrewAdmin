@@ -814,7 +814,12 @@ AddCommand(
             firetouchinterest(MainTool.Handle, TRootPart, 1)
             MainTool.Handle.AncestryChanged:Wait()
 		    wait(.3)
+		    if Humanoid.RigType == Enum.HumanoidRigType.R6 then
 		    Character["Right Arm"].RightGrip:Destroy()
+		    else
+		    Character["RightHand"].RightGripAttachment:Destroy()
+		    Character["RightHand"].RightGrip:Destroy()
+		    end
         else
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                 local OldCFrame = RootPart.CFrame
@@ -838,7 +843,7 @@ AddCommand(
     "void2",
     "Voids player [tool required]",
     0,
-    {"insantvoid","vkill2"},
+    {"instantvoid","vkill2"},
     function(playerx)
         local Target = playerx
         local Character = Player.Character
@@ -894,7 +899,12 @@ AddCommand(
             firetouchinterest(MainTool.Handle, TRootPart, 1)
             MainTool.Handle.AncestryChanged:Wait()
 		    wait(.3)
+		    if Humanoid.RigType == Enum.HumanoidRigType.R6 then
 		    Character["Right Arm"].RightGrip:Destroy()
+		    else
+            Character["RightHand"].RightGrip:Destroy()
+		    Character["RightHand"].RightGripAttachment:Destroy()
+		    end
         else
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                 local OldCFrame = RootPart.CFrame
