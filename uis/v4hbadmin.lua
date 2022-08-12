@@ -1,7 +1,6 @@
 
 -- Gui to Lua
 -- Version: 3.2
-print("Homebrew 4.0 // CMD PROMPT, UI made by Syntactic, scripts made by The Homebrew Team")
 -- Instances:
 function secure_request(...)
 	if syn then
@@ -215,7 +214,7 @@ reserved.BackgroundTransparency = 10.000
 reserved.Position = UDim2.new(0.0890622437, 0, 0.128632218, 0)
 reserved.Size = UDim2.new(0, 167, 0, 22)
 reserved.Font = Enum.Font.SourceSans
-reserved.Text = "(c) 2020 Homebrew Corp.  All rights reserved."
+reserved.Text = "(c) 2022 Homebrew Corp.  This UI is a placeholder."
 reserved.TextColor3 = Color3.fromRGB(255, 255, 255)
 reserved.TextSize = 14.000
 
@@ -729,7 +728,7 @@ PROMPT.ClipsDescendants = true
 PROMPT.Position = UDim2.new(0.923399091, 0, 0.191, 0)
 PROMPT.Size = UDim2.new(0, 200, 0, 50)
 PROMPT.Font = Enum.Font.SourceSansLight
-PROMPT.Text = "PROMPT"
+PROMPT.Text = " ADMIN"
 PROMPT.TextColor3 = Color3.fromRGB(255, 255, 255)
 PROMPT.TextScaled = true
 PROMPT.TextSize = 14.000
@@ -744,7 +743,7 @@ COMMAND.ClipsDescendants = true
 COMMAND.Position = UDim2.new(-0.437821597, 0, 0.191, 0)
 COMMAND.Size = UDim2.new(0, 200, 0, 50)
 COMMAND.Font = Enum.Font.SourceSansLight
-COMMAND.Text = "COMMAND"
+COMMAND.Text = "HOMEBREW"
 COMMAND.TextColor3 = Color3.fromRGB(255, 255, 255)
 COMMAND.TextScaled = true
 COMMAND.TextSize = 14.000
@@ -1384,7 +1383,7 @@ local function YLPLKD_fake_script() -- HBADMIN.localhandler
 	
 	
 	UIS.InputBegan:connect(function(input)
-		if input.KeyCode == Enum.KeyCode.Minus then
+		if input.KeyCode == Enum.KeyCode[getgenv().UPrefix]  then
 			commandbox.Text = ''
 			commandframe:TweenPosition(UDim2.new(0.677, 0, 0.249, 0), "Out", "Quad", .5)
 			wait(0.001)
