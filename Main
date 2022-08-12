@@ -496,7 +496,7 @@ AddCommand(
                     Player.Character["Torso"]["Left Shoulder"]:Destroy()
                     weldit(Player.Character["Left Arm"], Player.Character.Torso, Vector3.new(-0.3, 0, -1))
                 elseif Player.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
-                    notify("R15 only!")
+                    notify("R6 only!")
                 end
                 Player.Character.Head.Mesh:Destroy()
             end
