@@ -3004,6 +3004,7 @@ _G.enterframe = function(meme)
             if enterPressed then
                 args = meme.Text:split(" ")
                 if GetCommand(args[1]) then
+                    meme.Text = ""
                     local cmd = GetCommand(args[1])
                     table.remove(args, 1)
                     pcall(
