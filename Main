@@ -819,7 +819,9 @@ AddCommand(
                     Character:BreakJoints()
                 elseif not GameProcessed and Input.KeyCode == Enum.KeyCode.E then
                     Animation:Stop()
-                    CS:Disconnect()
+                    if CS then
+                     CS:Disconnect()
+                    end
                     KillTPlayer:Disconnect()
                     if Character:FindFirstChild("Animate") then
                         Character:FindFirstChild("Animate").Disabled = false
