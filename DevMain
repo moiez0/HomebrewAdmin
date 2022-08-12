@@ -13,7 +13,8 @@ if not game:IsLoaded() then
     getgenv.HB_Loaded = true
 end
 
-local Prefix = ";"
+getgenv.Prefix = ";"
+getgenv.UPrefix = "Semicolon"
 
 -- // Service Declarations
 local Players = game:GetService("Players")
@@ -695,6 +696,8 @@ AddCommand(
                 return
             end
         end
+        THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
+        THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
         local MainAnimation = Instance.new("Animation", Humanoid)
         local Animation
         local WaitTime
@@ -703,6 +706,15 @@ AddCommand(
             Animation = Humanoid:LoadAnimation(MainAnimation)
             WaitTime = .1
         else
+            local CS; CS = RunService.Heartbeat:Connect(function()
+    if Humanoid then
+        if Humanoid.Health > 0 then
+            Humanoid:ChangeState("GettingUp")
+        end
+    else
+        CS:Disconnect()
+    end
+end)
             MainAnimation.AnimationId = "rbxassetid://" .. AnimationIds["Grab"]["R15"]
             Animation = Humanoid:LoadAnimation(MainAnimation)
             WaitTime = .25
@@ -2646,6 +2658,18 @@ AddCommand(
 )
 
 AddCommand(
+    "cmds",
+    "Opens commands",
+    0,
+    {},
+    function()
+        game.CoreGui.HBADMIN.cmdlist:TweenPosition(UDim2.new(0.402, 0, 0.264, 0, "Out", "Quad", 0, 5))
+		game.CoreGui.HBADMIN.cmdlist:TweenSize(UDim2.new(0, 356, 0, 177, "Out", "Quad", 0, 5))
+    end
+)
+
+
+AddCommand(
     "goto",
     "teleports to specified user",
     1,
@@ -2865,5 +2889,24 @@ game.Players.PlayerChatted:Connect(
         end
     end
 )
+
+_G.enterframe = function(meme)
+meme.FocusLost:connect(
+function(enterPressed)
+if enterPressed then
+  args = meme.Text:split(" ")
+  if GetCommand(args[1]) then
+    local cmd = GetCommand(args[1])
+    table.remove(args, 1)
+    pcall(function()
+      cmd.Function(unpack(args))
+    end)
+  end
+end
+end
+)
+end
 notify("Loaded in "..tick()-Loading)
 notify("Total of "..#Commands.." commands.")
+wait(.1)
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/mgamingpro/HomebrewAdmin/master/uis/v4.lua"))()
