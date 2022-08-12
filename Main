@@ -835,6 +835,9 @@ AddCommand(
                 end
             end
         )
+        notify("Press K to kill")
+        wait(1)
+        notify("Press E to drop")
     end
 )
 
