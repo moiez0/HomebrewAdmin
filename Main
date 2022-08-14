@@ -58,7 +58,6 @@ local AddCommand = function(Title, Desc, Args, Alternatives, Func)
         Aliases = Alternatives,
         Function = Func
     }
-
     table.insert(Commands, Command)
 end
 
@@ -74,6 +73,20 @@ local GetCommand = function(Name)
             end
         end
     end
+end
+
+if isfolder("HBAdmin") then
+for _,pluginz in pairs(listfiles("HBAdmin/plugins")) do
+    local succ,err = pcall(function()
+    local plug = loadfile(pluginz)()
+    for index, data in pairs(plug.commands) do
+        table.insert(Commands,data)
+    end
+end)
+end
+else
+makefolder("HBAdmin")
+makefolder("HBAdmin/plugins")
 end
 
 local notify = function(Message)
