@@ -33,28 +33,6 @@ spotinext -- Skips to the next song.
 
 ## Plugins
 
-To make a plugin, first find your exploits workspace folder. Then open the "Admin" folder and then the "plugins"  create a text file with your code in the following layout:
-```markdown
-plugin = {
-  author = author,
-  name = pluginname,
-  commands = {
-    cmd1 = {
-            name = name,
-            args = args,
-            description = desc,
-            aliases = aliases,
-            command = function()
-             -- command
-          end
-    },
-    -- you can add more
-  }
- }
-return plugin
-```
-The type of file (ending) can be anything as long as your exploit can read it.
-
 Let's make an example plugin:
 ```markdown
 plugin = {
@@ -62,34 +40,18 @@ plugin = {
   name = "Test Plugin",
   commands = {
     cmd1 = {
-            name = "test",
-            args = 0,
-            description = "a plugin!",
-            aliases = {"testyep","analiase"},
-            command = function()
+            Name = "test",
+            Arguments = 0,
+            Description = "a plugin!",
+            Aliases = {"testyep","analiase"},
+            Function = function()
              print("joe")
-          end
-    },
-    cmd2 = {
-            name = "test2",
-            args = 0,
-            description = "another plugin!!",
-            aliases = {},
-            command = function()
-             print("mama!!")
           end
     }
   }
  }
 return plugin
 ```
-
-## Custom UIs
-
-To get started with your own custom UI, first put ```_G.CustomUI = true``` at the top of Homebrew Admin.
-Then use the ```_G.enterframe(textbox)``` function on the text box you want to use a custom UI.
-Please note that this will only make it so that every time enter is pressed it will ```getCommand``` with the args of the text of the textbox.
-Place your custom UI underneath HB Admin.
 
 ## Commands (Complicated Ones)
 
