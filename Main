@@ -681,20 +681,6 @@ AddCommand(
             }
         }
 
-        local GetPlayer = function(Name)
-            for x in string.gmatch(Name, "[%a%d%p]+") do
-                Name = x:lower()
-                break
-            end
-            local TPlayer = nil
-            for _, x in next, Players:GetPlayers() do
-                if tostring(x):lower():match(Name) or x["DisplayName"]:lower():match(Name) then
-                    TPlayer = x
-                    break
-                end
-            end
-            return TPlayer
-        end
 
         local CreateRightGrip = function(Tool)
             if Tool and RightArm then
@@ -744,6 +730,8 @@ AddCommand(
         MainTool.Parent = Backpack
         MainTool.Parent = Humanoid
         CreateRightGrip(MainTool)
+        THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
+        THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
         if firetouchinterest then
             firetouchinterest(MainTool.Handle, TRootPart, 0)
             firetouchinterest(MainTool.Handle, TRootPart, 1)
@@ -764,8 +752,7 @@ AddCommand(
             end
         end
 
-        THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
-        THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
+        
         local MainAnimation = Instance.new("Animation", Humanoid)
         local Animation
         local WaitTime
@@ -897,6 +884,8 @@ AddCommand(
         MainTool.Parent = Humanoid
         CreateRightGrip(MainTool)
         if firetouchinterest then
+            THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
+            THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
             firetouchinterest(MainTool.Handle, TRootPart, 0)
             firetouchinterest(MainTool.Handle, TRootPart, 1)
             MainTool.Handle.AncestryChanged:Wait()
@@ -974,14 +963,16 @@ AddCommand(
         if not THumanoid or not TRootPart then
             return
         end
-
         CreateRightGrip(MainTool)
         MainTool.Parent = Character
         MainTool.Handle:BreakJoints()
         MainTool.Parent = Backpack
         MainTool.Parent = Humanoid
         CreateRightGrip(MainTool)
+        
         if firetouchinterest then
+            THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
+            THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
             firetouchinterest(MainTool.Handle, TRootPart, 0)
             firetouchinterest(MainTool.Handle, TRootPart, 1)
             MainTool.Handle.AncestryChanged:Wait()
