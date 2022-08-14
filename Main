@@ -969,10 +969,10 @@ AddCommand(
         MainTool.Parent = Backpack
         MainTool.Parent = Humanoid
         CreateRightGrip(MainTool)
-        
+        THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
+        THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
+        wait(.1)
         if firetouchinterest then
-            THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
-            THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
             firetouchinterest(MainTool.Handle, TRootPart, 0)
             firetouchinterest(MainTool.Handle, TRootPart, 1)
             MainTool.Handle.AncestryChanged:Wait()
@@ -1953,125 +1953,138 @@ AddCommand(
     end
 )
 
+
+
+AddCommand(
+    "loopkill",
+    "Loop kills specified player [TOOL REQUIRED]",
+    1,
+    {"looptkill"},
+    function(Arguments)
+    LoopKill = true
+    local CMD = GetCommand("tkill")
+    CMD.Function(Arguments)
+end)
+                            
+
+AddCommand(
+    "unloopkill",
+    "Stops loop killing",
+    0,
+    {"unlooptkill"},
+    function()
+    LoopKill = false
+end)
+
+LoopKill = false
 AddCommand(
     "tkill",
     "kills specified player [TOOL REQUIRED]",
     1,
     {"kill"},
-    function(player)
-        Target = player
-        local function Message(MTitle, MText, Time)
-            -- game:GetService("StarterGui"):SetCore("SendNotification",{Title = MTitle;Text = MText;Duration = Time;})
-            notify(MText)
-        end
-
+    function(Target)
+    
+    
+    local function Message(MTitle,MText,Time)
+        notify(MText)
+    end
+    
+    local function Kill()
         if not GetPlayer(Target) then
-            return Message("Error", ">   Player does not exist.", 5)
+            return Message("Error",">   Player does not exist.",5)
         end
-
-        repeat
-            RunService.Heartbeat:wait()
-        until GetPlayer(Target).Character and GetPlayer(Target).Character:FindFirstChildOfClass("Humanoid").Health > 0 or
-            not GetPlayer(Target)
-
-        local Player = game:GetService("Players").LocalPlayer
-        local Character = Player.Character
+        
+        repeat game:GetService("RunService").Heartbeat:wait() until GetPlayer(Target).Character and GetPlayer(Target).Character:FindFirstChildOfClass("Humanoid") and GetPlayer(Target).Character:FindFirstChildOfClass("Humanoid").Health > 0
+        local Character
         local Humanoid
-        local HumanoidRootPart
-        local Torso
+        local RootPart
         local Tool
         local Handle
-
+        
         local TPlayer = GetPlayer(Target)
         local TCharacter = TPlayer.Character
         local THumanoid
-        local THumanoidRootPart
-        local TTorso
-
-        if Character:FindFirstChild("HumanoidRootPart") then
-            HumanoidRootPart = Character.HumanoidRootPart
-        end
-        if Character:FindFirstChild("Torso") then
-            Torso = Character.Torso
+        local TRootPart
+        
+        if Player.Character ~= nil and Player.Character and Player.Character.Name == Player.Name then
+            Character = Player.Character
+        else
+            return Message("Error",">   Missing Character")
         end
         if Character:FindFirstChildOfClass("Humanoid") then
             Humanoid = Character:FindFirstChildOfClass("Humanoid")
+        else
+            return Message("Error",">   Missing Humanoid")
+        end
+        if Humanoid and Humanoid.RootPart then
+            RootPart = Humanoid.RootPart
+        else
+            return Message("Error",">   Missing RootPart")
         end
         if Character:FindFirstChildOfClass("Tool") then
             Tool = Character:FindFirstChildOfClass("Tool")
         elseif Player.Backpack:FindFirstChildOfClass("Tool") and Humanoid then
             Tool = Player.Backpack:FindFirstChildOfClass("Tool")
             Humanoid:EquipTool(Player.Backpack:FindFirstChildOfClass("Tool"))
+        else
+            return Message("Error",">   Missing Tool")
         end
         if Tool and Tool:FindFirstChild("Handle") then
             Handle = Tool.Handle
+        else
+            return Message("Error",">   Missing Tool's Handle")
         end
-        if TCharacter:FindFirstChild("HumanoidRootPart") then
-            THumanoidRootPart = TCharacter.HumanoidRootPart
-        end
-        if TCharacter:FindFirstChild("Torso") then
-            TTorso = TCharacter.Torso
-        elseif TCharacter:FindFirstChild("UpperTorso") then
-            TTorso = TCharacter.UpperTorso
-        end
+        
+        --Target
         if TCharacter:FindFirstChildOfClass("Humanoid") then
-            THumanoid = Character:FindFirstChildOfClass("Humanoid")
+            THumanoid = TCharacter:FindFirstChildOfClass("Humanoid")
+        else
+            return Message("Error",">   Missing Target Humanoid")
         end
-        if not HumanoidRootPart then
-            Message("Error", ">   Missing HumanoidRootPart, Trying Torso.", 5)
-            wait(1)
-            if Torso then
-                Message("Succes", ">   Torso found.", 5)
-                wait(1)
-            else
-                Message("Error", ">   Missing Torso")
-                return
-            end
+        if THumanoid.RootPart then
+            TRootPart = THumanoid.RootPart
+        else
+            return Message("Error",">   Missing Target RootPart")
         end
-        if Humanoid.RigType == Enum.HumanoidRigType.R15 then
-            Message("Error", ">  Please use kill2 on r15.", 5)
-            local cmd = getCommand("kill2")
-            cmd.command(unpack(TPlayer))
-            wait(1)
-            return
+        
+        if THumanoid.Sit then
+            return Message("Error",">   Target is seated")
         end
-        if not Tool then
-            Message("Error", ">   You have no tools.", 5)
-            wait(1)
-            return
-        end
-        if not Handle then
-            Message("Error", ">   Tool doesn't have handle.", 5)
-            wait(1)
-            return
-        end
-        if not THumanoidRootPart then
-            Message("Error", ">   Missing HumanoidRootPart on Target, Trying Torso.", 5)
-            wait(1)
-            if Torso then
-                Message("Succes", ">   Torso found on Target.", 5)
-                wait(1)
-            else
-                Message("Error", ">   Missing Torso on Target", 5)
-                return
-            end
-        end
-
+        
+        local OldCFrame = RootPart.CFrame
+        
         Humanoid:Destroy()
-        local NewHumanoid = Instance.new("Humanoid", Character)
+        local NewHumanoid = Humanoid:Clone()
+        NewHumanoid.Parent = Character
         NewHumanoid:UnequipTools()
         NewHumanoid:EquipTool(Tool)
         Tool.Parent = workspace
-
+    
+        local Timer = os.time()
+    
         repeat
-            Tool.Grip = CFrame.new()
-            Tool.Grip = Handle.CFrame:ToObjectSpace(TTorso.CFrame):Inverse()
-            firetouchinterest(Handle, TTorso, 0)
-            firetouchinterest(Handle, TTorso, 1)
-            RunService.Heartbeat:wait()
-        until Tool.Parent ~= Character
+            if (TRootPart.CFrame.p - RootPart.CFrame.p).Magnitude < 500 then
+                Tool.Grip = CFrame.new()
+                Tool.Grip = Handle.CFrame:ToObjectSpace(TRootPart.CFrame):Inverse()
+            end
+            firetouchinterest(Handle,TRootPart,0)
+            firetouchinterest(Handle,TRootPart,1)
+            game:GetService("RunService").Heartbeat:wait()
+        until Tool.Parent ~= Character or not TPlayer or not TRootPart or THumanoid.Health <= 0 or os.time() > Timer + .20
         Player.Character = nil
         NewHumanoid.Health = 0
+        Player.CharacterAdded:wait()
+        repeat game:GetService("RunService").Heartbeat:wait() until Player.Character:FindFirstChild("HumanoidRootPart")
+        Player.Character.HumanoidRootPart.CFrame = OldCFrame
+    end
+    
+    if not LoopKill then
+        Kill()
+    else
+        while LoopKill == true do
+            Kill()
+        end
+    end
     end
 )
 
@@ -2974,7 +2987,6 @@ game.Players.PlayerChatted:Connect(
             local IgnorePrefix = Message:match(Prefix)
             local Arguments = IgnorePrefix and Message:sub(#Prefix + 1):split(" ")
             if (IgnorePrefix and Arguments) then
-                print(Arguments[1])
                 local CMD = GetCommand(Arguments[1])
                 if CMD then
                     table.remove(Arguments, 1)
