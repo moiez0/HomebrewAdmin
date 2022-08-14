@@ -916,10 +916,10 @@ AddCommand(
 )
 
 AddCommand(
-    "void2",
+    "void",
     "Voids player [tool required]",
     0,
-    {"instantvoid", "vkill2"},
+    {"instantvoid", "vkill","kill2"},
     function(playerx)
         local Target = playerx
         local Character = Player.Character
@@ -2472,44 +2472,6 @@ AddCommand(
     end
 )
 
-AddCommand(
-    "void",
-    "voids player [needs tool]",
-    1,
-    {"kill2"},
-    function(name)
-        user = GetPlayer(name)
-        plr = user.name
-        notify("Voiding " .. plr .. "!")
-        Target = plr
-        Player.Character.Humanoid.Name = 1
-        local l = Player.Character["1"]:Clone()
-        l.Parent = Player.Character
-        l.Name = "Humanoid"
-        wait()
-        Player.Character["1"]:Destroy()
-        game.Workspace.CurrentCamera.CameraSubject = Player.Character
-        Player.Character.Animate.Disabled = true
-        wait()
-        Player.Character.Animate.Disabled = false
-        Player.Character.Humanoid.DisplayDistanceType = "None"
-        for i, v in pairs(game:GetService "Players".LocalPlayer.Backpack:GetChildren()) do
-            Player.Character.Humanoid:EquipTool(v)
-        end
-        wait()
-        Player.Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame
-        wait()
-        Player.Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame
-        wait()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-100000, -100, -100000))
-        wait()
-        local prt = Instance.new("Model", workspace)
-        Instance.new("Part", prt).Name = "Torso"
-        Instance.new("Part", prt).Name = "Head"
-        Instance.new("Humanoid", prt).Name = "Humanoid"
-        Player.Character = prt
-    end
-)
 
 AddCommand(
     "unbanish",
