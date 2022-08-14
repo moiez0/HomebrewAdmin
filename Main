@@ -1,6 +1,6 @@
 -- // HB Admin: Reborn
 local Loading = tick()
-local VERSION = "DEV"
+local VERSION = "V2.03"
 local getgenv = getgenv()
 
 if HB_Loaded then
