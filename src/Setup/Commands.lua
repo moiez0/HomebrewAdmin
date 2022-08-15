@@ -47,6 +47,9 @@ function Commands:Init(CommandController)
     local AddCommand = function(Title, Desc, Args, Alternatives, Func)
         CommandController:AddCommand(Command.new(Title, Desc, Args, Alternatives, Func))
     end
+
+    local GetCommand = function(Name) return CommandController:GetCommand(Name) end
+
     AddCommand(
         "tfling",
         "makes your tool fling (dont equip)",
