@@ -9,7 +9,7 @@ local ChatController = {
 
 function ChatController:Init(CommandController)
     game.Players.LocalPlayer.Chatted:Connect(function(message)
-        if string:sub(1, 1) == Config:Get("prefix") then
+        if message:sub(1, 1) == Config:Get("prefix") then
             self:HandleInput(message:sub(2))
         end
     end)
