@@ -23,7 +23,7 @@ end
 function Command:Execute(Args)
     local executor = self._executor
     local args = Args
-    executor(args)
+    executor(unpack(args))
 end
 
 function Command:GetName()

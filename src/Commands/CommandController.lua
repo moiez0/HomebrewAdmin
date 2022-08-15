@@ -18,7 +18,7 @@ function CommandController:Init()
         local Command = CommandExecution:GetCommand()
         local Args = CommandExecution:GetArguments()
         Thread.Spawn(function()
-            Command:Execute(unpack(Args))
+            Command:Execute(Args)
         end)
     end)
 
