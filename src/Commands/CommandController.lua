@@ -1,7 +1,8 @@
-local hbAdmin = script:FindFirstAncestor("HomebrewAdmin")
+local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Signal = require(hbAdmin.Util.Signal)
 local Thread = require(hbAdmin.Util.Thread)
-local Commands = require(hbAdmin.Setup.Commands)
+
+
 
 local CommandController = {
     Commands = {},
@@ -16,13 +17,15 @@ function CommandController:Init()
         assert(CommandExecution.__type == "CommandExecution", "CommandExecution expected\n\n"..debug.traceback())
         local Command = CommandExecution:GetCommand()
         local Args = CommandExecution:GetArguments()
-        Command:Execute(Args)
+        Thread.Spawn(function()
+            Command:Execute(Args)
+        end)
     end)
 
 end
 
 function CommandController:AddCommand(Command)
-    self.Commands[Command:GetName()] = Command
+    table.insert(self.Commands, Command)
     self.CommandAdded:Fire(Command)
 end
 

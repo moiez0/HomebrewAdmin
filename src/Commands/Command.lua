@@ -1,12 +1,11 @@
-local hbAdmin = script:FindFirstAncestor("HomebrewAdmin")
-local Maid = require(hbAdmin.Util.Maid)
+local hbAdmin = script:FindFirstAncestor("HBAdmin")
 
 local Command = {
     __type = "Command"
 }
 Command.__index = Command
 
-local executorMaid = Maid.new()
+
 
 function Command.new(Title, Desc, Args, Alternatives, Func)
     local self = setmetatable({
@@ -24,9 +23,7 @@ end
 function Command:Execute(Args)
     local executor = self._executor
     local args = Args
-    executorMaid:GiveTask(function()
-        executor(args)
-    end)
+    executor(args)
 end
 
 function Command:GetName()

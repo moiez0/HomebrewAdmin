@@ -1,4 +1,4 @@
-local hbAdmin = script:FindFirstAncestor("HomebrewAdmin")
+local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Command = require(hbAdmin.Commands.Command)
 
 

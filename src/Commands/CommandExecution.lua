@@ -1,4 +1,4 @@
-local hbAdmin = script:FindFirstAncestor("HomebrewAdmin")
+local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local CommandController = require(hbAdmin.Commands.CommandController)
 
 
@@ -33,3 +33,5 @@ end
 function CommandExecution:GetArguments()
     return self._arguments
 end
+
+return CommandExecution
