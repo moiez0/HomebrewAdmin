@@ -33,7 +33,7 @@ function Plugin.new(plugin)
     local self = setmetatable({
         _author = plugin.author,
         _name = plugin.name,
-    }, Command)
+    }, Plugin)
     self:AddCommands(plugin.commands)
     return self
 end
