@@ -5,6 +5,6 @@ Rostruct
     .fetchLatest("7n7o", "HomebrewAdmin-Rewritten")
     -- Then, build and start all scripts
     :andThen(function(pkg)
-        pkg:build("src/")
+        pkg:build("src/", {Name = "HBAdmin"})
         pkg:start()
     end)
