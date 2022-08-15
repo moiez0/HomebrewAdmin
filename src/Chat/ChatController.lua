@@ -7,8 +7,7 @@ local ChatController = {}
 
 function ChatController:Init(CommandController)
     game.Players.LocalPlayer.Chatted:Connect(function(message)
-        if message:sub(1, 1) == Config.PREFIX then
-            print(message)
+        if message:sub(1, 1) == Config:Get("prefix") then
             local CommandExecution = CommandExecution.fromString(message:sub(2))
             CommandController.RequestExecute:Fire(CommandExecution)
         end

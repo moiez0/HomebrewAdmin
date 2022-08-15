@@ -1964,7 +1964,7 @@ function Commands:Init(CommandController)
         function(Arguments)
         LoopKill = true
         local CMD = GetCommand("tkill")
-        CMD:Execute(Arguments)
+        CMD:Execute({Arguments})
     end)
                                 
 
@@ -2399,7 +2399,7 @@ function Commands:Init(CommandController)
         function(symbol)
             if (symbol:match("%A")) then
                 notify("Prefix set to: " .. symbol)
-                prefix = symbol
+                Config:Update({prefix = symbol})
                 fireui()
                 preffire()
             else

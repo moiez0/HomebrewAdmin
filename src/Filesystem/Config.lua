@@ -4,8 +4,8 @@ local CommandController = require(hbAdmin.Commands.CommandController)
 
 local Config = {}
 
-Config.VERSION = "V2.03"
-Config.PREFIX = ";"
+Config._VERSION = "V2.03"
+Config._PREFIX = ";"
 
 Config._CurrentConfig = nil
 
@@ -16,8 +16,8 @@ function Config:Init()
     makefolder("HBAdmin/plugins")
     if not isfile("HBAdmin/config.json") then
         writefile("HBAdmin/config.json", HttpService:JSONEncode({
-            ["version"] = self.VERSION,
-            ["prefix"] = self.PREFIX
+            ["version"] = self._VERSION,
+            ["prefix"] = self._PREFIX
         }))
     end
     self._CurrentConfig = HttpService:JSONDecode(readfile("HBAdmin/config.json"))
@@ -43,6 +43,21 @@ function Config:GetPlugins()
         end
     end
     return plugins
+end
+
+function Config:Update(new)
+    for k, v in pairs(new) do
+        self._CurrentConfig[k] = v
+    end
+    writefile("HBAdmin/config.json", HttpService:JSONEncode(self._CurrentConfig))
+end
+
+function Config:Get(key)
+    return self._CurrentConfig[key]
+end
+
+function Config:GetConfig()
+    return self._CurrentConfig
 end
 
 return Config
