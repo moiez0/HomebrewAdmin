@@ -21,6 +21,8 @@ function Config:Init()
         }))
     end
     self._CurrentConfig = HttpService:JSONDecode(readfile("HBAdmin/config.json"))
+    self.VERSION = self._CurrentConfig.version
+    self.PREFIX = self._CurrentConfig.prefix
     local Plugins = self:GetPlugins()
     for _, Plugin in pairs(Plugins) do
         for _, Command in pairs(Plugin:GetCommands()) do

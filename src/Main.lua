@@ -20,6 +20,7 @@ function Main:Init()
     CommandController:Init()
     ChatController:Init(CommandController)
     Commands:Init(CommandController)
+    Config:Init()
     notify("Loaded in " .. tick() - startTime)
     notify("Total of " .. #CommandController.Commands .. " commands.")
 end
