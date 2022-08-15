@@ -1962,7 +1962,7 @@ function Commands:Init(CommandController)
         function(Arguments)
         LoopKill = true
         local CMD = GetCommand("tkill")
-        CMD.Function(Arguments)
+        CMD:Execute(Arguments)
     end)
                                 
 
