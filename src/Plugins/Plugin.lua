@@ -7,15 +7,6 @@ local Plugin = {
 }
 Plugin.__index = Plugin
 
-function Plugin.new(plugin)
-    local self = setmetatable({
-        _author = plugin.author,
-        _name = plugin.name,
-    }, Command)
-    self:AddCommands(plugin.commands)
-    return self
-end
-
 function Plugin:AddCommand(name, Command)
     self._commands[Command:GetName()] = Command 
 end
@@ -36,6 +27,15 @@ end
 
 function Plugin:GetCommands()
     return self._commands
+end
+
+function Plugin.new(plugin)
+    local self = setmetatable({
+        _author = plugin.author,
+        _name = plugin.name,
+    }, Command)
+    self:AddCommands(plugin.commands)
+    return self
 end
 
 return Plugin
