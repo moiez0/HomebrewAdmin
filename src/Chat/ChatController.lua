@@ -17,7 +17,7 @@ function ChatController:Init(CommandController)
 end
 
 function ChatController:HandleInput(string)
-    string = string:sub(2) and string:sub(1, 1) == Config:Get("prefix") or string
+    string = string:sub(1, 1) == Config:Get("prefix") and string:sub(2) or string
     local CommandExecution = CommandExecution.fromString(string)
     self.CommandController.RequestExecute:Fire(CommandExecution)
 end
