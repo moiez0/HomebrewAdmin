@@ -23,6 +23,7 @@ function Main:Init()
     Config:Init()
     notify("Loaded in " .. tick() - startTime)
     notify("Total of " .. #CommandController.Commands .. " commands.")
+    notify("Current prefix is `"..Config:Get("prefix").."`")
 end
 
 return Main
