@@ -3,15 +3,23 @@ local CommandExecution = require(hbAdmin.Commands.CommandExecution)
 local Config = require(hbAdmin.Filesystem.Config)
 
 
-local ChatController = {}
+local ChatController = {
+    CommandController = nil
+}
 
 function ChatController:Init(CommandController)
     game.Players.LocalPlayer.Chatted:Connect(function(message)
-        if message:sub(1, 1) == Config:Get("prefix") then
-            local CommandExecution = CommandExecution.fromString(message:sub(2))
-            CommandController.RequestExecute:Fire(CommandExecution)
+        if string:sub(1, 1) == Config:Get("prefix") then
+            self:HandleInput(message:sub(2))
         end
     end)
+    self.CommandController = CommandController
+end
+
+function ChatController:HandleInput(string)
+    string = string:sub(2) and string:sub(1, 1) == Config:Get("prefix") or string
+    local CommandExecution = CommandExecution.fromString(string)
+    self.CommandController.RequestExecute:Fire(CommandExecution)
 end
 
 return ChatController
