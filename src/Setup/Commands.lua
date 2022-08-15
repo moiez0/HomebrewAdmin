@@ -29,26 +29,28 @@ end
 
 
 
-local GetPlayer = function(Name)
-    if Name:lower() == "random" then
-        return Players:GetPlayers()[math.random(#Players:GetPlayers())]
-    else
-        Name = Name:lower():gsub("%s", "")
-        for _, x in next, Players:GetPlayers() do
-            if x.Name:lower():match(Name) then
-                return x
-            elseif x.DisplayName:lower():match("^" .. Name) then
-                return x
-            end
-        end
-    end
-end
+
 function Commands:Init(CommandController)
     local AddCommand = function(Title, Desc, Args, Alternatives, Func)
         CommandController:AddCommand(Command.new(Title, Desc, Args, Alternatives, Func))
     end
 
     local GetCommand = function(Name) return CommandController:GetCommand(Name) end
+
+    local GetPlayer = function(Name)
+        if Name:lower() == "random" then
+            return Players:GetPlayers()[math.random(#Players:GetPlayers())]
+        else
+            Name = Name:lower():gsub("%s", "")
+            for _, x in next, Players:GetPlayers() do
+                if x.Name:lower():match(Name) then
+                    return x
+                elseif x.DisplayName:lower():match("^" .. Name) then
+                    return x
+                end
+            end
+        end
+    end
 
     AddCommand(
         "tfling",
