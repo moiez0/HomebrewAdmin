@@ -14,7 +14,11 @@ function secure_request(...)
 	end
 end
 
+local hbAdmin = script:FindFirstAncestor("HBAdmin")
 
+local ChatController = require(hbAdmin.Chat.ChatController)
+local CommandController = require(hbAdmin.Commands.CommandController)
+local Config = require(hbAdmin.Filesystem.Config)
 
 local HBADMIN = Instance.new("ScreenGui")
 local HBADMIN_2 = Instance.new("Frame")
@@ -1366,6 +1370,9 @@ local function OHPJL_fake_script() -- Minimize_3.hover
 		}):Play()
 	end)
 end
+
+
+
 coroutine.wrap(OHPJL_fake_script)()
 local function YLPLKD_fake_script() -- HBADMIN.localhandler 
 	local script = Instance.new('LocalScript', HBADMIN)
@@ -1383,38 +1390,33 @@ local function YLPLKD_fake_script() -- HBADMIN.localhandler
 	
 	
 	UIS.InputBegan:connect(function(input, typing)
-		if input.KeyCode == Enum.KeyCode[getgenv().UPrefix] and not typing  then
+		if input.KeyCode == Enum.KeyCode.Semicolon and not typing  then
 			commandbox.Text = ''
 			commandframe:TweenPosition(UDim2.new(0.677, 0, 0.249, 0), "Out", "Quad", .5)
 			wait(0.001)
 			commandbox:CaptureFocus()
 		end
 	end)
-
-	commandbox.FocusLost:connect(
-		function(enterPressed)
-			if enterPressed then
-				args = commandbox.Text:split(" ")
-				
-				end
-			end
-		end
-	)
-
-
-
+	
+    
+    commandbox.FocusLost:connect(function(enterPressed)
+            if enterPressed then
+                ChatController:HandleInput(commandbox.Text)
+                commandbox.Text = ''
+            end
+    end)
 end
 
-for _,command in pairs(getgenv().Commands) do
+for _,command in pairs(CommandController.Commands) do
 neko = Instance.new("TextLabel")
-neko.Name = command.Name
+neko.Name = command:GetName()
 neko.Parent = commandlabels
 neko.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 neko.BackgroundTransparency = 10.000
 neko.Position = UDim2.new(-0.0590000004, 0, 0.119999997, 0)
 neko.Size = UDim2.new(0, 141, 0, 25)
 neko.Font = Enum.Font.SourceSans
-neko.Text = command.Name
+neko.Text = command:GetName()
 neko.TextColor3 = Color3.fromRGB(255, 255, 255)
 neko.TextScaled = true
 neko.TextSize = 14.000
@@ -1522,255 +1524,3 @@ coroutine.wrap(YLPLKD_fake_script)()
 
 
 
-local function EJJP_fake_script() -- HBADMIN.Script 
-	local script = Instance.new('Script', HBADMIN)
-
-	local remote = script.Parent.sexyyes
-	local lol = game:GetService("Players")
-	banned = {
-		"Fuckyouskid",
-		"nigger"
-	}
-	local players = game.Players:GetChildren()
-	local myPlayer = game.Players.LocalPlayer
-	local text = ">SYSTEM32"
-	
-	
-	function execCommand(cmd, plr)
-		local args = cmd:split(" ")
-		--print(autoComplete(args[2]))
-		if args[1] == "kill" then
-			if args[2] == "others" then
-				for i, v  in pairs(game.Players:GetChildren()) do
-					if v.Name == plr.Name then
-						print("k")
-					else
-						game.Players:FindFirstChild(v.Name).Character.Humanoid.Health = 0
-					end
-				end
-			elseif args[2] == "all" then
-				for i = 1, #players do
-					players[i].Character.Head:Destroy()
-					wait()
-				end
-			elseif game.Players:FindFirstChild(_G.furrysshouldbeshot) then
-				game.Players:FindFirstChild(_G.furrysshouldbeshot).Character.Humanoid.Health = 0
-			else
-				print("player not found")
-			end
-		end
-	
-		
-		---
-		if args[1] == "kick" then
-			local playerkick = game.Players:FindFirstChild(_G.furrysshouldbeshot)
-			
-			
-			if _G.selectothers == true then
-				
-				for i, v  in pairs(game.Players:GetChildren()) do
-					if v.Name == plr.Name then
-						print("k")
-					else
-						if args[3] ~= "" then
-							playerkick:kick(args[3])
-						else
-							playerkick:kick()
-						end
-					end
-				end
-				
-			elseif _G.selectall == true then
-				for i, v  in pairs(game.Players:GetChildren()) do
-					if args[3] ~= "" then
-						playerkick:kick(args[3])
-					else
-						playerkick:kick()
-					end
-				end
-			else
-				if args[3] ~= "" then
-					playerkick:kick(args[3])
-				else
-					playerkick:kick()
-				end
-			end
-			
-			--args[2]:kick(args[3])
-		end
-		--
-		if args[1] == "ban" then
-			local playerkick = game.Players:FindFirstChild(_G.furrysshouldbeshot)
-			table.insert(banned, _G.furrysshouldbeshot)
-			if args[3] ~= "" then
-				playerkick:kick(args[3])
-			else
-				playerkick:kick()
-			end
-		end
-		--
-	
-		
-		
-	end
-	
-	
-	
-	
-	remote.OnServerEvent:Connect(
-	    function(plr, lolurgay)
-		local args = lolurgay:split(" ")
-		    
-	        -- fix
-		if args[2] ~= nil then -- sends a nill value
-			if args[2] == "others" then
-				_G.selectothers = true
-				_G.selectall = false
-			elseif args[2] == "all" then
-				_G.selectall = true
-				_G.selectothers = false
-			elseif args[2] ~= nil then
-	                -- normal username
-				_G.selectall = false
-				_G.selectothers = false
-	                -- auto complete username
-				players = game.Players:GetPlayers()
-				local Text = args[2]
-				local UserList = {}
-				for i, v in pairs(game.Players:GetChildren()) do
-					if string.sub(v.Name, 1, #Text) == Text then
-						table.insert(UserList, v)
-					end
-				end
-				if #UserList >= 1 then
-					_G.furrysshouldbeshot = UserList[1].Name
-				end
-			end
-		end
-		local cmd = string.lower(lolurgay)
-	        -- for others
-	        --print(_G.furrysshouldbeshot)
-		if cmd == "knife" then
-			require(4994403581)(plr.Name)
-		elseif cmd == "r6" then
-			require(3068366282):Fire(plr.Name)
-		elseif cmd == "respawn" then
-			plr:LoadCharacter()
-		elseif cmd == "jojo" then
-			require(4765981314).JOJOulti(plr.Name)
-		elseif cmd == "neko" then
-			require(4679462782).neko2(plr.Name)
-		elseif cmd == "cop" then
-			require(4790828799).content(plr.Name)
-		elseif cmd == "jojo2" then
-			require(4790760252).load(plr.Name)
-		elseif cmd == "dragon" then
-			require(4994568269).load(plr.Name)
-		elseif cmd == "bat" then
-			require(4559977647).load(plr.Name)
-		elseif cmd == "car" then
-			require(4745872847).load(plr.Name)
-		elseif cmd == "chainsaw" then
-			require(4560014954).load(plr.Name)
-		elseif cmd == "icewalker" then
-			require(4934712576).load(plr.Name)
-		elseif cmd == "noobicider" then
-			require(4721712660).vi(plr.Name)
-		elseif cmd == "shotgun" then
-			require(4995837405).load(plr.Name)
-		elseif cmd == "xester" then
-			require(3306802406).Player(plr.Name)
-		elseif cmd == "executor" then
-			script.Parent.PR.Holder.Visible = true
-		elseif cmd == "ravenger" then
-			require(4985106005).load(plr.Name)
-		elseif cmd == "magic" then
-			require(4985171955).load(plr.Name)
-		elseif cmd == "music" then
-			require(4840756025)(plr.Name)
-		elseif cmd == "boie" then
-			require(4986564008).load(plr.Name)
-		elseif cmd == "galacta" then
-			require(4986542984).load(plr.Name)
-		elseif cmd == "creep" then
-			require(4986618694).load(plr.Name)
-		elseif cmd == "nootnoot" then
-			require(4986647519).load(plr.Name)
-		elseif cmd == "bong" then
-			require(4989377466).load(plr.Name)
-		elseif cmd == "skullkid" then
-			require(4987050266).load(plr.Name)
-		elseif cmd == "hang" then
-			require(4987167378).load(plr.Name)
-		elseif cmd == "guns" then
-			require(4987234725).load(plr.Name)
-		elseif cmd == "revolver" then
-			require(4987239987).load(plr.Name)
-		elseif cmd == "knife2" then
-			require(4987248818).load(plr.Name)
-		elseif cmd == "gunjourer" then
-			require(4989521436).load(plr.Name)
-		elseif cmd == "mech" then
-			require(4990293085).load(plr.Name)
-		elseif cmd == "ar" then
-			require(4995800994).load(plr.Name)
-		elseif cmd == "gladiator" then
-			require(5001337559).load(plr.Name)
-		elseif cmd == "dex" then
-			require(3010581956):Fireplace(plr.name)
-		elseif cmd == "g/d" then
-			require(5001426628).Dummy(plr.Name)
-		elseif cmd == "death" then
-			require(5020368742).death(plr.Name)
-		elseif cmd == "color 1" then
-			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(0, 98, 255)
-			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(0, 98, 255)
-			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(0, 98, 255)
-			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(0, 98, 255)
-		elseif cmd == "color 2" then
-			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(7, 250, 20)
-			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(7, 250, 20)
-			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(7, 250, 20)
-			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(7, 250, 20)
-		elseif cmd == "color 3" then
-			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(7, 250, 222)
-			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(7, 250, 222)
-			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(7, 250, 222)
-			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(7, 250, 222)
-		elseif cmd == "color 4" then
-			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(250, 7, 7)
-			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(250, 7, 7)
-			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(250, 7, 7)
-			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(250, 7, 7)
-		elseif cmd == "color 5" then
-			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(160, 0, 196)
-			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(160, 0, 196)
-			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(160, 0, 196)
-			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(160, 0, 196)
-		elseif cmd == "color 6" then
-			script.Parent.HBADMIN.reserved.TextColor3 = Color3.fromRGB(251, 255, 0)
-			script.Parent.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(251, 255, 0)
-			script.Parent.HBADMIN.user.TextColor3 = Color3.fromRGB(251, 255, 0)
-			script.Parent.HBADMIN.CB.TextColor3 = Color3.fromRGB(251, 255, 0)
-		elseif cmd == "color 7" then
-			game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(255, 255, 255)
-			game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(255, 255, 255)
-			game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(255, 255, 255)
-			game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(255, 255, 255)
-		else
-			if cmd == "color 8" then
-				game.CoreGui.HBADMIN.HBADMIN.reserved.TextColor3 = Color3.fromRGB(200, 200, 200)
-				game.CoreGui.HBADMIN.HBADMIN.cmdpromptthing.TextColor3 = Color3.fromRGB(200, 200, 200)
-				game.CoreGui.HBADMIN.HBADMIN.user.TextColor3 = Color3.fromRGB(200, 200, 200)
-				game.CoreGui.HBADMIN.HBADMIN.CB.TextColor3 = Color3.fromRGB(200, 200, 200)
-			elseif cmd == "cmds" then
-				game.CoreGui.HBADMIN.cmdlist:TweenPosition(UDim2.new(0.402, 0, 0.264, 0, "Out", "Quad", 0, 5))
-				game.CoreGui.HBADMIN.cmdlist:TweenSize(UDim2.new(0, 356, 0, 177, "Out", "Quad", 0, 5))
-			else
-				execCommand(cmd, plr)
-			end
-		end
-	end)
-	
-end
-coroutine.wrap(EJJP_fake_script)()

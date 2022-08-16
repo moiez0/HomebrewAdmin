@@ -8,9 +8,10 @@ A open-sourced admin with unique scripts and features.
 ## Developers
 
 - Syntax 64 - Creator and Developer
+- 7n7o - Developer
 - Whited - Developer
-- Anthonylol - Developer
-- ArianBlack - Developer
+- Anthonylol - Contributor
+- ArianBlack - Contributor
 - Bird - UI 
 
 
