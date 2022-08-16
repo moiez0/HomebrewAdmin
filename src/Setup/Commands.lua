@@ -161,6 +161,28 @@ function Commands:Init(CommandController)
     )
     
     AddCommand(
+        "safechat",
+        "Enables safechat",
+        0,
+        {},
+        function()
+            Player:SetSuperSafeChat(true)
+            notify("Safe chat enabled.")
+        end
+    )
+
+    AddCommand(
+        "unsafechat",
+        "Disables safechat",
+        0,
+        {"nosafechat"},
+        function()
+            Player:SetSuperSafeChat(false)
+            notify("Safe chat disabled.")
+        end
+    )
+    
+    AddCommand(
         "enableshiftlock",
         "Enables shift lock",
         0,
@@ -216,6 +238,7 @@ function Commands:Init(CommandController)
         {},
         function(distance)
             Player.CameraMaxZoomDistance = distance
+            notify("Maxzoom set to "..distance)
         end
     )
 
@@ -226,6 +249,7 @@ function Commands:Init(CommandController)
         {},
         function(distance)
             Player.CameraMinZoomDistance = distance
+            notify("Minzoom set to "..distance)
         end
     )
 
@@ -239,6 +263,7 @@ function Commands:Init(CommandController)
                 fov = 70
             end
             workspace.CurrentCamera.FieldOfView = fov
+            notify("FOV set to "..fov)
         end
     )
 
