@@ -159,6 +159,39 @@ function Commands:Init(CommandController)
             end
         end
     )
+    
+    AddCommand(
+        "enableshiftlock",
+        "Enables shift lock",
+        0,
+        {"sl"},
+        function()
+            Player.DevEnableMouseLock = true
+            notify("Done.")
+        end
+    )
+
+    AddCommand(
+        "firstperson",
+        "Enables first person",
+        0,
+        {"fp","firstp"},
+        function()
+            Player.CameraMode = "LockFirstPerson"
+            notify("Set camera mode.")
+        end
+    )
+
+    AddCommand(
+        "thirdperson",
+        "Enables third person",
+        0,
+        {"thirdp"},
+        function()
+            Player.CameraMode = "Classic"
+            notify("Set camera mode.")
+        end
+    )
 
     AddCommand(
         "droppabletools",
