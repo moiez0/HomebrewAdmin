@@ -160,6 +160,115 @@ function Commands:Init(CommandController)
         end
     )
 
+    AddCommand(
+        "droppabletools",
+        "Makes your tools droppable",
+        0,
+        {"tooldroppable","makedroppable"},
+        function()
+            Player.Character:FindFirstChildOfClass('Humanoid'):UnequipTools()
+            for i, v in pairs(Player.Backpack:GetDescendants()) do
+                    if v:IsA("Tool") then
+                        v.CanBeDropped = true
+                    end
+            end
+            notify("Done.")
+        end
+    )
+
+    AddCommand(
+        "maxzoom",
+        "Sets camera max zoom to arg",
+        1,
+        {},
+        function(distance)
+            Player.CameraMaxZoomDistance = distance
+        end
+    )
+
+    AddCommand(
+        "minzoom",
+        "Sets camera min zoom to arg",
+        1,
+        {},
+        function(distance)
+            Player.CameraMinZoomDistance = distance
+        end
+    )
+
+    AddCommand(
+        "fov",
+        "Sets fov to arg",
+        1,
+        {},
+        function(fov)
+            if fov == "default" then
+                fov = 70
+            end
+            workspace.CurrentCamera.FieldOfView = fov
+        end
+    )
+
+    AddCommand(
+        "antiafk",
+        "Stops ROBLOX from kicking you for being afk",
+        0,
+        {},
+        function()
+        ANTIAFK = Player.Idled:connect(function()
+        game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        wait(1)
+        game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        end)
+    end
+    )
+
+    AddCommand(
+        "unantiafk",
+        "Disconnects antiafk",
+        0,
+        {},
+        function()
+        if ANTIAFK then
+            ANTIAFK:Disconnect()
+            notify("Disconnected antiafk.")
+        else
+            notify("antiafk is not on!")
+        end
+    end
+    )
+
+
+    AddCommand(
+        "discord",
+        "Grabs our discord invite!",
+        0,
+        {},
+        function()
+            sc = setclipboard or toClipboard
+            if sc then
+                sc("https://discord.gg/rZsAbyRasw")
+            else
+                notify("https://discord.gg/rZsAbyRasw")
+            end
+            pcall(function()
+            httprequest({
+                Url = 'http://127.0.0.1:6463/rpc?v=1',
+                Method = 'POST',
+                Headers = {
+                    ['Content-Type'] = 'application/json',
+                    Origin = 'https://discord.com'
+                },
+                Body = HttpService:JSONEncode({
+                    cmd = 'INVITE_BROWSER',
+                    nonce = HttpService:GenerateGUID(false),
+                    args = {code = 'rZsAbyRasw'}
+                })
+            })
+        end)
+        end
+    )
+    
     local arms = {
         "Left Arm",
         "Right Arm",
