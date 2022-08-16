@@ -1,6 +1,7 @@
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Plugin = require(hbAdmin.Plugins.Plugin)
 local CommandController = require(hbAdmin.Commands.CommandController)
+local Notifications = require(hbAdmin.UI.Components.Notifications)
 
 local Config = {}
 
@@ -23,12 +24,15 @@ function Config:Init()
     self._CurrentConfig = HttpService:JSONDecode(readfile("HBAdmin/config.json"))
     self.VERSION = self._CurrentConfig.version
     self.PREFIX = self._CurrentConfig.prefix
+    Notifications:Notify("Plugins", "Began loading plugins...", 5)
+    local startPlugins = tick()
     local Plugins = self:GetPlugins()
     for _, Plugin in pairs(Plugins) do
         for _, Command in pairs(Plugin:GetCommands()) do
             CommandController:AddCommand(Command)
         end
     end
+    Notifications:Notify("Plugins", "Loaded " .. #Plugins .. " plugins in " .. string.format("%.2f", tick() - startPlugins) .. " seconds.", 5)
 end
 
 function Config:GetPlugins()
@@ -39,7 +43,7 @@ function Config:GetPlugins()
             local plugin = e
             plugins[#plugins+1] = Plugin.new(plugin)
         else
-            warn("Could not load plugin `"..path.."`\n"..e.."\n\n"..debug.traceback())
+            UI:Notify("Plugins", "Could not load plugin `"..path.."`")
         end
     end
     return plugins
