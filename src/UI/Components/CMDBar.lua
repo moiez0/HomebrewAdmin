@@ -13,6 +13,7 @@ local CMDBar = {
 }
 
 function CMDBar:Init(Mini)
+    Mini.Position = UDim2.new(0.5, 0, 1.2, 0)
     local MainBar = Mini.Input
     MainBar.Changed:Connect(function(p)
         if p == "Text" then
@@ -21,7 +22,18 @@ function CMDBar:Init(Mini)
     end)
     Mouse.KeyDown:Connect(function(key)
         if key == Config:Get"prefix" then
-            Mini.Visible = not Mini.Visible
+            if Mini.Visible == false then
+             Mini.Visible = true
+             Mini.Right.Visible = true
+             Mini:TweenPosition(UDim2.new(0.5, 0, 0.89999976, 0, "Out", "Quad", 0, 3))
+             Mini.Right.Visible = true
+            else
+             Mini:TweenPosition(UDim2.new(0.5, 0, 1.2, 0, "Out", "Quad", 0, 3))
+             wait(.2)
+             Mini.Right.Visible = false
+             wait(.3)
+             Mini.Visible = false
+            end
             if Mini.Visible then
                 task.defer(function()MainBar:CaptureFocus()end)
             end
