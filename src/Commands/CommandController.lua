@@ -20,6 +20,7 @@ function CommandController:Init()
         Thread.Spawn(function()
             Command:Execute(Args)
         end)
+        return "hi"
     end)
 
 end
@@ -42,7 +43,31 @@ function CommandController:GetCommand(Name)
             end
         end
     end
-    error("Command not found: "..Name)
+end
+
+function CommandController:SearchCommand(Name)
+    Name = Name:lower()
+    local Commands = {}
+    for _, x in next, self.Commands do
+        if x:GetName():lower():sub(1, #Name) == (Name) then
+            if not Commands[x:GetName()] then
+                Commands[x:GetName()] = x:GetName():lower()
+            end
+        end
+        local Aliases = x:GetAliases()
+        for _, Alias in pairs(Aliases) do
+            if Alias:lower():sub(1, #Name) == (Name) then
+                if not Commands[x:GetName()] then
+                    Commands[x:GetName()] = Alias:lower()
+                end
+            end
+        end
+    end
+    local o = {}
+    for k, v in next, Commands do
+        table.insert(o, v)
+    end
+    return o
 end
 
 return CommandController

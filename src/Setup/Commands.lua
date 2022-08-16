@@ -16,21 +16,22 @@ local Lighting = game:GetService("Lighting")
 local Player = Players.LocalPlayer
 local LocalPlayer = Players.LocalPlayer
 
-local Command = require(hbAdmin.Commands.Command)
-local Config = require(hbAdmin.Filesystem.Config)
 
-
-local VERSION = Config.VERSION
 local Commands = {}
 
-local notify = function(Message)
-    StarterGui:SetCore("SendNotification", {Title = "Homebrew Admin", Text = Message, Duration = 2})
-end
-
-
-
-
 function Commands:Init(CommandController)
+    local Command = require(hbAdmin.Commands.Command)
+    local Config = require(hbAdmin.Filesystem.Config)
+    local UI = require(hbAdmin.UI.UIApp)
+    local Components = hbAdmin.UI.Components
+    local CommandsUI = require(Components.Commands)
+
+    local VERSION = Config:Get("version")
+
+    local notify = function(Message, Title, time)
+        UI:Notify(Title or "Homebrew Admin", Message, time)
+    end
+
     local AddCommand = function(Title, Desc, Args, Alternatives, Func)
         CommandController:AddCommand(Command.new(Title, Desc, Args, Alternatives, Func))
     end
@@ -2736,8 +2737,7 @@ function Commands:Init(CommandController)
         0,
         {},
         function()
-            game.CoreGui.HBADMIN.cmdlist:TweenPosition(UDim2.new(0.402, 0, 0.264, 0, "Out", "Quad", 0, 5))
-            game.CoreGui.HBADMIN.cmdlist:TweenSize(UDim2.new(0, 356, 0, 177, "Out", "Quad", 0, 5))
+            CommandsUI:Show()
         end
     )
 

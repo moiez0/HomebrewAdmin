@@ -9,21 +9,23 @@ local CommandController = require(hbAdmin.Commands.CommandController)
 local ChatController = require(hbAdmin.Chat.ChatController)
 local Config = require(hbAdmin.Filesystem.Config)
 local Commands = require(hbAdmin.Setup.Commands)
+local UI = require(hbAdmin.UI.UIApp)
 
 
-local notify = function(Message)
-    game:GetService("StarterGui"):SetCore("SendNotification", {Title = "Homebrew Admin", Text = Message, Duration = 2})
+local notify = function(Message, Title, time)
+    UI:Notify(Title or "Homebrew Admin", Message, time)
 end
 
 
 function Main:Init()
+    Config:Init()
     CommandController:Init()
     ChatController:Init(CommandController)
     Commands:Init(CommandController)
-    Config:Init()
-    notify("Loaded in " .. tick() - startTime)
-    notify("Total of " .. #CommandController.Commands .. " commands.")
-    notify("Current prefix is `"..Config:Get("prefix").."`")
+    UI:Init()
+    notify("Total of " .. #CommandController.Commands .. " commands.", "Commands Loaded!")
+    notify("Current prefix is `"..Config:Get("prefix").."`", "Prefix")
+    notify("Loaded in " .. tick() - startTime, "Loaded!")
 end
 
 return Main
