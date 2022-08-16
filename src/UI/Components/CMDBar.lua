@@ -9,7 +9,7 @@ local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
 
 local CMDBar = {
     CurrentCommands = {},
-    CurrentIndex = 1
+    CurrentIndex = 2
 }
 
 function CMDBar:Init(Mini)
@@ -23,9 +23,7 @@ function CMDBar:Init(Mini)
         if key == Config:Get"prefix" then
             Mini.Visible = not Mini.Visible
             if Mini.Visible then
-                MainBar:CaptureFocus()
-                MainBar.Changed:Wait()
-                MainBar.Text = ""
+                task.defer(function()MainBar:CaptureFocus()end)
             end
         end
     end)
@@ -47,7 +45,7 @@ function CMDBar:Init(Mini)
     MainBar.FocusLost:connect(function(enterPressed)
         if enterPressed then
             ChatController:HandleInput(MainBar.Text)
-            Mini.Text = ''
+            MainBar.Text = ''
             self:Update(Mini)
         end
     end)
@@ -57,7 +55,7 @@ function CMDBar:Update(Mini)
     if self.CurrentIndex > #self.CurrentCommands then
         self.CurrentIndex = #self.CurrentCommands
     end
-    if #self.CurrentCommands == 0 then self.CurrentIndex = 0 end
+    if #self.CurrentCommands == 0 then self.CurrentIndex = 1 end
     local MainBar = Mini.Input
     if MainBar.Text == "" then
         MainBar.Predict.Text = "" 

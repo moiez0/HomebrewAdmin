@@ -20,9 +20,7 @@ function CommandController:Init()
         Thread.Spawn(function()
             Command:Execute(Args)
         end)
-        return "hi"
     end)
-
 end
 
 function CommandController:AddCommand(Command)

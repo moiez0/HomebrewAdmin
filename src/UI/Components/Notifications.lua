@@ -67,9 +67,11 @@ function Notifications:Init(MainFrame)
         end
     end)
     self.Notify = function(self, ...) createNotification(...) end
-    for i, Notification in pairs(NotificationQueue) do
-        createNotification(Notification[1], Notification[2], Notification[3])
-    end
+    task.defer(function()
+        for i, Notification in pairs(NotificationQueue) do
+            createNotification(Notification[1], Notification[2], Notification[3])
+        end
+    end)
 end
 
 return Notifications

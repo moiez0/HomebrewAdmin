@@ -25,6 +25,7 @@ function Commands:Init(CommandController)
     local UI = require(hbAdmin.UI.UIApp)
     local Components = hbAdmin.UI.Components
     local CommandsUI = require(Components.Commands)
+    local ChatLogs = require(Components.ChatLogs)
 
     local VERSION = Config:Get("version")
 
@@ -52,6 +53,16 @@ function Commands:Init(CommandController)
             end
         end
     end
+
+    AddCommand(
+        "chatlogs",
+        "opens the chat logger",
+        0,
+        {"clog", "chatlog", "logs"},
+        function()
+            ChatLogs:Show()
+        end
+    )
 
     AddCommand(
         "tfling",
