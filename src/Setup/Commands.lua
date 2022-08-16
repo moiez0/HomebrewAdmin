@@ -3005,7 +3005,7 @@ function Commands:Init(CommandController)
         {"rname", "getname"},
         function(user)
             pl = GetPlayer(user)
-            notify(user .. "'s real name is " .. pl .. "!")
+            notify(user .. "'s real name is " .. pl.Name .. "!")
         end
     )
 
