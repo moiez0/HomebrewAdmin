@@ -159,6 +159,71 @@ function Commands:Init(CommandController)
             end
         end
     )
+   
+    AddCommand(
+        "night",
+        "Sets time to night [CLIENT]",
+        0,
+        {},
+        function()
+            Lighting.ClockTime = 0
+            notify("Set clocktime to 22.")
+        end
+    )
+
+    AddCommand(
+            "day",
+            "Sets time to day [CLIENT]",
+            0,
+            {},
+            function()
+                Lighting.ClockTime = 14
+                notify("Set clocktime to 5")
+            end
+    )
+
+
+    AddCommand(
+            "reach",
+            "Gives reach at arg",
+            1,
+            {},
+            function(reachsize)
+                local reachsize = reachsize or 25
+                local Tool = Player.Character:FindFirstChildOfClass("Tool") or Player.Backpack:FindFirstChildOfClass("Tool")
+                if Tool:FindFirstChild("OGSize3") then
+                    Tool.Handle.Size = Tool.OGSize3.Value
+                    Tool.OGSize3:Destroy()
+                    Tool.Handle.FunTIMES:Destroy()
+                end
+                local val = Instance.new("Vector3Value",Tool)
+                val.Name = "OGSize3"
+                val.Value = Tool.Handle.Size
+                local sb = Instance.new("SelectionBox")
+                sb.Adornee = Tool.Handle
+                sb.Name = "FunTIMES"
+                sb.Parent = Tool.Handle
+                Tool.Handle.Massless = true
+                Tool.Handle.Size = Vector3.new(Tool.Handle.Size.X,Tool.Handle.Size.Y,reachsize)
+                notify("Reach enabled.")
+            end
+    )
+
+    AddCommand(
+            "unreach",
+            "Disables reach",
+            0,
+            {"noreach"},
+            function()
+                for i,v in pairs(Player.Character:GetDescendants()) do
+                    if v:IsA("Tool") and v:FindFirstChild("OGSize3") then
+                        v.Handle.Size = v.OGSize3.Value
+                        v.Handle.FunTIMES:Destroy()
+                        notify("Reach disabled on "..v.Name)
+                    end
+                end
+            end
+    )
     
     AddCommand(
         "safechat",
