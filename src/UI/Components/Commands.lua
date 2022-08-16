@@ -32,11 +32,19 @@ function Commands:RegisterCommand(Command)
     Clone.Visible = true
 end
 
+
 function Commands:Show()
+    self.CmdsFrame.Size = UDim2.new(0,0,0,0)
     self.CmdsFrame.Visible = true
+    self.CmdsFrame.Top.Visible = true
+    self.CmdsFrame:TweenSize(UDim2.new(0, 248, 0, 314, "Out", "Quad", 0, 5))
 end
 
 function Commands:Hide()
+    self.CmdsFrame:TweenSize(UDim2.new(0, 0, 0, 0, "Out", "Quad", 0, 5))
+    wait(.3)
+    self.CmdsFrame.Top.Visible = false
+    wait(.6)
     self.CmdsFrame.Visible = false
 end
 
