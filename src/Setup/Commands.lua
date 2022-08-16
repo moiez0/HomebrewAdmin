@@ -2762,37 +2762,100 @@ function Commands:Init(CommandController)
         "freefalls player [needs tool]",
         1,
         {"skydive"},
-        function(name)
-            user = GetPlayer(name)
-            plr = user.name
-            notify("Freefalling " .. plr .. "!")
-            Target = plr
-            Player.Character.Humanoid.Name = 1
-            local l = Player.Character["1"]:Clone()
-            l.Parent = Player.Character
-            l.Name = "Humanoid"
-            wait()
-            Player.Character["1"]:Destroy()
-            game.Workspace.CurrentCamera.CameraSubject = Player.Character
-            Player.Character.Animate.Disabled = true
-            wait()
-            Player.Character.Animate.Disabled = false
-            Player.Character.Humanoid.DisplayDistanceType = "None"
-            for i, v in pairs(game:GetService "Players".LocalPlayer.Backpack:GetChildren()) do
-                Player.Character.Humanoid:EquipTool(v)
+        function(Target)
+
+        local Character = Player.Character
+
+        local PlayerGui = Player:WaitForChild("PlayerGui")
+        local Backpack = Player:WaitForChild("Backpack")
+
+        local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
+        local RootPart = Character and Humanoid and Humanoid.RootPart or false
+        local RightArm = Character and Character:FindFirstChild("Right Arm") or Character:FindFirstChild("RightHand")
+        if not Humanoid or not RootPart or not RightArm then
+            return
+        end
+
+
+        local CreateRightGrip = function(Tool)
+            if Tool and RightArm then
+                local Handle = Tool and Tool:FindFirstChild("Handle") or false
+                if Handle then
+                    local Weld = Instance.new("Weld")
+                    Weld.Name = "RightGrip"
+                    Weld.Part0 = RightArm
+                    Weld.Part1 = Handle
+                    Weld.C0 = CFrame.new(0, 7000, -7)
+                    Weld.C1 = Tool.Grip
+                    Weld.Parent = RightArm
+                    return Weld
+                end
             end
-            wait()
-            Player.Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame
-            wait()
-            Player.Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame
-            wait()
-            Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(0, 5000, 0))
-            wait()
-            local prt = Instance.new("Model", workspace)
-            Instance.new("Part", prt).Name = "Torso"
-            Instance.new("Part", prt).Name = "Head"
-            Instance.new("Humanoid", prt).Name = "Humanoid"
-            Player.Character = prt
+        end
+
+        Humanoid:UnequipTools()
+        local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
+        if not MainTool or not MainTool:FindFirstChild("Handle") then
+            return
+        end
+
+        local TPlayer = GetPlayer(Target)
+        local TCharacter = TPlayer and TPlayer.Character
+        --workspace.CurrentCamera.CameraSubject = TCharacter
+        local THumanoid = TCharacter and TCharacter:FindFirstChildWhichIsA("Humanoid") or false
+        local TRootPart = TCharacter and THumanoid and THumanoid.RootPart or false
+        if not THumanoid or not TRootPart then
+            return
+        end
+
+        if Character:FindFirstChild("Animate") then
+            Character:FindFirstChild("Animate").Disabled = true
+        end
+        for _, x in next, Humanoid:GetPlayingAnimationTracks() do
+            x:Stop()
+        end
+        CreateRightGrip(MainTool)
+        MainTool.Parent = Character
+        MainTool.Handle:BreakJoints()
+        MainTool.Parent = Backpack
+        MainTool.Parent = Humanoid
+        CreateRightGrip(MainTool)
+        if firetouchinterest then
+            firetouchinterest(MainTool.Handle, TRootPart, 0)
+            firetouchinterest(MainTool.Handle, TRootPart, 1)
+            MainTool.Handle.AncestryChanged:Wait()
+            wait(.3)
+            if Humanoid.RigType == Enum.HumanoidRigType.R6 then
+                Character["Right Arm"].RightGrip:Destroy()
+            else
+                Character["RightHand"].RightGripAttachment:Destroy()
+                Character["RightHand"].RightGrip:Destroy()
+            end
+        else
+            if Humanoid.RigType == Enum.HumanoidRigType.R6 then
+                local OldCFrame = RootPart.CFrame
+                local OldTick = tick()
+                repeat
+                    task.wait()
+                    RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
+                    if MainTool.Parent ~= Humanoid then
+                        break
+                    end
+                until (tick() - OldTick) > 3
+                RootPart.CFrame = OldCFrame
+            else
+                return
+            end
+        end
+
+        THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
+        THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
+
+
+        if Character:FindFirstChild("Animate") then
+            Character:FindFirstChild("Animate").Disabled = false
+        end
+        notify("Done.")
         end
     )
 
