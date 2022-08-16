@@ -116,7 +116,7 @@ function Commands:Init(CommandController)
         "view",
         "views specified player",
         1,
-        {},
+        {"spectate"},
         function(targ)
             if death then
                 death:Disconnect()
