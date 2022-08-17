@@ -21,7 +21,8 @@ function Commands:Command(table)
     task.spawn(function()
         local s,e = pcall(init, command)
         if not s then
-            Notifications:Notify("Error", "Error loading command "..command:GetName().."\n"..e, 5)
+            Notifications:Notify("Error", "Error loading command "..command:GetName()..". Check Console for more info", 5)
+            warn("Error loading command "..command:GetName()..". \n\n"..e.."\n"..debug.traceback())
         end
     end)
     self._commands[#self._commands+1] = command
@@ -55,9 +56,9 @@ function Commands:Init(CommandController)
 
     local antichatreport
     antichatreport = self:Command{
-        name = "Anti-Chat Report",
+        name = "SecureChat",
         desc = "Fixes the issue of being banned for random BS.",
-        aliases = {"acl","anticlog"},
+        aliases = {"acl","anticlog", "schat", "securechat"},
         executor = function()
             local enabled = antichatreport:GetStore("enabled")
             if not enabled then
