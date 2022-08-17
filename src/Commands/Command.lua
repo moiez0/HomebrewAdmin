@@ -13,7 +13,8 @@ function Command.new(Title, Desc, Args, Alternatives, Func)
         _args = Args,
         _desc = Desc,
         _alias = Alternatives,
-        _executor = Func
+        _executor = Func,
+        _store = {}
     }, Command)
 
 
@@ -40,6 +41,14 @@ end
 
 function Command:GetAliases()
     return self._alias
+end
+
+function Command:GetStore(key)
+    return self._store[key]
+end
+
+function Command:SetStore(key, value)
+    self._store[key] = value
 end
 
 return Command
