@@ -3,6 +3,7 @@ local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Maid = require(hbAdmin.Util.Maid)
 local Message = require(hbAdmin.UI.Message)
 local Notifications = require(hbAdmin.UI.Components.Notifications)
+local FastDraggable = require(hbAdmin.UI.FastDraggable)
 
 local ChatLogs = {
     Maid = nil,
@@ -30,6 +31,7 @@ function ChatLogs:Init(LogFrame)
     LogFrame.Buttons.Save.Trigger.MouseButton1Click:Connect(function()
         self:SaveLogs()
     end)
+    FastDraggable(LogFrame, LogFrame.Top, 0.1)
 end
 
 function ChatLogs:Show()

@@ -3,6 +3,8 @@ local Plugin = require(hbAdmin.Plugins.Plugin)
 local CommandController = require(hbAdmin.Commands.CommandController)
 local Notifications = require(hbAdmin.UI.Components.Notifications)
 
+local CommandConfig = require(hbAdmin.Commands.CommandConfig)
+
 local Config = {}
 
 Config._VERSION = "V2.03"
@@ -53,11 +55,19 @@ function Config:Update(new)
     for k, v in pairs(new) do
         self._CurrentConfig[k] = v
     end
+    self:Save()
+end
+
+function Config:Save()
     writefile("HBAdmin/config.json", HttpService:JSONEncode(self._CurrentConfig))
 end
 
 function Config:Get(key)
     return self._CurrentConfig[key]
+end
+
+function Config:CreateConfig(name)
+    return CommandConfig.new(name, self)
 end
 
 function Config:GetConfig()

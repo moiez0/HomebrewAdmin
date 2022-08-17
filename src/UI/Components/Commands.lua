@@ -1,5 +1,6 @@
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local CommandController = require(hbAdmin.Commands.CommandController)
+local FastDraggable = require(hbAdmin.UI.FastDraggable)
 
 local Commands = {
     MainFrame = nil,
@@ -17,6 +18,7 @@ function Commands:Init(CmdsFrame)
     for _, Command in pairs(CommandController.Commands) do
         self:RegisterCommand(Command)
     end
+    FastDraggable(CmdsFrame, CmdsFrame.Top, 0.1)
 end
 
 function Commands:RegisterCommand(Command)
@@ -34,7 +36,6 @@ end
 
 
 function Commands:Show()
-    self.CmdsFrame.Size = UDim2.new(0,0,0,0)
     self.CmdsFrame.Visible = true
     self.CmdsFrame.Top.Visible = true
     self.CmdsFrame:TweenSize(UDim2.new(0, 248, 0, 314, "Out", "Quad", 0, 5))
