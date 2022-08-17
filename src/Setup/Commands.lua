@@ -70,6 +70,7 @@ function Commands:Init(CommandController)
             antichatreport:SetStore("enabled", not enabled)
         end,
         init = function(self)
+            print(self)
             local chatreport = self
             self:SetStore("enabled", false)
             local Players = game:GetService("Players")
