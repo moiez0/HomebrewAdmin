@@ -28,4 +28,5 @@ function Main:Init()
     notify("Loaded in " .. tick() - startTime, "Loaded!")
 end
 
+
 return Main

@@ -2,7 +2,7 @@ local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Command = require(hbAdmin.Commands.Command)
 local Config = require(hbAdmin.Filesystem.Config)
 local Notifications = require(hbAdmin.UI.Components.Notifications)
-
+local Loading = require(hbAdmin.Loading.Maid)
 
 local OldCommands = require(script.Parent.OldCommands)
 local Commands = {
@@ -16,6 +16,7 @@ function Commands:Command(table)
     args = args or 0
     alternatives = alternatives or {}
     func = func or function() end
+    init = init or function() end
 
     local command = Command.new(title, desc, args, alternatives, func)
     task.spawn(function()
@@ -31,6 +32,7 @@ end
 
 function Commands:Init(CommandController)
     OldCommands:Init(CommandController)
+
     local antikill
     antikill = self:Command{
         name="AntiKill",
@@ -69,6 +71,7 @@ function Commands:Init(CommandController)
             antichatreport:SetStore("enabled", not enabled)
         end,
         init = function(self)
+            local chatreport = self
             self:SetStore("enabled", false)
             local Players = game:GetService("Players")
             local Player = Players.LocalPlayer
@@ -79,7 +82,7 @@ function Commands:Init(CommandController)
             if Player and ChatMain ~= nil then
                 local Old, Chatted, OldChatted = nil, Instance.new("BindableEvent"), Player.Chatted; Chatted.Name = Player.Name.."_Chatted_Event"
                 Old = hookmetamethod(game, "__index", newcclosure(function(self, Index)
-                    if not antichatreport:GetStore("enabled") then return Old(self, Index) end
+                    if not chatreport:GetStore("enabled") then return Old(self, Index) end
                     if checkcaller() and self == Player and Index == "Chatted" then
                         return Chatted.Event
                     elseif not checkcaller() and self == Player and Index == "Chatted" then
@@ -92,13 +95,22 @@ function Commands:Init(CommandController)
                 local Old2, MessagePosted = nil, require(ChatMain).MessagePosted
                 if MessagePosted then
                     Old2 = hookfunction(MessagePosted.fire, function(self, ...)
-                        if not antichatreport:GetStore("enabled") then return Old2(self, ...) end
+                        if not chatreport:GetStore("enabled") then return Old2(self, ...) end
                         if not checkcaller() then
                             return Chatted:Fire(...)
                         end
                     end)
                 end
             end
+        end
+    }
+
+    self:Command{
+        title="Unload",
+        desc="Unloads the admin",
+        aliases={"panic", "unload", "exit"},
+        executor=function()
+            Loading:Unload(Config)
         end
     }
 

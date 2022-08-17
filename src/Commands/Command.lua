@@ -17,7 +17,6 @@ function Command.new(Title, Desc, Args, Alternatives, Func)
         _store = {}
     }, Command)
 
-
     return self
 end
 
