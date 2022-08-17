@@ -6,6 +6,8 @@ local Config = require(hbAdmin.Filesystem.Config)
 local UserInputService = game:GetService("UserInputService")
 local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
 
+local Loading = require(hbAdmin.Loading.Maid)
+local LoadingMaid = Loading:GetMaid()
 
 local CMDBar = {
     CurrentCommands = {},
@@ -15,12 +17,13 @@ local CMDBar = {
 function CMDBar:Init(Mini)
     Mini.Position = UDim2.new(0.5, 0, 1.2, 0)
     local MainBar = Mini.Input
-    MainBar.Changed:Connect(function(p)
+    LoadingMaid:GiveTask(MainBar.Changed:Connect(function(p)
         if p == "Text" then
             self:Update(Mini)
         end
-    end)
-    Mouse.KeyDown:Connect(function(key)
+    end))
+
+    LoadingMaid:GiveTask(Mouse.KeyDown:Connect(function(key)
         if key == Config:Get"prefix" then
             if Mini.Visible == false then
              Mini.Visible = true
@@ -36,8 +39,9 @@ function CMDBar:Init(Mini)
              Mini.Visible = false
             end
         end
-    end)
-    UserInputService.InputBegan:Connect(function(input)
+    end))
+    
+    LoadingMaid:GiveTask(UserInputService.InputBegan:Connect(function(input)
         if input.KeyCode == Enum.KeyCode.Up then
             if self.CurrentIndex ~= #self.CurrentCommands then self.CurrentIndex += 1 end
             self:Update(Mini)
@@ -51,14 +55,14 @@ function CMDBar:Init(Mini)
             MainBar.Text = self.CurrentCommands[self.CurrentIndex]
             MainBar.CursorPosition = #MainBar.Text+1
         end
-    end)
-    MainBar.FocusLost:connect(function(enterPressed)
+    end))
+    LoadingMaid:GiveTask(MainBar.FocusLost:connect(function(enterPressed)
         if enterPressed then
             ChatController:HandleInput(MainBar.Text)
             MainBar.Text = ''
             self:Update(Mini)
         end
-    end)
+    end))
 end
 
 function CMDBar:Update(Mini)
