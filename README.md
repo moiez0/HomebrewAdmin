@@ -9,15 +9,15 @@ A open-sourced admin with unique scripts and features.
 
 - Syntax 64 - Creator and Developer
 - 7n7o - Developer
-- Whited - Developer
+- Whited - Contributor
 - Anthonylol - Contributor
 - ArianBlack - Contributor
-- Bird - UI 
+- nickk - UI 
 
 
 ## Links
 
- - [Docs](https://mgamingpro.github.io/HomebrewAdmin/)
- - [Main Script](https://github.com/mgamingpro/HomebrewAdmin/blob/master/Main)
+ - [Docs](https://syntaxx64.github.io/HomebrewAdmin/) - OUTDATED
+ - [Main Script](https://github.com/syntaxx64/HomebrewAdmin/blob/master/Main)
 
   
