@@ -14,7 +14,8 @@ local CommandController = {
 
 
 function CommandController:Init()
-    LoadingMaid:GiveTask(self.RequestExecute:Connect(function(CommandExecution)
+    LoadingMaid:GiveTask(
+        self.RequestExecute:Connect(function(CommandExecution)
         assert(CommandExecution.__type == "CommandExecution", "CommandExecution expected\n\n"..debug.traceback())
         local Command = CommandExecution:GetCommand()
         assert(Command, "CommandExecution has no command\n\n"..debug.traceback())
@@ -22,7 +23,8 @@ function CommandController:Init()
         Thread.Spawn(function()
             Command:Execute(Args)
         end)
-    end))
+    end)
+)
     LoadingMaid:GiveTask(self.CommandAdded)
     LoadingMaid:GiveTask(self.RequestExecute)
 end
