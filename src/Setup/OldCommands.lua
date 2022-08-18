@@ -144,8 +144,16 @@ function Commands:Init(CommandController)
         MainTool.Parent = Humanoid
         CreateRightGrip(MainTool)
         if firetouchinterest then
-            firetouchinterest(MainTool.Handle, TRootPart, 0)
-            firetouchinterest(MainTool.Handle, TRootPart, 1)
+            local flag = false
+            task.defer(function()
+                MainTool.Handle.AncestryChanged:Wait()
+                flag = true
+            end)
+            repeat
+                firetouchinterest(MainTool.Handle, TRootPart, 0)
+                firetouchinterest(MainTool.Handle, TRootPart, 1)
+                wait()
+            until flag
         else
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                 local OldCFrame = RootPart.CFrame
@@ -1122,8 +1130,16 @@ function Commands:Init(CommandController)
             THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
             THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
             if firetouchinterest then
-                firetouchinterest(MainTool.Handle, TRootPart, 0)
-                firetouchinterest(MainTool.Handle, TRootPart, 1)
+                local flag = false
+                task.defer(function()
+                    MainTool.Handle.AncestryChanged:Wait()
+                    flag = true
+                end)
+                repeat
+                    firetouchinterest(MainTool.Handle, TRootPart, 0)
+                    firetouchinterest(MainTool.Handle, TRootPart, 1)
+                    wait()
+                until flag
             else
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     local OldCFrame = RootPart.CFrame
@@ -1275,9 +1291,16 @@ function Commands:Init(CommandController)
             if firetouchinterest then
                 THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
                 THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
-                firetouchinterest(MainTool.Handle, TRootPart, 0)
-                firetouchinterest(MainTool.Handle, TRootPart, 1)
-                MainTool.Handle.AncestryChanged:Wait()
+                local flag = false
+                task.defer(function()
+                    MainTool.Handle.AncestryChanged:Wait()
+                    flag = true
+                end)
+                repeat
+                    firetouchinterest(MainTool.Handle, TRootPart, 0)
+                    firetouchinterest(MainTool.Handle, TRootPart, 1)
+                    wait()
+                until flag
                 wait(.3)
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     Character["Right Arm"].RightGrip:Destroy()
@@ -1362,9 +1385,16 @@ function Commands:Init(CommandController)
             THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
             wait(.1)
             if firetouchinterest then
-                firetouchinterest(MainTool.Handle, TRootPart, 0)
-                firetouchinterest(MainTool.Handle, TRootPart, 1)
-                MainTool.Handle.AncestryChanged:Wait()
+                local flag = false
+                task.defer(function()
+                    MainTool.Handle.AncestryChanged:Wait()
+                    flag = true
+                end)
+                repeat
+                    firetouchinterest(MainTool.Handle, TRootPart, 0)
+                    firetouchinterest(MainTool.Handle, TRootPart, 1)
+                    wait()
+                until flag
                 wait(.3)
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     Character["Right Arm"].RightGrip:Destroy()
@@ -2965,9 +2995,16 @@ function Commands:Init(CommandController)
         MainTool.Parent = Humanoid
         CreateRightGrip(MainTool)
         if firetouchinterest then
-            firetouchinterest(MainTool.Handle, TRootPart, 0)
-            firetouchinterest(MainTool.Handle, TRootPart, 1)
-            MainTool.Handle.AncestryChanged:Wait()
+            local flag = false
+            task.defer(function()
+                MainTool.Handle.AncestryChanged:Wait()
+                flag = true
+            end)
+            repeat
+                firetouchinterest(MainTool.Handle, TRootPart, 0)
+                firetouchinterest(MainTool.Handle, TRootPart, 1)
+                wait()
+            until flag
             wait(.3)
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                 Character["Right Arm"].RightGrip:Destroy()
