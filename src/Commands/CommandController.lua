@@ -22,6 +22,7 @@ function CommandController:Init()
             Command:Execute(Args)
         end)
     end)
+    -- hi
 end
 
 function CommandController:AddCommand(Command)
