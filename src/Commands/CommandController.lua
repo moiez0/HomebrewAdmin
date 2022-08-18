@@ -1,7 +1,8 @@
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Signal = require(hbAdmin.Util.Signal)
 local Thread = require(hbAdmin.Util.Thread)
-
+local Loading = require(hbAdmin.Loading.Maid)
+local LoadingMaid = Loading:GetMaid()
 
 
 local CommandController = {
@@ -13,7 +14,7 @@ local CommandController = {
 
 
 function CommandController:Init()
-    self.RequestExecute:Connect(function(CommandExecution)
+    LoadingMaid:GiveTask(self.RequestExecute:Connect(function(CommandExecution)
         assert(CommandExecution.__type == "CommandExecution", "CommandExecution expected\n\n"..debug.traceback())
         local Command = CommandExecution:GetCommand()
         assert(Command, "CommandExecution has no command\n\n"..debug.traceback())
@@ -21,8 +22,9 @@ function CommandController:Init()
         Thread.Spawn(function()
             Command:Execute(Args)
         end)
-    end)
-    -- hi
+    end))
+    LoadingMaid:GiveTask(self.CommandAdded)
+    LoadingMaid:GiveTask(self.RequestExecute)
 end
 
 function CommandController:AddCommand(Command)

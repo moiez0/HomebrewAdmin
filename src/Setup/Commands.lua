@@ -2,7 +2,7 @@ local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Command = require(hbAdmin.Commands.Command)
 local Config = require(hbAdmin.Filesystem.Config)
 local Notifications = require(hbAdmin.UI.Components.Notifications)
-
+local Loading = require(hbAdmin.Loading.Maid)
 
 local OldCommands = require(script.Parent.OldCommands)
 local Commands = {
@@ -16,6 +16,7 @@ function Commands:Command(table)
     args = args or 0
     alternatives = alternatives or {}
     func = func or function() end
+    init = init or function() end
 
     local command = Command.new(title, desc, args, alternatives, func)
     task.spawn(function()
@@ -101,6 +102,15 @@ function Commands:Init(CommandController)
                     end)
                 end
             end
+        end
+    }
+
+    self:Command{
+        title="Unload",
+        desc="Unloads the admin",
+        aliases={"panic", "unload", "exit"},
+        executor=function()
+            Loading:Unload(Config)
         end
     }
 

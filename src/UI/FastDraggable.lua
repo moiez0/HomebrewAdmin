@@ -3,6 +3,8 @@ local UserInputService = game:GetService("UserInputService")
 
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Maid = require(hbAdmin.Util.Maid)
+local Loading = require(hbAdmin.Loading.Maid)
+local LoadingMaid = Loading:GetMaid()
 
 local function FastDraggable(gui, handle, lerp)
 
@@ -26,6 +28,7 @@ local function FastDraggable(gui, handle, lerp)
         gui.Position = gui.Position:Lerp( UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y), lerp)
     end
 
+    LoadingMaid:GiveTask(
     handle.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = true
@@ -41,13 +44,17 @@ local function FastDraggable(gui, handle, lerp)
             end)
         end
     end)
+    )
 
+    LoadingMaid:GiveTask(
     handle.InputChanged:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
             dragInput = input
         end
     end)
+    )
 
+    LoadingMaid:GiveTask(
     UserInputService.InputChanged:Connect(function(input)
         local location = UserInputService:GetMouseLocation()
         mouseDifference = input.Position - Vector3.new(location.X, location.Y, 0)
@@ -55,6 +62,7 @@ local function FastDraggable(gui, handle, lerp)
             update(input)
         end
     end)
+    )
 
 end
 
