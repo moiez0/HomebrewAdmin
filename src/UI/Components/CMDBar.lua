@@ -17,13 +17,16 @@ local CMDBar = {
 function CMDBar:Init(Mini)
     Mini.Position = UDim2.new(0.5, 0, 1.2, 0)
     local MainBar = Mini.Input
-    LoadingMaid:GiveTask(MainBar.Changed:Connect(function(p)
+    LoadingMaid:GiveTask(
+        MainBar.Changed:Connect(function(p)
         if p == "Text" then
             self:Update(Mini)
         end
-    end))
+    end)
+)
 
-    LoadingMaid:GiveTask(Mouse.KeyDown:Connect(function(key)
+    LoadingMaid:GiveTask(
+        Mouse.KeyDown:Connect(function(key)
         if key == Config:Get"prefix" then
             if Mini.Visible == false then
              Mini.Visible = true
@@ -39,9 +42,11 @@ function CMDBar:Init(Mini)
              Mini.Visible = false
             end
         end
-    end))
+    end)
+)
     
-    LoadingMaid:GiveTask(UserInputService.InputBegan:Connect(function(input)
+    LoadingMaid:GiveTask(
+        UserInputService.InputBegan:Connect(function(input)
         if input.KeyCode == Enum.KeyCode.Up then
             if self.CurrentIndex ~= #self.CurrentCommands then self.CurrentIndex += 1 end
             self:Update(Mini)
@@ -55,14 +60,17 @@ function CMDBar:Init(Mini)
             MainBar.Text = self.CurrentCommands[self.CurrentIndex]
             MainBar.CursorPosition = #MainBar.Text+1
         end
-    end))
-    LoadingMaid:GiveTask(MainBar.FocusLost:connect(function(enterPressed)
+    end)
+)
+    LoadingMaid:GiveTask(
+        MainBar.FocusLost:connect(function(enterPressed)
         if enterPressed then
             ChatController:HandleInput(MainBar.Text)
             MainBar.Text = ''
             self:Update(Mini)
         end
-    end))
+    end)
+)
 end
 
 function CMDBar:Update(Mini)
