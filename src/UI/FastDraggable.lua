@@ -37,7 +37,7 @@ local function FastDraggable(gui, handle, lerp)
             maid = Maid.new()
             maid:GiveTask(game.RunService.RenderStepped:Connect(updateMouse))
             input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and input.UserInputState == Enum.UserInputState.End then
                     dragging = false
                     maid:Destroy()
                 end
@@ -56,10 +56,12 @@ local function FastDraggable(gui, handle, lerp)
 
     LoadingMaid:GiveTask(
     UserInputService.InputChanged:Connect(function(input)
-        local location = UserInputService:GetMouseLocation()
-        mouseDifference = input.Position - Vector3.new(location.X, location.Y, 0)
-        if input == dragInput and dragging then
-            update(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            local location = UserInputService:GetMouseLocation()
+            mouseDifference = input.Position - Vector3.new(location.X, location.Y, 0)
+            if input == dragInput and dragging then
+                update(input)
+            end
         end
     end)
     )
