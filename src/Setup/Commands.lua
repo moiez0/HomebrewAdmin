@@ -65,16 +65,6 @@ function Commands:Init(CommandController)
         end
     }
 
-    
-    self:Command{
-        title="rj",
-        desc="Rejoins the game",
-        aliases={"rejoin", "rj"},
-        executor=function()
-            game.TeleportService:Teleport(game.PlaceId)
-        end
-    }
-
 
     self:LoadCommands(CommandController)
 end

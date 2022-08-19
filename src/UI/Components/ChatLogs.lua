@@ -5,6 +5,9 @@ local Message = require(hbAdmin.UI.Message)
 local Notifications = require(hbAdmin.UI.Components.Notifications)
 local FastDraggable = require(hbAdmin.UI.FastDraggable)
 
+local Loading = require(hbAdmin.Loading.Maid)
+local LoadingMaid = Loading:GetMaid()
+
 local ChatLogs = {
     Maid = nil,
     Enabled = false,
@@ -49,6 +52,7 @@ function ChatLogs:Enable()
     self.Maid:GiveTask(game.ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering").OnClientEvent:Connect(function(data)
         self:AddMessage(Message.fromMessageData(data))
     end))
+    LoadingMaid:GiveTask(self.Maid)
 end
 
 function ChatLogs:Disable()
