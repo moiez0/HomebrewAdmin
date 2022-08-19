@@ -1,10 +1,11 @@
-local Rostruct = loadstring(game:HttpGet"https://github.com/richie0866/Rostruct/releases/download/v1.1.11/Rostruct.lua")()
+local rbxmSuite = loadstring(game:HttpGetAsync("https://github.com/richie0866/rbxm-suite/releases/latest/download/rbxm-suite.lua"))()
 
-Rostruct
-    -- Download the lastest release to local files
-    .fetchLatest("Syntaxx64", "HomebrewAdmin")
-    -- Then, build and start all scripts
-    :andThen(function(pkg)
-        pkg:build("src/", {Name = "HBAdmin"})
-        pkg:start()
-    end)
+local path = rbxmSuite.download("Syntaxx64/HomebrewAdmin@latest", "Homebrew.rbxm")
+-- Download the latest RBXM
+rbxmSuite.launch(path, {
+    runscripts=true,
+    deferred = true,
+    nocirculardeps = true
+})
+
+-- Launch using rbxmSuite
