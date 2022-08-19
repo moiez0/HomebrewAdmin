@@ -11,7 +11,8 @@ local LoadingMaid = Loading:GetMaid()
 
 local CMDBar = {
     CurrentCommands = {},
-    CurrentIndex = 2
+    CurrentIndex = 2,
+    Debounce = false
 }
 
 function CMDBar:Init(Mini)
@@ -29,17 +30,7 @@ function CMDBar:Init(Mini)
         Mouse.KeyDown:Connect(function(key)
         if key == Config:Get"prefix" then
             if Mini.Visible == false then
-             Mini.Visible = true
-             Mini.Right.Visible = true
-             Mini:TweenPosition(UDim2.new(0.5, 0, 0.89999976, 0, "Out", "Quad", 0, 3))
-             Mini.Right.Visible = true
-             task.defer(function()MainBar:CaptureFocus()end)
-            else
-             Mini:TweenPosition(UDim2.new(0.5, 0, 1.2, 0, "Out", "Quad", 0, 3))
-             wait(.2)
-             Mini.Right.Visible = false
-             wait(.3)
-             Mini.Visible = false
+                self:Show(Mini)
             end
         end
     end)
@@ -68,9 +59,37 @@ function CMDBar:Init(Mini)
             CommandController.RequestExecute:Fire(CommandExecution.fromString(MainBar.Text))
             MainBar.Text = ''
             self:Update(Mini)
+            self:Hide(Mini)
         end
     end)
 )
+end
+
+function CMDBar:Show(Mini)
+    if self.Debounce then
+        return
+    end
+    
+    self.Debounce = true
+    task.delay(.5, function()self.Debounce = false end)
+
+    task.defer(function()Mini.Input:CaptureFocus()end)
+
+    Mini.Visible = true
+    Mini:TweenPosition(UDim2.new(0.5, 0, 0.89999976, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Linear, .5)
+end
+
+function CMDBar:Hide(Mini)
+    if self.Debounce then
+        return
+    end
+
+    self.Debounce = true
+    task.delay(.5, function()self.Debounce = false Mini.Visible = false end)
+
+    task.defer(function()Mini.Input:ReleaseFocus()end)
+    
+    Mini:TweenPosition(UDim2.new(0.5, 0, 1.2, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Linear, .5)
 end
 
 function CMDBar:Update(Mini)
@@ -84,7 +103,7 @@ function CMDBar:Update(Mini)
         Mini.Bubble.Visible = false
         return
     end
-    CMDBar.CurrentCommands = CommandController:SearchCommand(MainBar.Text)
+    CMDBar.CurrentCommands = CommandController:SearchCommandString(MainBar.Text)
     MainBar.Predict.Text = CMDBar.CurrentCommands[CMDBar.CurrentIndex] or ""
     if CommandController:GetCommand(MainBar.Text) then
         Mini.Bubble.Visible = true

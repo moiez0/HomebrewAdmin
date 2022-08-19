@@ -15,9 +15,16 @@ function Commands:Init(CmdsFrame)
     CmdsFrame.Top.Right.Exit.Trigger.MouseButton1Click:Connect(function()
         self:Hide()
     end)
-    for _, Command in pairs(CommandController.Commands) do
-        self:RegisterCommand(Command)
-    end
+
+    CmdsFrame.Bottom.Center.SearchBox:GetPropertyChangedSignal("ContentText"):Connect(function()
+        if CmdsFrame.Bottom.Center.SearchBox.ContentText == "" then
+            self:LoadCommands(CommandController.Commands)
+        else
+            self:LoadCommands(CommandController:SearchCommand(CmdsFrame.Bottom.Center.SearchBox.Text:lower()))
+        end
+    end)
+
+    self:LoadCommands(CommandController.Commands)
     FastDraggable(CmdsFrame, CmdsFrame.Top, 0.1)
 end
 
@@ -34,6 +41,15 @@ function Commands:RegisterCommand(Command)
     Clone.Visible = true
 end
 
+function Commands:LoadCommands(Commands)
+    local list, pad = self.CmdsFrame.Page.UIListLayout:Clone(), self.CmdsFrame.Page.UIPadding:Clone()
+    self.CmdsFrame.Page:ClearAllChildren()
+    list.Parent = self.CmdsFrame.Page
+    pad.Parent = self.CmdsFrame.Page
+    for _, Command in pairs(Commands) do
+        self:RegisterCommand(Command)
+    end
+end
 
 function Commands:Show()
     self.CmdsFrame.Visible = true
