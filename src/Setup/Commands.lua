@@ -56,55 +56,6 @@ function Commands:Init(CommandController)
         end
     }
 
-    local antichatreport
-    antichatreport = self:Command{
-        name = "SecureChat",
-        desc = "Fixes the issue of being banned for random BS.",
-        aliases = {"acl","anticlog", "schat", "securechat"},
-        executor = function()
-            local enabled = antichatreport:GetStore("enabled")
-            if not enabled then
-                Notifications:Notify("Anti-Chat Report", "Anti-Chat Report enabled", 5)
-            else
-                Notifications:Notify("Anti-Chat Report", "Anti-Chat Report disabled", 5)
-            end
-            antichatreport:SetStore("enabled", not enabled)
-        end,
-        init = function(self)
-            local chatreport = self
-            self:SetStore("enabled", false)
-            local Players = game:GetService("Players")
-            local Player = Players.LocalPlayer
-            local PlayerScripts = Player ~= nil and Player:FindFirstChild("PlayerScripts") or nil
-            local ChatScript = PlayerScripts ~= nil and PlayerScripts:FindFirstChild("ChatScript") or nil
-            local ChatMain = ChatScript ~= nil and ChatScript:FindFirstChild("ChatMain") or nil
-            
-            if Player and ChatMain ~= nil then
-                local Old, Chatted, OldChatted = nil, Instance.new("BindableEvent"), Player.Chatted; Chatted.Name = Player.Name.."_Chatted_Event"
-                Old = hookmetamethod(game, "__index", newcclosure(function(self, Index)
-                    if not chatreport:GetStore("enabled") then return Old(self, Index) end
-                    if checkcaller() and self == Player and Index == "Chatted" then
-                        return Chatted.Event
-                    elseif not checkcaller() and self == Player and Index == "Chatted" then
-                        return OldChatted
-                    end
-               
-                    return Old(self, Index)
-                end))
-               
-                local Old2, MessagePosted = nil, require(ChatMain).MessagePosted
-                if MessagePosted then
-                    Old2 = hookfunction(MessagePosted.fire, function(self, ...)
-                        if not chatreport:GetStore("enabled") then return Old2(self, ...) end
-                        if not checkcaller() then
-                            return Chatted:Fire(...)
-                        end
-                    end)
-                end
-            end
-        end
-    }
-
     self:Command{
         title="Unload",
         desc="Unloads the admin",
@@ -115,6 +66,15 @@ function Commands:Init(CommandController)
     }
 
     
+    self:Command{
+        title="rj",
+        desc="Rejoins the game",
+        aliases={"rejoin", "rj"},
+        executor=function()
+            game.TeleportService:Teleport(game.PlaceId)
+        end
+    }
+
 
     self:LoadCommands(CommandController)
 end
