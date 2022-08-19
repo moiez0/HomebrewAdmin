@@ -1,6 +1,6 @@
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local CommandController = require(hbAdmin.Commands.CommandController)
-local ChatController = require(hbAdmin.Chat.ChatController)
+local CommandExecution = require(hbAdmin.Commands.CommandExecution)
 local Config = require(hbAdmin.Filesystem.Config)
 
 local UserInputService = game:GetService("UserInputService")
@@ -65,7 +65,7 @@ function CMDBar:Init(Mini)
     LoadingMaid:GiveTask(
         MainBar.FocusLost:connect(function(enterPressed)
         if enterPressed then
-            ChatController:HandleInput(MainBar.Text)
+            CommandController.RequestExecute:Fire(CommandExecution.fromString(MainBar.Text))
             MainBar.Text = ''
             self:Update(Mini)
         end
