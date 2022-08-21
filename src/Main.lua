@@ -28,6 +28,7 @@ function Main:Init()
     
     notify("Total of " .. #CommandController.Commands .. " commands.", "Commands Loaded!")
     notify("Current prefix is `"..Config:Get("prefix").."`", "Prefix")
+    notify(Config.VERSION, "Version")
     notify("Loaded in " .. tick() - startTime, "Loaded!")
 end
 

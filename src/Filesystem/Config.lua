@@ -7,7 +7,7 @@ local CommandConfig = require(hbAdmin.Commands.CommandConfig)
 
 local Config = {}
 
-Config._VERSION = "V2.03"
+Config._VERSION = "V2.06"
 Config._PREFIX = ";"
 
 Config._CurrentConfig = nil
@@ -19,12 +19,12 @@ function Config:Init()
     makefolder("HBAdmin/plugins")
     if not isfile("HBAdmin/config.json") then
         writefile("HBAdmin/config.json", HttpService:JSONEncode({
-            ["version"] = self._VERSION,
             ["prefix"] = self._PREFIX
         }))
     end
     self._CurrentConfig = HttpService:JSONDecode(readfile("HBAdmin/config.json"))
-    self.VERSION = self._CurrentConfig.version
+    self.VERSION = self._VERSION
+    self._CurrentConfig.version = self._VERSION
     self.PREFIX = self._CurrentConfig.prefix
     Notifications:Notify("Plugins", "Began loading plugins...", 5)
     local startPlugins = tick()
