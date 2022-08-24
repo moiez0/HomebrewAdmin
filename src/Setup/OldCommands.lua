@@ -235,18 +235,6 @@ function Commands:Init(CommandController)
         end
     )
 
-    AddCommand(
-        "respawn",
-        "Resets you",
-        0,
-        {"reset","gr"},
-        function()
-            if Player.Character.Humanoid then
-                Player.Character:BreakJoints()
-            end
-        end
-    )
-
 
     AddCommand(
         "view",
