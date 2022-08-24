@@ -59,9 +59,9 @@ end
 
 function Commands:Hide()
     self.CmdsFrame:TweenSize(UDim2.new(0, 0, 0, 0, "Out", "Quad", 0, 5))
-    wait(.3)
+    task.wait(.3)
     self.CmdsFrame.Top.Visible = false
-    wait(.6)
+    task.wait(.6)
     self.CmdsFrame.Visible = false
 end
 

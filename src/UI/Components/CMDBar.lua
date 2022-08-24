@@ -3,8 +3,8 @@ local CommandController = require(hbAdmin.Commands.CommandController)
 local CommandExecution = require(hbAdmin.Commands.CommandExecution)
 local Config = require(hbAdmin.Filesystem.Config)
 
-local UserInputService = game:GetService("UserInputService")
-local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+local UserInputService = game:FindService("UserInputService")
+local Mouse = game:FindService("Players").LocalPlayer:GetMouse()
 
 local Loading = require(hbAdmin.Loading.Maid)
 local LoadingMaid = Loading:GetMaid()

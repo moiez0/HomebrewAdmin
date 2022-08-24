@@ -63,7 +63,7 @@ end
 
 function ChatLogs:SaveLogs()
     Notifications:Notify("Chat Logs", "Saving...", 5)
-    local Start = tick()
+    local Start = os.clock()
     makefolder("HBAdmin/ChatLogs")
     local output = string.rep("-", 10).."Homebrew Admin Chatlogs - "..os.date("%H:%M:%S").." - "..game.MarketplaceService:GetProductInfo(game.PlaceId).Name..string.rep("-", 10).."\n"
     for _, Message in pairs(self.Logs) do
@@ -71,7 +71,7 @@ function ChatLogs:SaveLogs()
     end
     local fname = game.MarketplaceService:GetProductInfo(game.PlaceId).Name.." - "..os.date("%H-%M-%S")..".txt"
     writefile("HBAdmin/ChatLogs/"..fname, output)
-    Notifications:Notify("Chat Logs", "Saved to HBAdmin/ChatLogs/"..fname.." in "..string.format("%.2f", tick()-Start).." seconds", 5)
+    Notifications:Notify("Chat Logs", "Saved to HBAdmin/ChatLogs/"..fname.." in "..string.format("%.2f", os.clock()-Start).." seconds.", 5)
 end
 
 function ChatLogs:AddMessage(Message)

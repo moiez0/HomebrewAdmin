@@ -1,5 +1,5 @@
 
-local UserInputService = game:GetService("UserInputService")
+local UserInputService = game:FindService("UserInputService")
 
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Maid = require(hbAdmin.Util.Maid)

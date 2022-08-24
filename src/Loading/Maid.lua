@@ -4,10 +4,10 @@ local Maid = require(hbAdmin.Util.Maid)
 local Loading = {}
 
 function Loading:Unload(Config)
-    local start = tick()
+    local start = os.clock()
     self.Maid:Destroy()
     Config:Save()
-    warn("Unloaded in " .. tick() - start)
+    warn("Unloaded in " .. os.clock() - start .. " seconds.")
 end
 
 function Loading:GetMaid()

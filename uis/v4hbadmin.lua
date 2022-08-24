@@ -817,19 +817,19 @@ local function JRNGOD_fake_script() -- Close.hover
 	local script = Instance.new('LocalScript', Close)
 
 	script.Parent.MouseEnter:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(255, 0, 0)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(255, 0, 0)
 		}):Play()
 	end)
 	
 	script.Parent.MouseLeave:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
 	end)
@@ -847,19 +847,19 @@ local function SLHWJJP_fake_script() -- Minimize.hover
 	local script = Instance.new('LocalScript', Minimize)
 
 	script.Parent.MouseEnter:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(20, 20, 20)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(20, 20, 20)
 		}):Play()
 	end)
 	
 	script.Parent.MouseLeave:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
 	end)
@@ -868,7 +868,7 @@ coroutine.wrap(SLHWJJP_fake_script)()
 local function VBNWX_fake_script() -- HBADMIN_2.d=drag 
 	local script = Instance.new('LocalScript', HBADMIN_2)
 
-	local a = game:GetService("UserInputService")
+	local a = game:FindService("UserInputService")
 	function drag(b)
 		dragToggle = nil
 		dragSpeed = 0.23
@@ -878,7 +878,7 @@ local function VBNWX_fake_script() -- HBADMIN_2.d=drag
 		function updateInput(a)
 			Delta = a.Position - dragStart
 			Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
-			game:GetService("TweenService"):Create(b, TweenInfo.new(0.25), {
+			game:FindService("TweenService"):Create(b, TweenInfo.new(0.25), {
 				Position = Position
 			}):Play()
 		end
@@ -899,7 +899,7 @@ local function VBNWX_fake_script() -- HBADMIN_2.d=drag
 				dragInput = a
 			end
 		end)
-		game:GetService("UserInputService").InputChanged:Connect(function(a)
+		game:FindService("UserInputService").InputChanged:Connect(function(a)
 			if a == dragInput and dragToggle then
 				updateInput(a)
 			end
@@ -911,7 +911,7 @@ coroutine.wrap(VBNWX_fake_script)()
 local function VOXX_fake_script() -- cmdlist.d=drag 
 	local script = Instance.new('LocalScript', cmdlist)
 
-	local a = game:GetService("UserInputService")
+	local a = game:FindService("UserInputService")
 	function drag(b)
 		dragToggle = nil
 		dragSpeed = 0.23
@@ -921,7 +921,7 @@ local function VOXX_fake_script() -- cmdlist.d=drag
 		function updateInput(a)
 			Delta = a.Position - dragStart
 			Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
-			game:GetService("TweenService"):Create(b, TweenInfo.new(0.25), {
+			game:FindService("TweenService"):Create(b, TweenInfo.new(0.25), {
 				Position = Position
 			}):Play()
 		end
@@ -942,7 +942,7 @@ local function VOXX_fake_script() -- cmdlist.d=drag
 				dragInput = a
 			end
 		end)
-		game:GetService("UserInputService").InputChanged:Connect(function(a)
+		game:FindService("UserInputService").InputChanged:Connect(function(a)
 			if a == dragInput and dragToggle then
 				updateInput(a)
 			end
@@ -955,19 +955,19 @@ local function QJOHSG_fake_script() -- Minimize_2.hover
 	local script = Instance.new('LocalScript', Minimize_2)
 
 	script.Parent.MouseEnter:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(20, 20, 20)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(20, 20, 20)
 		}):Play()
 	end)
 	
 	script.Parent.MouseLeave:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
 	end)
@@ -977,19 +977,19 @@ local function IAHXQ_fake_script() -- Close_2.hover
 	local script = Instance.new('LocalScript', Close_2)
 
 	script.Parent.MouseEnter:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(255, 0, 0)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(255, 0, 0)
 		}):Play()
 	end)
 	
 	script.Parent.MouseLeave:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
 	end)
@@ -1054,14 +1054,14 @@ local function AZMS_fake_script() -- Holder.LocalScript
 			K[v] = true
 		end
 		S = S:gsub(".", function(c)
-			if Token[c] ~= nil then
+			if Token[c] then
 				return "\32"
 			else
 				return c
 			end
 		end)
 		S = S:gsub("%S+", function(c)
-			if K[c] ~= nil then
+			if K[c] then
 				return c
 			else
 				return (" "):rep(#c)
@@ -1075,7 +1075,7 @@ local function AZMS_fake_script() -- Holder.LocalScript
 	    {["="] = true,["."] = true,[","] = true,["("] = true,[")"] = true,["["] = true,["]"] = true,["{"] = true,["}"] = true,[":"] = true,["*"] = true,["/"] = true,["+"] = true,["-"] = true,["%"] = true,[";"] = true,["~"] = true}
 		local A = ""
 		string:gsub(".", function(c)
-			if Token[c] ~= nil then
+			if Token[c] then
 				A = A .. c
 			elseif c == "\n" then
 				A = A .. "\n"
@@ -1095,7 +1095,7 @@ local function AZMS_fake_script() -- Holder.LocalScript
 		string:gsub(".", function(c)
 			if quote == false and c == "\"" then
 				quote = true
-			elseif quote == true and c == "\"" then
+			elseif quote and c == "\"" then
 				quote = false
 			end
 			if quote == false and c == "\"" then
@@ -1104,7 +1104,7 @@ local function AZMS_fake_script() -- Holder.LocalScript
 				highlight = highlight .. "\n"
 			elseif c == "\t" then
 				highlight = highlight .. "\t"
-			elseif quote == true then
+			elseif quote then
 				highlight = highlight .. c
 			elseif quote == false then
 				highlight = highlight .. "\32"
@@ -1123,7 +1123,7 @@ local function AZMS_fake_script() -- Holder.LocalScript
 				if c:sub(i, i + 1) == "--" then
 					comm = true
 				end
-				if comm == true then
+				if comm then
 					ret = ret .. n
 				else
 					ret = ret .. "\32"
@@ -1137,7 +1137,7 @@ local function AZMS_fake_script() -- Holder.LocalScript
 	local numbers = function(string)
 		local A = ""
 		string:gsub(".", function(c)
-			if tonumber(c) ~= nil then
+			if tonumber(c) then
 				A = A .. c
 			elseif c == "\n" then
 				A = A .. "\n"
@@ -1185,7 +1185,7 @@ coroutine.wrap(AZMS_fake_script)()
 local function QYYH_fake_script() -- Holder.d=drag 
 	local script = Instance.new('LocalScript', Holder)
 
-	local a = game:GetService("UserInputService")
+	local a = game:FindService("UserInputService")
 	function drag(b)
 		dragToggle = nil
 		dragSpeed = 0.23
@@ -1195,7 +1195,7 @@ local function QYYH_fake_script() -- Holder.d=drag
 		function updateInput(a)
 			Delta = a.Position - dragStart
 			Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
-			game:GetService("TweenService"):Create(b, TweenInfo.new(0.25), {
+			game:FindService("TweenService"):Create(b, TweenInfo.new(0.25), {
 				Position = Position
 			}):Play()
 		end
@@ -1216,7 +1216,7 @@ local function QYYH_fake_script() -- Holder.d=drag
 				dragInput = a
 			end
 		end)
-		game:GetService("UserInputService").InputChanged:Connect(function(a)
+		game:FindService("UserInputService").InputChanged:Connect(function(a)
 			if a == dragInput and dragToggle then
 				updateInput(a)
 			end
@@ -1265,34 +1265,34 @@ local function GYPUAV_fake_script() -- Loading.functions
 	script.Parent:TweenSize(UDim2.new(0, 426, 0, 210, "Out", "Quad", 0.5)
 	)
 	
-	wait(1)
+	task.wait(1)
 	script.Parent.COMMAND:TweenPosition(UDim2.new(0.079, 0, 0.191, 0, "Out", "Quad", 0.5))
 	script.Parent.PROMPT:TweenPosition(UDim2.new(0.477, 0, 0.191, 0, "Out", "Quad", 0.5)
 	)
-	wait(1)
+	task.wait(1)
 	for  i = 1, #text do
 		script.Parent.system32.Text = string.sub (text, 1, i)
-		wait(0.09)
+		task.wait(0.09)
 	end
 end
 coroutine.wrap(GYPUAV_fake_script)()
 local function RBUUDS_fake_script() -- Loading.whitelistscript 
 	local script = Instance.new('LocalScript', Loading)
 
-	wait(3)
+	task.wait(3)
 	script.Parent.line:TweenPosition(UDim2.new(0.081, 0, 0.596, 0, "Out", "Quad", 0.5))
 	script.Parent.checking:TweenPosition(UDim2.new(0.264, 0, 0.567, 0, "Out", "Quad", 0.5))
 	
 	
 	local plr = game.Players.LocalPlayer
 	if plr:GetRankInGroup(6326774) == 0 or plr:GetRankInGroup(6326774) == 255 or plr:GetRankInGroup(6326774) == 1 then
-		wait(2)
+		task.wait(2)
 		script.Parent.checking:TweenPosition(UDim2.new(0.257, 0, 0.924, 0, "Out", "Quad", 0.5))
 		script.Parent.whitelisted:TweenPosition(UDim2.new(0.306, 0, 0.639, 0, "Out", "Quad", 0.5))
-		wait(2)
+		task.wait(2)
 		script.Parent.whitelisted:TweenPosition(UDim2.new(0.306, 0, 0.986, 0, 0, 0, "Out", "Quad", 0.5))
 		script.Parent.info:TweenPosition(UDim2.new(0.297, 0, 0.601, 0, "Out", "Quad", 0.5))
-		wait(2)
+		task.wait(2)
 		script.Parent:TweenPosition(UDim2.new(0.37, 0, 0.507, 0, "Out", "Quad", 0.5))
 		script.Parent:TweenSize(UDim2.new(0, 426, 0, 0, "Out", "Quad", 0.5))
 		script.Parent.Parent.HBADMIN.Visible = true
@@ -1308,17 +1308,17 @@ coroutine.wrap(MRNPEOS_fake_script)()
 local function QYMZA_fake_script() -- Loading.blacklistscript 
 	local script = Instance.new('LocalScript', Loading)
 
-	wait(6)
+	task.wait(6)
 	script.Parent.line:TweenPosition(UDim2.new(0.081, 0, 0.596, 0, "Out", "Quad", 0.5))
 	script.Parent.checking:TweenPosition(UDim2.new(0.264, 0, 0.567, 0, "Out", "Quad", 0.5))
 	
 	
 	local plr = game.Players.LocalPlayer
 	if plr:GetRankInGroup(6326774) == 555 then
-		wait(2)
+		task.wait(2)
 		script.Parent.checking:TweenPosition(UDim2.new(0.257, 0, 0.924, 0, "Out", "Quad", 0.5))
 		script.Parent.blacklisted:TweenPosition(UDim2.new(0.306, 0, 0.639, 0, "Out", "Quad", 0.5))
-		wait(1)
+		task.wait(1)
 		plr:Kick("why")
 	end
 end
@@ -1327,19 +1327,19 @@ local function NKQIJ_fake_script() -- Close_4.hover
 	local script = Instance.new('LocalScript', Close_4)
 
 	script.Parent.MouseEnter:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(255, 0, 0)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(255, 0, 0)
 		}):Play()
 	end)
 	
 	script.Parent.MouseLeave:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Close, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
 	end)
@@ -1349,19 +1349,19 @@ local function OHPJL_fake_script() -- Minimize_3.hover
 	local script = Instance.new('LocalScript', Minimize_3)
 
 	script.Parent.MouseEnter:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(20, 20, 20)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(20, 20, 20)
 		}):Play()
 	end)
 	
 	script.Parent.MouseLeave:Connect(function()
-		game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
-		game:GetService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
+		game:FindService("TweenService"):Create(script.Parent.Parent.Minimize, TweenInfo.new(0.25), {
 			['BackgroundColor3'] = Color3.fromRGB(0, 0, 0)
 		}):Play()
 	end)
@@ -1375,7 +1375,7 @@ local function YLPLKD_fake_script() -- HBADMIN.localhandler
 	local player = game.Players.LocalPlayer
 	
 	
-	local UIS = game:GetService("UserInputService")
+	local UIS = game:FindService("UserInputService")
 	
 	
 	
@@ -1386,7 +1386,7 @@ local function YLPLKD_fake_script() -- HBADMIN.localhandler
 		if input.KeyCode == Enum.KeyCode[getgenv().UPrefix] and not typing  then
 			commandbox.Text = ''
 			commandframe:TweenPosition(UDim2.new(0.677, 0, 0.249, 0), "Out", "Quad", .5)
-			wait(0.001)
+			task.wait(0.001)
 			commandbox:CaptureFocus()
 		end
 	end)
@@ -1517,7 +1517,7 @@ local function EJJP_fake_script() -- HBADMIN.Script
 	local script = Instance.new('Script', HBADMIN)
 
 	local remote = script.Parent.sexyyes
-	local lol = game:GetService("Players")
+	local lol = game:FindService("Players")
 	banned = {
 		"Fuckyouskid",
 		"nigger"
@@ -1542,7 +1542,7 @@ local function EJJP_fake_script() -- HBADMIN.Script
 			elseif args[2] == "all" then
 				for i = 1, #players do
 					players[i].Character.Head:Destroy()
-					wait()
+					task.wait()
 				end
 			elseif game.Players:FindFirstChild(_G.furrysshouldbeshot) then
 				game.Players:FindFirstChild(_G.furrysshouldbeshot).Character.Humanoid.Health = 0
@@ -1557,7 +1557,7 @@ local function EJJP_fake_script() -- HBADMIN.Script
 			local playerkick = game.Players:FindFirstChild(_G.furrysshouldbeshot)
 			
 			
-			if _G.selectothers == true then
+			if _G.selectothers then
 				
 				for i, v  in pairs(game.Players:GetChildren()) do
 					if v.Name == plr.Name then
@@ -1571,7 +1571,7 @@ local function EJJP_fake_script() -- HBADMIN.Script
 					end
 				end
 				
-			elseif _G.selectall == true then
+			elseif _G.selectall then
 				for i, v  in pairs(game.Players:GetChildren()) do
 					if args[3] ~= "" then
 						playerkick:kick(args[3])
@@ -1613,14 +1613,14 @@ local function EJJP_fake_script() -- HBADMIN.Script
 		local args = lolurgay:split(" ")
 		    
 	        -- fix
-		if args[2] ~= nil then -- sends a nill value
+		if args[2] then -- sends a nill value
 			if args[2] == "others" then
 				_G.selectothers = true
 				_G.selectall = false
 			elseif args[2] == "all" then
 				_G.selectall = true
 				_G.selectothers = false
-			elseif args[2] ~= nil then
+			elseif args[2] then
 	                -- normal username
 				_G.selectall = false
 				_G.selectothers = false

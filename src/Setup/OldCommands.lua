@@ -1,17 +1,17 @@
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 
-local Players = game:GetService("Players")
-local CoreGui = game:GetService("CoreGui")
-local StarterGui = game:GetService("StarterGui")
-local GuiService = game:GetService("GuiService")
-local RunService = game:GetService("RunService")
-local TweenService = game:GetService("TweenService")
-local PhysicsService = game:GetService("PhysicsService")
-local TeleportService = game:GetService("TeleportService")
-local UserInputService = game:GetService("UserInputService")
-local HttpService = game:GetService("HttpService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Lighting = game:GetService("Lighting")
+local Players = game:FindService("Players")
+local CoreGui = game:FindService("CoreGui")
+local StarterGui = game:FindService("StarterGui")
+local GuiService = game:FindService("GuiService")
+local RunService = game:FindService("RunService")
+local TweenService = game:FindService("TweenService")
+local PhysicsService = game:FindService("PhysicsService")
+local TeleportService = game:FindService("TeleportService")
+local UserInputService = game:FindService("UserInputService")
+local HttpService = game:FindService("HttpService")
+local ReplicatedStorage = game:FindService("ReplicatedStorage")
+local Lighting = game:FindService("Lighting")
 
 local Player = Players.LocalPlayer
 local LocalPlayer = Players.LocalPlayer
@@ -72,13 +72,13 @@ function Commands:Init(CommandController)
         function(Target)
                     
         
-        local Players = game:GetService("Players")
-        local CoreGui = game:GetService("CoreGui")
-        local RunService = game:GetService("RunService")
-        local ReplicatedStorage = game:GetService("ReplicatedStorage")
-        local UserInputService = game:GetService("UserInputService")
-        local Lighting = game:GetService("Lighting")
-        local StarterGui = game:GetService("StarterGui")
+        local Players = game:FindService("Players")
+        local CoreGui = game:FindService("CoreGui")
+        local RunService = game:FindService("RunService")
+        local ReplicatedStorage = game:FindService("ReplicatedStorage")
+        local UserInputService = game:FindService("UserInputService")
+        local Lighting = game:FindService("Lighting")
+        local StarterGui = game:FindService("StarterGui")
         
         local Player = Players.LocalPlayer
         local Character = Player.Character
@@ -152,19 +152,19 @@ function Commands:Init(CommandController)
             repeat
                 firetouchinterest(MainTool.Handle, TRootPart, 0)
                 firetouchinterest(MainTool.Handle, TRootPart, 1)
-                wait()
+                task.wait()
             until flag
         else
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                 local OldCFrame = RootPart.CFrame
-                local OldTick = tick()
+                local OldTick = os.clock()
                 repeat
                     task.wait()
                     RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
                     if MainTool.Parent ~= Humanoid then
                         break
                     end
-                until (tick() - OldTick) > 3
+                until (os.clock() - OldTick) > 3
                 RootPart.CFrame = OldCFrame
             else
                 return
@@ -226,7 +226,7 @@ function Commands:Init(CommandController)
             Tool = Player.Backpack:FindFirstChildWhichIsA("Tool")
             if not Tool then
                 repeat
-                    wait()
+                    task.wait()
                     Tool = Player.Backpack:FindFirstChildWhichIsA("Tool")
                 until Tool
             end
@@ -261,12 +261,12 @@ function Commands:Init(CommandController)
             local Target = GetPlayer(targ)
             if Target then
                 repeat
-                    wait()
+                    task.wait()
                 until Target.Character
                 workspace.CurrentCamera.CameraSubject = Target.Character
                 local function died()
                     repeat
-                        wait()
+                        task.wait()
                     until Target.Character.Humanoid
                     workspace.CurrentCamera.CameraSubject = Target.Character
                 end
@@ -475,9 +475,9 @@ function Commands:Init(CommandController)
         {},
         function()
         ANTIAFK = Player.Idled:connect(function()
-        game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        wait(1)
-        game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        game:FindService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        task.wait(1)
+        game:FindService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
         end)
     end
     )
@@ -624,7 +624,7 @@ function Commands:Init(CommandController)
             0,
             {"spraykillall"},
             function()
-                local Players = game:GetService("Players")
+                local Players = game:FindService("Players")
                 local Player = Player
                 local Character = Player.Character
                 local Humanoid = Character:FindFirstChildOfClass("Humanoid")
@@ -656,7 +656,7 @@ function Commands:Init(CommandController)
                 repeat
                     RunService.Heartbeat:wait()
                 until Character:FindFirstChild("Spray")
-                wait(.25)
+                task.wait(.25)
                 local NewHumanoid = Humanoid:Clone()
                 Humanoid:Destroy()
                 NewHumanoid.Parent = Character
@@ -665,7 +665,7 @@ function Commands:Init(CommandController)
                 repeat
                     RunService.Heartbeat:wait()
                 until not Character:FindFirstChild("Spray")
-                wait(.25)
+                task.wait(.25)
                 for _, x in next, Player.Backpack:GetChildren() do
                     if x:IsA("Tool") and x.Name == "Spray" then
                         x.Parent = Character
@@ -859,7 +859,7 @@ function Commands:Init(CommandController)
             local succ, err =
                 pcall(
                 function()
-                    for i, v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants() do
+                    for i, v in next, game:FindService("Players").LocalPlayer.Character:GetDescendants() do
                         if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
                             RunService.Heartbeat:connect(
                                 function()
@@ -1122,19 +1122,19 @@ function Commands:Init(CommandController)
                 repeat
                     firetouchinterest(MainTool.Handle, TRootPart, 0)
                     firetouchinterest(MainTool.Handle, TRootPart, 1)
-                    wait()
+                    task.wait()
                 until flag
             else
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     local OldCFrame = RootPart.CFrame
-                    local OldTick = tick()
+                    local OldTick = os.clock()
                     repeat
                         task.wait()
                         RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
                         if MainTool.Parent ~= Humanoid then
                             break
                         end
-                    until (tick() - OldTick) > 3
+                    until (os.clock() - OldTick) > 3
                     RootPart.CFrame = OldCFrame
                 else
                     return
@@ -1212,7 +1212,7 @@ function Commands:Init(CommandController)
                 end
             )
             notify("Press K to kill")
-            wait(1)
+            task.wait(1)
             notify("Press E to drop")
         end
     )
@@ -1283,9 +1283,9 @@ function Commands:Init(CommandController)
                 repeat
                     firetouchinterest(MainTool.Handle, TRootPart, 0)
                     firetouchinterest(MainTool.Handle, TRootPart, 1)
-                    wait()
+                    task.wait()
                 until flag
-                wait(.3)
+                task.wait(.3)
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     Character["Right Arm"].RightGrip:Destroy()
                 else
@@ -1295,14 +1295,14 @@ function Commands:Init(CommandController)
             else
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     local OldCFrame = RootPart.CFrame
-                    local OldTick = tick()
+                    local OldTick = os.clock()
                     repeat
                         task.wait()
                         RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
                         if MainTool.Parent ~= Humanoid then
                             break
                         end
-                    until (tick() - OldTick) > 3
+                    until (os.clock() - OldTick) > 3
                     RootPart.CFrame = OldCFrame
                 else
                     return
@@ -1367,7 +1367,7 @@ function Commands:Init(CommandController)
             CreateRightGrip(MainTool)
             THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
             THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
-            wait(.1)
+            task.wait(.1)
             if firetouchinterest then
                 local flag = false
                 task.defer(function()
@@ -1377,9 +1377,9 @@ function Commands:Init(CommandController)
                 repeat
                     firetouchinterest(MainTool.Handle, TRootPart, 0)
                     firetouchinterest(MainTool.Handle, TRootPart, 1)
-                    wait()
+                    task.wait()
                 until flag
-                wait(.3)
+                task.wait(.3)
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     Character["Right Arm"].RightGrip:Destroy()
                 else
@@ -1389,14 +1389,14 @@ function Commands:Init(CommandController)
             else
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     local OldCFrame = RootPart.CFrame
-                    local OldTick = tick()
+                    local OldTick = os.clock()
                     repeat
                         task.wait()
                         RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
                         if MainTool.Parent ~= Humanoid then
                             break
                         end
-                    until (tick() - OldTick) > 3
+                    until (os.clock() - OldTick) > 3
                     RootPart.CFrame = OldCFrame
                 else
                     return
@@ -1429,7 +1429,7 @@ function Commands:Init(CommandController)
         {"2007anim"},
         function()
             loadstring(
-                game:HttpGet(
+                game:HttpGetAsync(
                     ("https://raw.githubusercontent.com/mgamingpro/HomebrewAdmin/master/scripts/2007anims.lua"),
                     true
                 )
@@ -1473,10 +1473,10 @@ function Commands:Init(CommandController)
                     local j = c.Parent
                     local k = waitForChild(j, "Humanoid")
                     k.CameraOffset = Vector3.new(0, 0.5, 0)
-                    math.randomseed(tick())
+                    math.randomseed(os.time())
                     local l = {}
                     function configureAnimationSet(m, n)
-                        if l[m] ~= nil then
+                        if l[m] then
                             local o, p, q = pairs(l[m].connections)
                             while true do
                                 local r, s = o(p, q)
@@ -1493,7 +1493,7 @@ function Commands:Init(CommandController)
                         l[m].totalWeight = 0
                         l[m].connections = {}
                         local t = c:FindFirstChild(m)
-                        if t ~= nil then
+                        if t then
                             table.insert(
                                 l[m].connections,
                                 t.ChildAdded:connect(
@@ -1598,7 +1598,7 @@ function Commands:Init(CommandController)
                     }
                     function scriptChildModified(K)
                         local L = J[K.Name]
-                        if L ~= nil then
+                        if L then
                             configureAnimationSet(K.Name, L)
                         end
                     end
@@ -1622,17 +1622,17 @@ function Commands:Init(CommandController)
                     local S = nil
                     function stopAllAnimations()
                         local T = O
-                        if P[T] ~= nil then
+                        if P[T] then
                             if P[T] == false then
                                 T = "idle"
                             end
                         end
                         O = ""
                         Q = nil
-                        if R ~= nil then
+                        if R then
                             R:disconnect()
                         end
-                        if S ~= nil then
+                        if S then
                             S:Stop()
                             S:Destroy()
                             S = nil
@@ -1649,7 +1649,7 @@ function Commands:Init(CommandController)
                     function keyFrameReachedFunc(W)
                         if W == "End" then
                             local X = O
-                            if P[X] ~= nil then
+                            if P[X] then
                                 if P[X] == false then
                                     X = "idle"
                                 end
@@ -1671,7 +1671,7 @@ function Commands:Init(CommandController)
                         end
                         local a2 = l[Y][a1].anim
                         if a2 ~= Q then
-                            if S ~= nil then
+                            if S then
                                 S:Stop(Z)
                                 S:Destroy()
                             end
@@ -1680,7 +1680,7 @@ function Commands:Init(CommandController)
                             S:Play(Z)
                             O = Y
                             Q = a2
-                            if R ~= nil then
+                            if R then
                                 R:disconnect()
                             end
                             R = S.KeyframeReached:connect(keyFrameReachedFunc)
@@ -1708,7 +1708,7 @@ function Commands:Init(CommandController)
                         end
                         local ad = l[a8][ac].anim
                         if a5 ~= ad then
-                            if a6 ~= nil then
+                            if a6 then
                                 a6:Stop()
                                 a6:Destroy()
                                 a9 = 0
@@ -1721,12 +1721,12 @@ function Commands:Init(CommandController)
                         end
                     end
                     function stopToolAnimations()
-                        if a7 ~= nil then
+                        if a7 then
                             a7:disconnect()
                         end
                         a3 = ""
                         a5 = nil
-                        if a6 ~= nil then
+                        if a6 then
                             a6:Stop()
                             a6:Destroy()
                             a6 = nil
@@ -1943,7 +1943,7 @@ function Commands:Init(CommandController)
                             elseif string.sub(az, 1, 7) == "/emote " then
                                 aA = string.sub(az, 8)
                             end
-                            if ae == "Standing" and P[aA] ~= nil then
+                            if ae == "Standing" and P[aA] then
                                 playAnimation(aA, 0.1, k)
                             end
                         end
@@ -1951,8 +1951,8 @@ function Commands:Init(CommandController)
                     local aB = game:service("RunService")
                     playAnimation("idle", 0.1, k)
                     ae = "Standing"
-                    while j.Parent ~= nil do
-                        local aC, aD = wait(0.1)
+                    while j.Parent do
+                        local aC, aD = task.wait(0.1)
                         move(aD)
                     end
                 end
@@ -1999,7 +1999,7 @@ function Commands:Init(CommandController)
         function(player)
             Target = player
             local function Message(MTitle, MText, Time)
-                -- game:GetService("StarterGui"):SetCore("SendNotification",{Title = MTitle;Text = MText;Duration = Time;})
+                -- game:FindService("StarterGui"):SetCore("SendNotification",{Title = MTitle;Text = MText;Duration = Time;})
                 notify(MText)
             end
 
@@ -2012,7 +2012,7 @@ function Commands:Init(CommandController)
             until GetPlayer(Target).Character and GetPlayer(Target).Character:FindFirstChildOfClass("Humanoid").Health > 0 or
                 not GetPlayer(Target)
 
-            local Player = game:GetService("Players").LocalPlayer
+            local Player = game:FindService("Players").LocalPlayer
             local Character = Player.Character
             local Humanoid
             local HumanoidRootPart
@@ -2057,10 +2057,10 @@ function Commands:Init(CommandController)
             end
             if not HumanoidRootPart then
                 Message("Error", ">   Missing HumanoidRootPart, Trying Torso.", 5)
-                wait(1)
+                task.wait(1)
                 if Torso then
                     Message("Succes", ">   Torso found.", 5)
-                    wait(1)
+                    task.wait(1)
                 else
                     Message("Error", ">   Missing Torso")
                     return
@@ -2068,25 +2068,25 @@ function Commands:Init(CommandController)
             end
             if Humanoid.RigType == Enum.HumanoidRigType.R15 then
                 Message("Error", ">   This command doesn't work on R15.", 5)
-                wait(1)
+                task.wait(1)
                 return
             end
             if not Tool then
                 Message("Error", ">   You have no tools.", 5)
-                wait(1)
+                task.wait(1)
                 return
             end
             if not Handle then
                 Message("Error", ">   Tool doesn't have handle.", 5)
-                wait(1)
+                task.wait(1)
                 return
             end
             if not THumanoidRootPart then
                 Message("Error", ">   Missing HumanoidRootPart on Target, Trying Torso.", 5)
-                wait(1)
+                task.wait(1)
                 if Torso then
                     Message("Succes", ">   Torso found on Target.", 5)
-                    wait(1)
+                    task.wait(1)
                 else
                     Message("Error", ">   Missing Torso on Target", 5)
                     return
@@ -2184,7 +2184,7 @@ function Commands:Init(CommandController)
 
                     local SFBasePart = function(BasePart)
                         local TimeToWait = 2
-                        local Time = tick()
+                        local Time = os.clock()
                         local Angle = 0
 
                         repeat
@@ -2295,7 +2295,7 @@ function Commands:Init(CommandController)
                             not TargetPlayer.Character == TCharacter or
                             THumanoid.Sit or
                             Humanoid.Health <= 0 or
-                            tick() > Time + TimeToWait
+                            os.clock() > Time + TimeToWait
                     end
 
                     workspace.FallenPartsDestroyHeight = 0 / 0
@@ -2346,7 +2346,7 @@ function Commands:Init(CommandController)
                     return Message("Error Occurred", "Random error", 5)
                 end
             end
-            if AllBool == true then
+            if AllBool then
                 for _, x in next, Players:GetPlayers() do
                     flingem(x)
                 end
@@ -2397,7 +2397,7 @@ function Commands:Init(CommandController)
                 return Message("Error",">   Player does not exist.",5)
             end
             
-            repeat game:GetService("RunService").Heartbeat:wait() until GetPlayer(Target).Character and GetPlayer(Target).Character:FindFirstChildOfClass("Humanoid") and GetPlayer(Target).Character:FindFirstChildOfClass("Humanoid").Health > 0
+            repeat game:FindService("RunService").Heartbeat:wait() until GetPlayer(Target).Character and GetPlayer(Target).Character:FindFirstChildOfClass("Humanoid") and GetPlayer(Target).Character:FindFirstChildOfClass("Humanoid").Health > 0
             local Character
             local Humanoid
             local RootPart
@@ -2409,7 +2409,7 @@ function Commands:Init(CommandController)
             local THumanoid
             local TRootPart
             
-            if Player.Character ~= nil and Player.Character and Player.Character.Name == Player.Name then
+            if Player.Character and Player.Character and Player.Character.Name == Player.Name then
                 Character = Player.Character
             else
                 return Message("Error",">   Missing Character")
@@ -2472,19 +2472,19 @@ function Commands:Init(CommandController)
                 end
                 firetouchinterest(Handle,TRootPart,0)
                 firetouchinterest(Handle,TRootPart,1)
-                game:GetService("RunService").Heartbeat:wait()
+                game:FindService("RunService").Heartbeat:wait()
             until Tool.Parent ~= Character or not TPlayer or not TRootPart or THumanoid.Health <= 0 or os.time() > Timer + .20
             Player.Character = nil
             NewHumanoid.Health = 0
             Player.CharacterAdded:wait()
-            repeat game:GetService("RunService").Heartbeat:wait() until Player.Character:FindFirstChild("HumanoidRootPart")
+            repeat game:FindService("RunService").Heartbeat:wait() until Player.Character:FindFirstChild("HumanoidRootPart")
             Player.Character.HumanoidRootPart.CFrame = OldCFrame
         end
         
         if not LoopKill then
             Kill()
         else
-            while LoopKill == true do
+            while LoopKill do
                 Kill()
             end
         end
@@ -2555,7 +2555,7 @@ function Commands:Init(CommandController)
                 rbxasset = false
             end
             print(animid)
-            if rbxasset == true then
+            if rbxasset then
                 notify("Playing animation id " .. animid .. "!")
                 Anim.AnimationId = ("rbxassetid://" .. animid)
             else
@@ -2573,7 +2573,7 @@ function Commands:Init(CommandController)
         0,
         {},
         function()
-            local humanoid = game:GetService("Players").LocalPlayer.Character.Humanoid
+            local humanoid = game:FindService("Players").LocalPlayer.Character.Humanoid
             Anim = Instance.new("Animation")
             if humanoid.RigType == Enum.HumanoidRigType.R15 then
                 r15dances = {4555808220, 4555782893, 3333432454, 4049037604}
@@ -2649,7 +2649,7 @@ function Commands:Init(CommandController)
         {},
         function(msg)
             notify("Chatting " .. msg .. "!")
-            wait()
+            task.wait()
             ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("" .. msg, "All")
         end
     )
@@ -2715,12 +2715,12 @@ function Commands:Init(CommandController)
         {},
         function(msg)
             notify("Loop chatting " .. msg .. "!")
-            wait()
+            task.wait()
             getgenv().chattin = true
             chattin =
                 RunService.Heartbeat:connect(
                 function()
-                    if getgenv().chattin == true then
+                    if getgenv().chattin then
                         ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("" .. msg, "All")
                     else
                         chattin:Disconnect()
@@ -2829,9 +2829,9 @@ function Commands:Init(CommandController)
         function()
             count = #Players:GetPlayers()
             if count <= 1 then
-                game:GetService("TeleportService"):Teleport(game.PlaceId, Player)
+                game:FindService("TeleportService"):Teleport(game.PlaceId, Player)
             else
-                game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, Player)
+                game:FindService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, Player)
             end
         end
     )
@@ -2850,23 +2850,23 @@ function Commands:Init(CommandController)
             local l = Player.Character["1"]:Clone()
             l.Parent = Player.Character
             l.Name = "Humanoid"
-            wait()
+            task.wait()
             Player.Character["1"]:Destroy()
             game.Workspace.CurrentCamera.CameraSubject = Player.Character
             Player.Character.Animate.Disabled = true
-            wait()
+            task.wait()
             Player.Character.Animate.Disabled = false
             Player.Character.Humanoid.DisplayDistanceType = "None"
-            for i, v in pairs(game:GetService "Players".LocalPlayer.Backpack:GetChildren()) do
+            for i, v in pairs(game:FindService "Players".LocalPlayer.Backpack:GetChildren()) do
                 Player.Character.Humanoid:EquipTool(v)
             end
-            wait()
+            task.wait()
             Player.Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame
-            wait()
+            task.wait()
             Player.Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame
-            wait()
+            task.wait()
             Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-100000, 1000000000000000000000, -100000))
-            wait()
+            task.wait()
             local prt = Instance.new("Model", workspace)
             Instance.new("Part", prt).Name = "Torso"
             Instance.new("Part", prt).Name = "Head"
@@ -2890,23 +2890,23 @@ function Commands:Init(CommandController)
             local l = Player.Character["1"]:Clone()
             l.Parent = Player.Character
             l.Name = "Humanoid"
-            wait()
+            task.wait()
             Player.Character["1"]:Destroy()
             game.Workspace.CurrentCamera.CameraSubject = Player.Character
             Player.Character.Animate.Disabled = true
-            wait()
+            task.wait()
             Player.Character.Animate.Disabled = false
             Player.Character.Humanoid.DisplayDistanceType = "None"
-            for i, v in pairs(game:GetService "Players".LocalPlayer.Backpack:GetChildren()) do
+            for i, v in pairs(game:FindService "Players".LocalPlayer.Backpack:GetChildren()) do
                 Player.Character.Humanoid:EquipTool(v)
             end
-            wait()
+            task.wait()
             Player.Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame
-            wait()
+            task.wait()
             Player.Character.HumanoidRootPart.CFrame = Players[Target].Character.HumanoidRootPart.CFrame
-            wait()
+            task.wait()
             Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(0, 0, 0))
-            wait()
+            task.wait()
             local prt = Instance.new("Model", workspace)
             Instance.new("Part", prt).Name = "Torso"
             Instance.new("Part", prt).Name = "Head"
@@ -2987,9 +2987,9 @@ function Commands:Init(CommandController)
             repeat
                 firetouchinterest(MainTool.Handle, TRootPart, 0)
                 firetouchinterest(MainTool.Handle, TRootPart, 1)
-                wait()
+                task.wait()
             until flag
-            wait(.3)
+            task.wait(.3)
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                 Character["Right Arm"].RightGrip:Destroy()
             else
@@ -2999,14 +2999,14 @@ function Commands:Init(CommandController)
         else
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                 local OldCFrame = RootPart.CFrame
-                local OldTick = tick()
+                local OldTick = os.clock()
                 repeat
                     task.wait()
                     RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
                     if MainTool.Parent ~= Humanoid then
                         break
                     end
-                until (tick() - OldTick) > 3
+                until (os.clock() - OldTick) > 3
                 RootPart.CFrame = OldCFrame
             else
                 return
@@ -3040,7 +3040,7 @@ function Commands:Init(CommandController)
                 local Part = Instance.new("Part")
                 local Weld = Instance.new("Weld", Part)
                 Weld.Part0 = Part
-                local Player = game:GetService("Players").LocalPlayer
+                local Player = game:FindService("Players").LocalPlayer
                 local Character = Player.Character
                 repeat
                     RunService.Heartbeat:wait()
@@ -3063,7 +3063,7 @@ function Commands:Init(CommandController)
                 gyro.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
                 gyro.CFrame = HumanoidRootPart.CFrame
 
-                local UserInputService = game:GetService("UserInputService")
+                local UserInputService = game:FindService("UserInputService")
 
                 local ConnectA =
                     UserInputService.InputBegan:Connect(
@@ -3272,7 +3272,7 @@ function Commands:Init(CommandController)
             loopin =
                 RunService.Heartbeat:connect(
                 function()
-                    if getgenv().looping == true then
+                    if getgenv().looping then
                         Player.Character:SetPrimaryPartCFrame(targ.HumanoidRootPart.CFrame)
                     else
                         loopin:Disconnect()
@@ -3295,7 +3295,7 @@ function Commands:Init(CommandController)
             end
             local function nocl()
                 for _, part in pairs(Player.Character:GetDescendants()) do
-                    if part:IsA("BasePart") and part.CanCollide == true then
+                    if part:IsA("BasePart") and part.CanCollide then
                         part.CanCollide = false
                     end
                 end
@@ -3314,7 +3314,7 @@ function Commands:Init(CommandController)
                 wsloop:Disconnect()
             end
             local function ws()
-                if Player.Character.Humanoid ~= nil then
+                if Player.Character.Humanoid then
                     Player.Character.Humanoid.WalkSpeed = speed
                 end
             end
@@ -3346,7 +3346,7 @@ function Commands:Init(CommandController)
                 jploop:Disconnect()
             end
             local function jp()
-                if Player.Character.Humanoid ~= nil then
+                if Player.Character.Humanoid then
                     Player.Character.Humanoid.UseJumpPower = true
                     Player.Character.Humanoid.JumpPower = height
                 end
