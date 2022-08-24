@@ -19,7 +19,7 @@ function Commands:Command(table)
     init = init or function() end
 
     local command = Command.new(title, desc, args, alternatives, func)
-    task.spawn(function()
+    task.delay(.3, function()
         local s,e = pcall(init, command)
         if not s then
             Notifications:Notify("Error", "Error loading command "..command:GetName()..". Check Console for more info", 5)
@@ -91,6 +91,9 @@ function Commands:Init(CommandController)
             local SavePos = Character.HumanoidRootPart.CFrame
             Humanoid.Health = 0
             Player.CharacterAdded:Wait():WaitForChild("HumanoidRootPart").CFrame = SavePos
+            reCommand:SetStore("running", false)
+        end,
+        init=function()
             reCommand:SetStore("running", false)
         end
     }
