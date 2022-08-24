@@ -1,7 +1,7 @@
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 
 
-local startTime = tick()
+local startTime = os.clock()
 
 local Main = {}
 
@@ -27,8 +27,8 @@ function Main:Init()
     genv:Init()
     
     notify("Total of " .. #CommandController.Commands .. " commands.", "Commands Loaded!")
-    notify("Current prefix is `"..Config:Get("prefix").."`", "Prefix")
-    notify("Loaded in " .. tick() - startTime, "Loaded!")
+    notify("Current prefix is `"..Config:Get("prefix").."`" .. ".", "Prefix")
+    notify("Loaded in " .. os.clock() - startTime .. " seconds.", "Loaded!")
 end
 
 

@@ -157,14 +157,14 @@ function Commands:Init(CommandController)
         else
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                 local OldCFrame = RootPart.CFrame
-                local OldTick = tick()
+                local OldTick = os.clock()
                 repeat
                     task.wait()
                     RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
                     if MainTool.Parent ~= Humanoid then
                         break
                     end
-                until (tick() - OldTick) > 3
+                until (os.clock() - OldTick) > 3
                 RootPart.CFrame = OldCFrame
             else
                 return
@@ -1143,14 +1143,14 @@ function Commands:Init(CommandController)
             else
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     local OldCFrame = RootPart.CFrame
-                    local OldTick = tick()
+                    local OldTick = os.clock()
                     repeat
                         task.wait()
                         RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
                         if MainTool.Parent ~= Humanoid then
                             break
                         end
-                    until (tick() - OldTick) > 3
+                    until (os.clock() - OldTick) > 3
                     RootPart.CFrame = OldCFrame
                 else
                     return
@@ -1311,14 +1311,14 @@ function Commands:Init(CommandController)
             else
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     local OldCFrame = RootPart.CFrame
-                    local OldTick = tick()
+                    local OldTick = os.clock()
                     repeat
                         task.wait()
                         RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
                         if MainTool.Parent ~= Humanoid then
                             break
                         end
-                    until (tick() - OldTick) > 3
+                    until (os.clock() - OldTick) > 3
                     RootPart.CFrame = OldCFrame
                 else
                     return
@@ -1405,14 +1405,14 @@ function Commands:Init(CommandController)
             else
                 if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                     local OldCFrame = RootPart.CFrame
-                    local OldTick = tick()
+                    local OldTick = os.clock()
                     repeat
                         task.wait()
                         RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
                         if MainTool.Parent ~= Humanoid then
                             break
                         end
-                    until (tick() - OldTick) > 3
+                    until (os.clock() - OldTick) > 3
                     RootPart.CFrame = OldCFrame
                 else
                     return
@@ -1489,7 +1489,7 @@ function Commands:Init(CommandController)
                     local j = c.Parent
                     local k = waitForChild(j, "Humanoid")
                     k.CameraOffset = Vector3.new(0, 0.5, 0)
-                    math.randomseed(tick())
+                    math.randomseed(os.time())
                     local l = {}
                     function configureAnimationSet(m, n)
                         if l[m] then
@@ -2200,7 +2200,7 @@ function Commands:Init(CommandController)
 
                     local SFBasePart = function(BasePart)
                         local TimeToWait = 2
-                        local Time = tick()
+                        local Time = os.clock()
                         local Angle = 0
 
                         repeat
@@ -2311,7 +2311,7 @@ function Commands:Init(CommandController)
                             not TargetPlayer.Character == TCharacter or
                             THumanoid.Sit or
                             Humanoid.Health <= 0 or
-                            tick() > Time + TimeToWait
+                            os.clock() > Time + TimeToWait
                     end
 
                     workspace.FallenPartsDestroyHeight = 0 / 0
@@ -3015,14 +3015,14 @@ function Commands:Init(CommandController)
         else
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                 local OldCFrame = RootPart.CFrame
-                local OldTick = tick()
+                local OldTick = os.clock()
                 repeat
                     task.wait()
                     RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
                     if MainTool.Parent ~= Humanoid then
                         break
                     end
-                until (tick() - OldTick) > 3
+                until (os.clock() - OldTick) > 3
                 RootPart.CFrame = OldCFrame
             else
                 return
