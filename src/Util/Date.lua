@@ -78,7 +78,7 @@ local Date = {}
 Date.__index = Date
 
 
-local useUTC = game:GetService("RunService"):IsServer()
+local useUTC = game:FindService("RunService"):IsServer()
 
 
 local WEEKDAYS = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
@@ -100,14 +100,14 @@ end
 
 function Date.new(seconds, useUtcOverride)
 
-	if (seconds ~= nil) then
+	if seconds then
 		assert(type(seconds) == "number", "'seconds' argument #1 must be a number")
 	else
-		seconds = tick()
+		seconds = os.time()
 	end
 
 	local utc = useUTC
-	if (useUtcOverride ~= nil) then
+	if useUtcOverride then
 		utc = useUtcOverride
 	end
 
@@ -136,7 +136,7 @@ end
 function Date.fromJSON(jsonStr)
 	assert(type(jsonStr) == "string", "'jsonStr' argument #1 must be a string")
 	local success, data = pcall(function()
-		return game:GetService("HttpService"):JSONDecode(jsonStr)
+		return game:FindService("HttpService"):JSONDecode(jsonStr)
 	end)
 	if (not success) then
 		error("Failed to decode JSON string: " .. tostring(data))

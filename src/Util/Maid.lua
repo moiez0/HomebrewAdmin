@@ -59,7 +59,7 @@ end
 -- Maid[key] = nil                Removes a named task. If the task is an event, it is disconnected. If it is an object,
 --                                it is destroyed.
 function Maid:__newindex(index, newTask)
-	if (Maid[index] ~= nil) then
+	if Maid[index] then
 		error(("'%s' is reserved"):format(tostring(index)), 2)
 	end
 
@@ -111,7 +111,7 @@ function Maid:DoCleaning()
 
 	-- Clear out tasks table completely, even if clean up tasks add more tasks to the maid
 	local index, task = next(tasks)
-	while (task ~= nil) do
+	while task do
 		tasks[index] = nil
 		if (type(task) == "function") then
 			task()

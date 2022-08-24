@@ -12,7 +12,7 @@ Config._PREFIX = ";"
 
 Config._CurrentConfig = nil
 
-local HttpService = game:GetService("HttpService")
+local HttpService = game:FindService("HttpService")
 
 function Config:Init()
     makefolder("HBAdmin")
@@ -27,14 +27,14 @@ function Config:Init()
     self.VERSION = self._CurrentConfig.version
     self.PREFIX = self._CurrentConfig.prefix
     Notifications:Notify("Plugins", "Began loading plugins...", 5)
-    local startPlugins = tick()
+    local startPlugins = os.clock()
     local Plugins = self:GetPlugins()
     for _, Plugin in pairs(Plugins) do
         for _, Command in pairs(Plugin:GetCommands()) do
             CommandController:AddCommand(Command)
         end
     end
-    Notifications:Notify("Plugins", "Loaded " .. #Plugins .. " plugins in " .. string.format("%.2f", tick() - startPlugins) .. " seconds.", 5)
+    Notifications:Notify("Plugins", "Loaded " .. #Plugins .. " plugins in " .. string.format("%.2f", os.clock() - startPlugins) .. " seconds.", 5)
 end
 
 function Config:GetPlugins()
