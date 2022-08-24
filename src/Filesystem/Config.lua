@@ -12,7 +12,7 @@ Config._PREFIX = ";"
 
 Config._CurrentConfig = nil
 
-local HttpService = game:GetService("HttpService")
+local HttpService = game:FindService("HttpService")
 
 function Config:Init()
     makefolder("HBAdmin")

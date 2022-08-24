@@ -61,7 +61,7 @@ local Error do
 			local metatable = getmetatable(anything)
 
 			if type(metatable) == "table" then
-				return rawget(anything, "error") ~= nil and type(rawget(metatable, "extend")) == "function"
+				return rawget(anything, "error") and type(rawget(metatable, "extend")) == "function"
 			end
 		end
 
@@ -69,7 +69,7 @@ local Error do
 	end
 
 	function Error.isKind(anything, kind)
-		assert(kind ~= nil, "Argument #2 to Promise.Error.isKind must not be nil")
+		assert(kind, "Argument #2 to Promise.Error.isKind must not be nil")
 
 		return Error.is(anything) and anything.kind == kind
 	end
@@ -126,7 +126,7 @@ end
 
 
 local function makeErrorHandler(traceback)
-	assert(traceback ~= nil, "No traceback")
+	assert(traceback, "No traceback")
 
 	return function(err)
 		-- If the error object is already a table, forward it directly.
@@ -176,7 +176,7 @@ local Promise = {
 	Error = Error,
 	Status = makeEnum("Promise.Status", {"Started", "Resolved", "Rejected", "Cancelled"}),
 	_getTime = os.clock,
-	_timeEvent = game:GetService("RunService").Heartbeat,
+	_timeEvent = game:FindService("RunService").Heartbeat,
 }
 Promise.prototype = {}
 Promise.__index = Promise.prototype
@@ -194,7 +194,7 @@ Promise.__index = Promise.prototype
 	promise chain. External code shouldn't need to worry about this.
 ]]
 function Promise._new(traceback, callback, parent)
-	if parent ~= nil and not Promise.is(parent) then
+	if parent and not Promise.is(parent) then
 		error("Argument #2 to Promise.new must be a promise or nil", 2)
 	end
 
@@ -734,7 +734,7 @@ do
 				connection = Promise._timeEvent:Connect(function()
 					local threadStart = Promise._getTime()
 
-					while first ~= nil and first.endTime < threadStart do
+					while first and first.endTime < threadStart do
 						local current = first
 						first = current.next
 
@@ -755,7 +755,7 @@ do
 					local current = first
 					local next = current.next
 
-					while next ~= nil and next.endTime < endTime do
+					while next and next.endTime < endTime do
 						current = next
 						next = current.next
 					end
@@ -764,7 +764,7 @@ do
 					current.next = node
 					node.previous = current
 
-					if next ~= nil then
+					if next then
 						node.next = next
 						next.previous = node
 					end
@@ -793,7 +793,7 @@ do
 					-- since `node` is not `first`, then we know `previous` is non-nil
 					previous.next = next
 
-					if next ~= nil then
+					if next then
 						next.previous = previous
 					end
 				end
@@ -1401,7 +1401,7 @@ function Promise.fromEvent(event, predicate)
 		connection = event:Connect(function(...)
 			local callbackValue = predicate(...)
 
-			if callbackValue == true then
+			if callbackValue then
 				resolve(...)
 
 				if connection then

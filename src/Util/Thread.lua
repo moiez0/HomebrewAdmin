@@ -74,7 +74,7 @@
 		local repeatConnection = Thread.DelayRepeat(1, function()
 			print("Hello again", tick())
 		end)
-		wait(5)
+		task.wait(5)
 		repeatConnection:Disconnect()
 
 
@@ -104,7 +104,7 @@
 
 local Thread = {}
 
-local heartbeat = game:GetService("RunService").Heartbeat
+local heartbeat = game:FindService("RunService").Heartbeat
 
 
 function Thread.SpawnNow(func, ...)
