@@ -236,22 +236,6 @@ function Commands:Init(CommandController)
     )
 
     AddCommand(
-        "re",
-        "Resets you in the same pos",
-        0,
-        {"reset","refresh"},
-        function()
-            if Player.Character.Humanoid then
-                CF = Player.Character.HumanoidRootPart.CFrame
-                Player.Character:BreakJoints()
-                Player.CharacterAdded:Wait()
-                Player.Character:WaitForChild("HumanoidRootPart")
-                Player.Character.HumanoidRootPart.CFrame = CF
-            end
-        end
-    )
-
-    AddCommand(
         "respawn",
         "Resets you",
         0,

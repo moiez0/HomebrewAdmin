@@ -27,8 +27,9 @@ function Main:Init()
     genv:Init()
     
     notify("Total of " .. #CommandController.Commands .. " commands.", "Commands Loaded!")
-    notify("Current prefix is `"..Config:Get("prefix").."`" .. ".", "Prefix")
-    notify("Loaded in " .. os.clock() - startTime .. " seconds.", "Loaded!")
+    notify("Current prefix is `"..Config:Get("prefix").."`", "Prefix")
+    notify(Config.VERSION, "Version")
+    notify("Loaded in " .. os.clock() - startTime, "Loaded!")
 end
 
 

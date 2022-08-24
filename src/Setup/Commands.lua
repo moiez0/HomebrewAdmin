@@ -19,7 +19,7 @@ function Commands:Command(table)
     init = init or function() end
 
     local command = Command.new(title, desc, args, alternatives, func)
-    task.spawn(function()
+    task.delay(.3, function()
         local s,e = pcall(init, command)
         if not s then
             Notifications:Notify("Error", "Error loading command "..command:GetName()..". Check Console for more info", 5)
@@ -62,6 +62,39 @@ function Commands:Init(CommandController)
         aliases={"panic", "unload", "exit"},
         executor=function()
             Loading:Unload(Config)
+        end
+    }
+
+    local reCommand
+
+    reCommand = self:Command{
+        title="refresh",
+        desc="Refreshes your character",
+        aliases = {"re", "kys", "suicide", "refresh"},
+        executor=function()
+            if reCommand:GetStore("running") then
+                Notifications:Notify("Refresh", "Already refreshing character!", 3)
+                return
+            end
+            reCommand:SetStore("running", true)
+            local Player = game.Players.LocalPlayer
+            local Character = Player.Character
+            local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+
+            local function anchor(model)
+                for i,v in pairs(model:GetChildren()) do
+                    if v:IsA("BasePart") then v.Anchored = true end
+                    anchor(v)
+                end
+            end
+            anchor(Character)
+            local SavePos = Character.HumanoidRootPart.CFrame
+            Humanoid.Health = 0
+            Player.CharacterAdded:Wait():WaitForChild("HumanoidRootPart").CFrame = SavePos
+            reCommand:SetStore("running", false)
+        end,
+        init=function()
+            reCommand:SetStore("running", false)
         end
     }
 
