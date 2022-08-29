@@ -64,7 +64,7 @@ function Commands:Init(CommandController)
         end
     )
 
-    AddCommand(
+    --[[AddCommand(
         "force",
         "Use the force on target [TOOL REQUIRED]",
         1,
@@ -214,7 +214,7 @@ function Commands:Init(CommandController)
             end
         end)
        end
-    )
+    )]]
 
     AddCommand(
         "tfling",
@@ -973,7 +973,7 @@ function Commands:Init(CommandController)
         end
     )
 
-    AddCommand(
+    --[[AddCommand(
         "grab",
         "Grabs Player [tool required]",
         0,
@@ -1203,7 +1203,7 @@ function Commands:Init(CommandController)
             task.wait(1)
             notify("Press E to drop")
         end
-    )
+    )]]
 
     AddCommand(
         "bring",
@@ -1211,91 +1211,76 @@ function Commands:Init(CommandController)
         0,
         {},
         function(playerx)
-            local Target = playerx
-            local Character = Player.Character
-            local PlayerGui = Player:WaitForChild("PlayerGui")
-            local Backpack = Player:WaitForChild("Backpack")
+            local Target = playerx  
+            local Character = Player.Character        
+            local PlayerGui = Player:waitForChild("PlayerGui")
+            local Backpack = Player:waitForChild("Backpack")
             local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
             local RootPart = Character and Humanoid and Humanoid.RootPart or false
             local RightArm = Character and Character:FindFirstChild("Right Arm") or Character:FindFirstChild("RightHand")
             if not Humanoid or not RootPart or not RightArm then
                 return
             end
-
-            local GetPlayer = GetPlayer
-            local CreateRightGrip = function(Tool)
-                if Tool and RightArm then
-                    local Handle = Tool and Tool:FindFirstChild("Handle") or false
-                    if Handle then
-                        local Weld = Instance.new("Weld")
-                        Weld.Name = "RightGrip"
-                        Weld.Part0 = RightArm
-                        Weld.Part1 = Handle
-                        Weld.C0 = CFrame.new(0, 0, 0)
-                        Weld.C1 = Tool.Grip
-                        Weld.Parent = RightArm
-                        return Weld
-                    end
-                end
-            end
-
             Humanoid:UnequipTools()
             local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
             if not MainTool or not MainTool:FindFirstChild("Handle") then
                 return
             end
-
             local TPlayer = GetPlayer(Target)
             local TCharacter = TPlayer and TPlayer.Character
-
             local THumanoid = TCharacter and TCharacter:FindFirstChildWhichIsA("Humanoid") or false
             local TRootPart = TCharacter and THumanoid and THumanoid.RootPart or false
             if not THumanoid or not TRootPart then
                 return
             end
-
-            CreateRightGrip(MainTool)
-            MainTool.Parent = Character
-            MainTool.Handle:BreakJoints()
-            MainTool.Parent = Backpack
-            MainTool.Parent = Humanoid
-            CreateRightGrip(MainTool)
+            Character.Humanoid.Name = "DAttach"
+            local l = Character["DAttach"]:Clone()
+            l.Parent = Character
+            l.Name = "Humanoid"
+            wait()
+            Character["DAttach"]:Destroy()
+            game.Workspace.CurrentCamera.CameraSubject = Character
+            Character.Animate.Disabled = true
+            wait()
+            Character.Animate.Disabled = false
+            Character.Humanoid.DisplayDistanceType = "None"
+            Character.Humanoid:EquipTool(MainTool)
+            wait()
+            CF = Player.Character.PrimaryPart.CFrame
             if firetouchinterest then
-                THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
-                THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
                 local flag = false
                 task.defer(function()
-                    MainTool.Handle.AncestryChanged:Wait()
+                    MainTool.Handle.AncestryChanged:wait()
                     flag = true
                 end)
                 repeat
                     firetouchinterest(MainTool.Handle, TRootPart, 0)
                     firetouchinterest(MainTool.Handle, TRootPart, 1)
-                    task.wait()
+                    wait()
+                    Player.Character.HumanoidRootPart.CFrame = CF
                 until flag
-                task.wait(.3)
-                if Humanoid.RigType == Enum.HumanoidRigType.R6 then
-                    Character["Right Arm"].RightGrip:Destroy()
-                else
-                    Character["RightHand"].RightGripAttachment:Destroy()
-                    Character["RightHand"].RightGrip:Destroy()
-                end
             else
-                if Humanoid.RigType == Enum.HumanoidRigType.R6 then
-                    local OldCFrame = RootPart.CFrame
-                    local OldTick = os.clock()
-                    repeat
-                        task.wait()
-                        RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
-                        if MainTool.Parent ~= Humanoid then
-                            break
-                        end
-                    until (os.clock() - OldTick) > 3
-                    RootPart.CFrame = OldCFrame
-                else
-                    return
-                end
+                Player.Character.HumanoidRootPart.CFrame =
+                TCharacter.HumanoidRootPart.CFrame
+                wait()
+                Player.Character.HumanoidRootPart.CFrame =
+                TCharacter.HumanoidRootPart.CFrame
+                wait()
+                Player.Character.HumanoidRootPart.CFrame = CF
+                wait()
             end
+            wait(.3)
+            Player.Character:SetPrimaryPartCFrame(CF)
+            if Humanoid.RigType == Enum.HumanoidRigType.R6 then
+                Character["Right Arm"].RightGrip:Destroy()
+            else
+                Character["RightHand"].RightGrip:Destroy()
+                Character["RightHand"].RightGripAttachment:Destroy()
+            end
+                
+            wait(4)
+            CF = Player.Character.HumanoidRootPart.CFrame
+            Player.CharacterAdded:wait():waitForChild("HumanoidRootPart").CFrame = CF
         end
     )
 
@@ -1305,34 +1290,16 @@ function Commands:Init(CommandController)
         0,
         {"instantvoid", "vkill","kill2"},
         function(playerx)
-            local Target = playerx
-            local Character = Player.Character
-            local PlayerGui = Player:WaitForChild("PlayerGui")
-            local Backpack = Player:WaitForChild("Backpack")
+            local Target = playerx  
+            local Character = Player.Character        
+            local PlayerGui = Player:waitForChild("PlayerGui")
+            local Backpack = Player:waitForChild("Backpack")
             local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
             local RootPart = Character and Humanoid and Humanoid.RootPart or false
             local RightArm = Character and Character:FindFirstChild("Right Arm") or Character:FindFirstChild("RightHand")
             if not Humanoid or not RootPart or not RightArm then
                 return
             end
-
-            local GetPlayer = GetPlayer
-            local CreateRightGrip = function(Tool)
-                if Tool and RightArm then
-                    local Handle = Tool and Tool:FindFirstChild("Handle") or false
-                    if Handle then
-                        local Weld = Instance.new("Weld")
-                        Weld.Name = "RightGrip"
-                        Weld.Part0 = RightArm
-                        Weld.Part1 = Handle
-                        Weld.C0 = CFrame.new(0, workspace.FallenPartsDestroyHeight * 3, 0)
-                        Weld.C1 = Tool.Grip
-                        Weld.Parent = RightArm
-                        return Weld
-                    end
-                end
-            end
-
             Humanoid:UnequipTools()
             local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
             if not MainTool or not MainTool:FindFirstChild("Handle") then
@@ -1347,49 +1314,55 @@ function Commands:Init(CommandController)
             if not THumanoid or not TRootPart then
                 return
             end
-            CreateRightGrip(MainTool)
-            MainTool.Parent = Character
-            MainTool.Handle:BreakJoints()
-            MainTool.Parent = Backpack
-            MainTool.Parent = Humanoid
-            CreateRightGrip(MainTool)
-            THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
-            THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
-            task.wait(.1)
+
+            Character.Humanoid.Name = "DAttach"
+            local l = Character["DAttach"]:Clone()
+            l.Parent = Character
+            l.Name = "Humanoid"
+            wait()
+            Character["DAttach"]:Destroy()
+            game.Workspace.CurrentCamera.CameraSubject = Character
+            Character.Animate.Disabled = true
+            wait()
+            Character.Animate.Disabled = false
+            Character.Humanoid.DisplayDistanceType = "None"
+            Character.Humanoid:EquipTool(MainTool)
+            wait()
+            CF = Player.Character.PrimaryPart.CFrame
             if firetouchinterest then
                 local flag = false
                 task.defer(function()
-                    MainTool.Handle.AncestryChanged:Wait()
+                    MainTool.Handle.AncestryChanged:wait()
                     flag = true
                 end)
                 repeat
                     firetouchinterest(MainTool.Handle, TRootPart, 0)
                     firetouchinterest(MainTool.Handle, TRootPart, 1)
-                    task.wait()
+                    wait()
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-100000, -100, -100000))
                 until flag
-                task.wait(.3)
-                if Humanoid.RigType == Enum.HumanoidRigType.R6 then
-                    Character["Right Arm"].RightGrip:Destroy()
-                else
-                    Character["RightHand"].RightGrip:Destroy()
-                    Character["RightHand"].RightGripAttachment:Destroy()
-                end
             else
-                if Humanoid.RigType == Enum.HumanoidRigType.R6 then
-                    local OldCFrame = RootPart.CFrame
-                    local OldTick = os.clock()
-                    repeat
-                        task.wait()
-                        RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
-                        if MainTool.Parent ~= Humanoid then
-                            break
-                        end
-                    until (os.clock() - OldTick) > 3
-                    RootPart.CFrame = OldCFrame
-                else
-                    return
-                end
+                Player.Character.HumanoidRootPart.CFrame =
+                TCharacter.HumanoidRootPart.CFrame
+                wait()
+                Player.Character.HumanoidRootPart.CFrame =
+                TCharacter.HumanoidRootPart.CFrame
+                wait()
+                Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-100000, -1000, -100000))
+                wait()
             end
+            wait(.3)
+            Player.Character:SetPrimaryPartCFrame(CF)
+            if Humanoid.RigType == Enum.HumanoidRigType.R6 then
+                Character["Right Arm"].RightGrip:Destroy()
+            else
+                Character["RightHand"].RightGrip:Destroy()
+                Character["RightHand"].RightGripAttachment:Destroy()
+            end
+                
+            wait(4)
+            CF = Player.Character.HumanoidRootPart.CFrame
+            Player.CharacterAdded:wait():waitForChild("HumanoidRootPart").CFrame = CF
         end
     )
 
@@ -2909,106 +2882,96 @@ function Commands:Init(CommandController)
         1,
         {"skydive"},
         function(Target)
-
-        local Character = Player.Character
-
-        local PlayerGui = Player:WaitForChild("PlayerGui")
-        local Backpack = Player:WaitForChild("Backpack")
-
-        local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
-        local RootPart = Character and Humanoid and Humanoid.RootPart or false
-        local RightArm = Character and Character:FindFirstChild("Right Arm") or Character:FindFirstChild("RightHand")
-        if not Humanoid or not RootPart or not RightArm then
-            return
-        end
-
-
-        local CreateRightGrip = function(Tool)
-            if Tool and RightArm then
-                local Handle = Tool and Tool:FindFirstChild("Handle") or false
-                if Handle then
-                    local Weld = Instance.new("Weld")
-                    Weld.Name = "RightGrip"
-                    Weld.Part0 = RightArm
-                    Weld.Part1 = Handle
-                    Weld.C0 = CFrame.new(0, 7000, -7)
-                    Weld.C1 = Tool.Grip
-                    Weld.Parent = RightArm
-                    return Weld
-                end
+            local Character = Player.Character
+            local PlayerGui = Player:waitForChild("PlayerGui")
+            local Backpack = Player:waitForChild("Backpack")
+            local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
+            local RootPart = Character and Humanoid and Humanoid.RootPart or false
+            local RightArm = Character and Character:FindFirstChild("Right Arm") or Character:FindFirstChild("RightHand")
+            if not Humanoid or not RootPart or not RightArm then
+                return
             end
-        end
-
-        Humanoid:UnequipTools()
-        local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
-        if not MainTool or not MainTool:FindFirstChild("Handle") then
-            return
-        end
-
-        local TPlayer = GetPlayer(Target)
-        local TCharacter = TPlayer and TPlayer.Character
-        --workspace.CurrentCamera.CameraSubject = TCharacter
-        local THumanoid = TCharacter and TCharacter:FindFirstChildWhichIsA("Humanoid") or false
-        local TRootPart = TCharacter and THumanoid and THumanoid.RootPart or false
-        if not THumanoid or not TRootPart then
-            return
-        end
-
-        if Character:FindFirstChild("Animate") then
-            Character:FindFirstChild("Animate").Disabled = true
-        end
-        for _, x in next, Humanoid:GetPlayingAnimationTracks() do
-            x:Stop()
-        end
-        CreateRightGrip(MainTool)
-        MainTool.Parent = Character
-        MainTool.Handle:BreakJoints()
-        MainTool.Parent = Backpack
-        MainTool.Parent = Humanoid
-        CreateRightGrip(MainTool)
-        if firetouchinterest then
-            local flag = false
-            task.defer(function()
-                MainTool.Handle.AncestryChanged:Wait()
-                flag = true
-            end)
-            repeat
-                firetouchinterest(MainTool.Handle, TRootPart, 0)
-                firetouchinterest(MainTool.Handle, TRootPart, 1)
-                task.wait()
-            until flag
-            task.wait(.3)
+            
+            local GetPlayer = function(Name)
+                for x in string.gmatch(Name, "[%a%d%p]+") do
+                    Name = x:lower()
+                    break
+                end
+                local TPlayer = nil
+                for _, x in next, Players:GetPlayers() do
+                    if tostring(x):lower():match(Name) or x["DisplayName"]:lower():match(Name) then
+                        TPlayer = x
+                        break
+                    end
+                end
+                return TPlayer
+            end
+            
+            Humanoid:UnequipTools()
+            local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
+            if not MainTool or not MainTool:FindFirstChild("Handle") then
+                return
+            end
+            
+            local TPlayer = GetPlayer(Target)
+            local TCharacter = TPlayer and TPlayer.Character
+            
+            local THumanoid = TCharacter and TCharacter:FindFirstChildWhichIsA("Humanoid") or false
+            local TRootPart = TCharacter and THumanoid and THumanoid.RootPart or false
+            if not THumanoid or not TRootPart then
+                return
+            end
+            
+            Character.Humanoid.Name = "DAttach"
+            local l = Character["DAttach"]:Clone()
+            l.Parent = Character
+            l.Name = "Humanoid"
+            wait()
+            Character["DAttach"]:Destroy()
+            game.Workspace.CurrentCamera.CameraSubject = Character
+            Character.Animate.Disabled = true
+            wait()
+            Character.Animate.Disabled = false
+            Character.Humanoid.DisplayDistanceType = "None"
+            Character.Humanoid:EquipTool(MainTool)
+            wait()
+            CF = Player.Character.PrimaryPart.CFrame
+            XC = TCharacter.HumanoidRootPart.CFrame.X
+            ZC = TCharacter.HumanoidRootPart.CFrame.Z
+            if firetouchinterest then
+                local flag = false
+                task.defer(function()
+                    MainTool.Handle.AncestryChanged:wait()
+                    flag = true
+                end)
+                repeat
+                    firetouchinterest(MainTool.Handle, TRootPart, 0)
+                    firetouchinterest(MainTool.Handle, TRootPart, 1)
+                    wait()
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(XC,10000,ZC)
+                until flag
+            else
+                Player.Character.HumanoidRootPart.CFrame =
+                TCharacter.HumanoidRootPart.CFrame
+                wait()
+                Player.Character.HumanoidRootPart.CFrame =
+                TCharacter.HumanoidRootPart.CFrame
+                wait()
+                Player.Character.HumanoidRootPart.CFrame = CFrame.new(XC,1000,ZC)
+                wait()
+            end
+            wait(.3)
+            Player.Character:SetPrimaryPartCFrame(CF)
             if Humanoid.RigType == Enum.HumanoidRigType.R6 then
                 Character["Right Arm"].RightGrip:Destroy()
             else
-                Character["RightHand"].RightGripAttachment:Destroy()
                 Character["RightHand"].RightGrip:Destroy()
+                Character["RightHand"].RightGripAttachment:Destroy()
             end
-        else
-            if Humanoid.RigType == Enum.HumanoidRigType.R6 then
-                local OldCFrame = RootPart.CFrame
-                local OldTick = os.clock()
-                repeat
-                    task.wait()
-                    RootPart.CFrame = TRootPart.CFrame * CFrame.new(0, 2, 2)
-                    if MainTool.Parent ~= Humanoid then
-                        break
-                    end
-                until (os.clock() - OldTick) > 3
-                RootPart.CFrame = OldCFrame
-            else
-                return
-            end
-        end
-
-        THumanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp, false)
-        THumanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
-
-
-        if Character:FindFirstChild("Animate") then
-            Character:FindFirstChild("Animate").Disabled = false
-        end
-        notify("Done.")
+                
+            wait(4)
+            CF = Player.Character.HumanoidRootPart.CFrame
+            Player.CharacterAdded:wait():waitForChild("HumanoidRootPart").CFrame = CF
         end
     )
 
