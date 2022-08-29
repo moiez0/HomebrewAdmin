@@ -1,3 +1,4 @@
+local succ,err = pcall(function()
 local rbxmSuite = loadstring(game:HttpGetAsync("https://github.com/richie0866/rbxm-suite/releases/latest/download/rbxm-suite.lua"))()
 
 local path = rbxmSuite.download("Syntaxx64/HomebrewAdmin@latest", "Homebrew.rbxm")
@@ -9,3 +10,18 @@ rbxmSuite.launch(path, {
 })
 
 -- Launch using rbxmSuite
+end)
+if err then
+    local start = os.clock()
+    local Rostruct = loadstring(game:HttpGetAsync("https://github.com/richie0866/Rostruct/releases/download/v1.1.11/Rostruct.lua"))()
+    Rostruct.fetchLatest("Syntaxx64", "HomebrewAdmin")
+        :andThen(function(pkg)
+            pkg:build("src/")
+            pkg:start()
+            return pkg
+        end)
+
+        :expect()
+
+    warn("Homebrew loaded in " ..string.format("%.2f", os.clock() - start))
+end
