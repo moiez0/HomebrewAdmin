@@ -98,6 +98,75 @@ function Commands:Init(CommandController)
         end
     }
 
+    self:Command{
+        title = "fireclickdetectors",
+        desc = "Fires all ClickDetectors in the Workspace",
+        aliases = { "clickdetectors", "firecd" },
+        executor = function()
+            if fireclickdetector == nil then
+                Notifications:Notify("Fire ClickDetectors", "Unsupported exploit: missing fireclickdetector")
+                return
+            end
+
+            for _, ins in ipairs(workspace:GetDescendants()) do
+                if not ins:IsA("ClickDetector") then
+                    continue
+                end
+
+                fireclickdetector(ins)
+            end
+        end
+    }
+
+    self:Command{
+        title = "fireproximityprompts",
+        desc = "Fires all ProximityPrompts in the Workspace",
+        aliases = { "proximityprompts", "fireprompts", "firepp" },
+        executor = function()
+            if fireproximityprompt == nil then
+                Notifications:Notify("Fire ProximityPrompts", "Unsupported exploit: missing fireproximityprompt")
+                return
+            end
+
+            for _, ins in ipairs(workspace:GetDescendants()) do
+                if not ins:IsA("ProximityPrompt") then
+                    continue
+                end
+
+                fireproximityprompt(ins)
+            end
+        end
+    }
+
+    self:Command{
+        title = "firetouchinterests",
+        desc = "Fires all TouchInterests in the Workspace",
+        aliases = { "touchinterests", "firetouch", "fireti" },
+        executor = function()
+            if firetouchinterest == nil then
+                Notifications:Notify("Fire TouchInterests", "Unsupported exploit: missing firetouchinterest")
+                return
+            end
+
+            local pl = game.Players.LocalPlayer
+            local hrp = pl.Character and pl.Character:FindFirstChild("HumanoidRootPart")
+
+            if (hrp == nil) then
+                Notifications:Notify("Fire TouchInterests", "Failed: character has no root part")
+                return
+            end
+
+            for _, ins in ipairs(workspace:GetDescendants()) do
+                if not ins:IsA("TouchTransmitter") or not ins.Parent:IsA("BasePart") then
+                    continue
+                end
+
+                local part = ins.Parent
+                firetouchinterest(part, hrp, 1)
+                task.delay(0, firetouchinterest, part, hrp, 0)
+            end
+        end
+    }
 
     self:LoadCommands(CommandController)
 end
