@@ -436,7 +436,6 @@ function Commands:Init(CommandController)
             Character.Animate.Disabled = true
             wait()
             Character.Animate.Disabled = false
-            Character.Humanoid.DisplayDistanceType = "None"
             Character.Humanoid:EquipTool(MainTool)
             wait()
             Notifications:Notify("Rocket", "Sending target to space!", 5)
@@ -502,7 +501,6 @@ function Commands:Init(CommandController)
             Character.Animate.Disabled = true
             wait()
             Character.Animate.Disabled = false
-            Character.Humanoid.DisplayDistanceType = "None"
             Character.Humanoid:EquipTool(MainTool)
             wait()
             Notifications:Notify("Attach", "Attaching to target!", 5)
