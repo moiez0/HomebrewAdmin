@@ -1243,7 +1243,6 @@ function Commands:Init(CommandController)
             Character.Animate.Disabled = true
             wait()
             Character.Animate.Disabled = false
-            Character.Humanoid.DisplayDistanceType = "None"
             Character.Humanoid:EquipTool(MainTool)
             wait()
             CF = Player.Character.PrimaryPart.CFrame
@@ -1327,7 +1326,6 @@ function Commands:Init(CommandController)
             Character.Animate.Disabled = true
             hwait()
             Character.Animate.Disabled = false
-            Character.Humanoid.DisplayDistanceType = "None"
             Character.Humanoid:EquipTool(MainTool)
             hwait()
             CF = Player.Character.PrimaryPart.CFrame
@@ -2805,7 +2803,6 @@ function Commands:Init(CommandController)
             Player.Character.Animate.Disabled = true
             task.wait()
             Player.Character.Animate.Disabled = false
-            Player.Character.Humanoid.DisplayDistanceType = "None"
             for i, v in pairs(game:FindService "Players".LocalPlayer.Backpack:GetChildren()) do
                 Player.Character.Humanoid:EquipTool(v)
             end
@@ -2845,7 +2842,6 @@ function Commands:Init(CommandController)
             Player.Character.Animate.Disabled = true
             task.wait()
             Player.Character.Animate.Disabled = false
-            Player.Character.Humanoid.DisplayDistanceType = "None"
             for i, v in pairs(game:FindService "Players".LocalPlayer.Backpack:GetChildren()) do
                 Player.Character.Humanoid:EquipTool(v)
             end
@@ -2920,7 +2916,6 @@ function Commands:Init(CommandController)
             Character.Animate.Disabled = true
             wait()
             Character.Animate.Disabled = false
-            Character.Humanoid.DisplayDistanceType = "None"
             Character.Humanoid:EquipTool(MainTool)
             wait()
             CF = Player.Character.PrimaryPart.CFrame
