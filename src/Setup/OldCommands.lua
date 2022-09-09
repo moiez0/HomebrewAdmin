@@ -1243,7 +1243,6 @@ function Commands:Init(CommandController)
             Character.Animate.Disabled = true
             wait()
             Character.Animate.Disabled = false
-            Character.Humanoid.DisplayDistanceType = "None"
             Character.Humanoid:EquipTool(MainTool)
             wait()
             CF = Player.Character.PrimaryPart.CFrame
@@ -1315,20 +1314,22 @@ function Commands:Init(CommandController)
                 return
             end
 
+            function hwait() return game:GetService("RunService").Heartbeat:Wait() end
+
             Character.Humanoid.Name = "DAttach"
             local l = Character["DAttach"]:Clone()
             l.Parent = Character
             l.Name = "Humanoid"
-            wait()
+            hwait()
             Character["DAttach"]:Destroy()
             game.Workspace.CurrentCamera.CameraSubject = Character
             Character.Animate.Disabled = true
-            wait()
+            hwait()
             Character.Animate.Disabled = false
-            Character.Humanoid.DisplayDistanceType = "None"
             Character.Humanoid:EquipTool(MainTool)
-            wait()
+            hwait()
             CF = Player.Character.PrimaryPart.CFrame
+            --workspace.CurrentCamera.CameraType = "Scriptable"
             if firetouchinterest then
                 local flag = false
                 task.defer(function()
@@ -1338,31 +1339,16 @@ function Commands:Init(CommandController)
                 repeat
                     firetouchinterest(MainTool.Handle, TRootPart, 0)
                     firetouchinterest(MainTool.Handle, TRootPart, 1)
-                    wait()
-                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-100000, -100, -100000))
+                    wait(.1)
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(0,workspace.FallenPartsDestroyHeight+(1.09),0)
                 until flag
-            else
-                Player.Character.HumanoidRootPart.CFrame =
-                TCharacter.HumanoidRootPart.CFrame
-                wait()
-                Player.Character.HumanoidRootPart.CFrame =
-                TCharacter.HumanoidRootPart.CFrame
-                wait()
-                Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-100000, -1000, -100000))
-                wait()
             end
-            wait(.3)
-            Player.Character:SetPrimaryPartCFrame(CF)
-            if Humanoid.RigType == Enum.HumanoidRigType.R6 then
-                Character["Right Arm"].RightGrip:Destroy()
-            else
-                Character["RightHand"].RightGrip:Destroy()
-                Character["RightHand"].RightGripAttachment:Destroy()
-            end
-                
-            wait(4)
-            CF = Player.Character.HumanoidRootPart.CFrame
-            Player.CharacterAdded:wait():waitForChild("HumanoidRootPart").CFrame = CF
+
+                        
+            Player.CharacterAdded:Wait()
+            Player.Character.HumanoidRootPart.CFrame = CF
+            --workspace.CurrentCamera.CameraType = "Custom"
+
         end
     )
 
@@ -2817,7 +2803,6 @@ function Commands:Init(CommandController)
             Player.Character.Animate.Disabled = true
             task.wait()
             Player.Character.Animate.Disabled = false
-            Player.Character.Humanoid.DisplayDistanceType = "None"
             for i, v in pairs(game:FindService "Players".LocalPlayer.Backpack:GetChildren()) do
                 Player.Character.Humanoid:EquipTool(v)
             end
@@ -2857,7 +2842,6 @@ function Commands:Init(CommandController)
             Player.Character.Animate.Disabled = true
             task.wait()
             Player.Character.Animate.Disabled = false
-            Player.Character.Humanoid.DisplayDistanceType = "None"
             for i, v in pairs(game:FindService "Players".LocalPlayer.Backpack:GetChildren()) do
                 Player.Character.Humanoid:EquipTool(v)
             end
@@ -2932,7 +2916,6 @@ function Commands:Init(CommandController)
             Character.Animate.Disabled = true
             wait()
             Character.Animate.Disabled = false
-            Character.Humanoid.DisplayDistanceType = "None"
             Character.Humanoid:EquipTool(MainTool)
             wait()
             CF = Player.Character.PrimaryPart.CFrame

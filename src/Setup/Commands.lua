@@ -9,6 +9,23 @@ local Commands = {
     _commands = {}
 }
 
+local Players = game:FindService("Players")
+local CoreGui = game:FindService("CoreGui")
+local StarterGui = game:FindService("StarterGui")
+local GuiService = game:FindService("GuiService")
+local RunService = game:FindService("RunService")
+local TweenService = game:FindService("TweenService")
+local PhysicsService = game:FindService("PhysicsService")
+local TeleportService = game:FindService("TeleportService")
+local UserInputService = game:FindService("UserInputService")
+local HttpService = game:FindService("HttpService")
+local ReplicatedStorage = game:FindService("ReplicatedStorage")
+local Chat = game:FindService("Chat")
+local Lighting = game:FindService("Lighting")
+
+local Player = Players.LocalPlayer
+local LocalPlayer = Players.LocalPlayer
+
 function Commands:Command(table)
     local title, desc, args, alternatives, func, init = table.title or table.name, table.desc or table.description, table.args or table.arguments, table.aliases or table.alternatives, table.func or table.executor, table.init
     title = title or "Homebrew Command"
@@ -30,6 +47,21 @@ function Commands:Command(table)
     return command
 end
 
+local GetPlayer = function(Name)
+    if Name:lower() == "random" then
+        return Players:GetPlayers()[math.random(#Players:GetPlayers())]
+    else
+        Name = Name:lower():gsub("%s", "")
+        for _, x in next, Players:GetPlayers() do
+            if x.Name:lower():match(Name) then
+                return x
+            elseif x.DisplayName:lower():match("^" .. Name) then
+                return x
+            end
+        end
+    end
+end
+
 function Commands:Init(CommandController)
     OldCommands:Init(CommandController)
 
@@ -42,12 +74,12 @@ function Commands:Init(CommandController)
             local enabled = antikill:GetStore("enabled")
             if not enabled then
                 Notifications:Notify("Anti Kill", "Anti Kill enabled", 5)
-                game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled("Seated", false)
-                game.Players.LocalPlayer.Character.Humanoid.Sit = true
+                Player.Character.Humanoid:SetStateEnabled("Seated", false)
+                Player.Character.Humanoid.Sit = true
             else
                 Notifications:Notify("Anti Kill", "Anti Kill disabled", 5)
-                game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled("Seated", true)
-                game.Players.LocalPlayer.Character.Humanoid.Sit = false
+                Player.Character.Humanoid:SetStateEnabled("Seated", true)
+                Player.Character.Humanoid.Sit = false
             end
             antikill:SetStore("enabled", not enabled)
         end,
@@ -65,6 +97,745 @@ function Commands:Init(CommandController)
         end
     }
 
+    self:Command{
+        title="clicktp",
+        desc="Enables clicktp (CRTL + LEFTCLICK)",
+        aliases={},
+        executor=function()
+            Mouse = Player:GetMouse()
+            CLICKTPLOOP = Mouse.Button1Down:connect(function()
+                if  game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.LeftControl) then
+                Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Mouse.Hit.p))
+                end
+            end)
+            Notifications:Notify("clicktp", "Enabled!", 5)
+        end
+    }
+
+    self:Command{
+        title="unclicktp",
+        desc="Disables clicktp",
+        aliases={},
+        executor=function()
+            if CLICKTPLOOP then
+                CLICKTPLOOP:Disconnect()
+            end
+            Notifications:Notify("clicktp", "Disabled!", 5)
+        end
+    }
+
+    self:Command{
+        title="sit",
+        desc="Makes you sit!",
+        aliases={},
+        executor=function()
+            Player.Character:FindFirstChildOfClass('Humanoid').Sit = true
+            Notifications:Notify("Sit", "Sitting!", 5)
+        end
+    }
+
+    self:Command{
+        title="unsit",
+        desc="Makes you get up!",
+        aliases={},
+        executor=function()
+            Player.Character:FindFirstChildOfClass('Humanoid').Sit = false
+            Notifications:Notify("Sit", "Unsitting!", 5)
+        end
+    }
+
+    self:Command{
+        title="pathfindgoto",
+        desc="Uses pathfinding to go to player!",
+        aliases={"pfgoto", "pfg"},
+        executor=function(Target)
+            local SimplePath = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/V3N0M-Z/RBLX-SimplePath/main/src/SimplePath.lua"))()
+            Goal = GetPlayer(Target).Character.PrimaryPart
+            Path = SimplePath.new(Player.Character)
+            Path.Blocked:Connect(function()
+                Path:Run(Goal)
+            end)
+            Path.WaypointReached:Connect(function()
+                Path:Run(Goal)
+            end)
+            Path.Error:Connect(function(errorType)
+                Path:Run(Goal)
+            end)
+            Path:Run(Goal)
+            Notifications:Notify("Pathfind", "Going to target!", 5)
+        end
+    }
+
+    self:Command{
+        title="unpathfindgoto",
+        desc="Stops the current pathfinding run.",
+        aliases={"unpfgoto", "unpfg"},
+        executor=function()
+            if Path then
+                Path:Stop()
+                Path:Destroy()
+                Notifications:Notify("Pathfind", "Stopped!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="btools",
+        desc="Gives you btools [CLIENT].",
+        aliases={},
+        executor=function()
+            A = Instance.new("HopperBin", Player.Backpack)
+            A.BinType = 2
+            A = Instance.new("HopperBin", Player.Backpack)
+            A.BinType = 3
+            A = Instance.new("HopperBin", Player.Backpack)
+            A.BinType = 4
+            Notifications:Notify("Btools", "Got btools!", 5)
+        end
+    }
+
+    self:Command{
+        title="naked",
+        desc="Removes your clothing!",
+        aliases={},
+        executor=function()
+            for i,v in pairs(Player.Character:GetDescendants()) do
+                if v:IsA("ShirtGraphic") or v:IsA("Clothing") then
+                    v:Destroy()
+                end
+            end
+            Notifications:Notify("Naked", "Clothes removed!", 5)
+        end
+    }
+
+    self:Command{
+        title="newbubblechat",
+        desc="Enables the new bubblechat on client",
+        aliases={"bubblechat"},
+        executor=function()
+            Chat.BubbleChatEnabled = true
+            Notifications:Notify("Bubble Chat", "Enabled!", 5)
+        end
+    }
+
+    self:Command{
+        title="unnewbubblechat",
+        desc="Disables the new bubblechat on client",
+        aliases={"nobubblechat","unbubblechat"},
+        executor=function()
+            Chat.BubbleChatEnabled = false
+            Notifications:Notify("Bubble Chat", "Disabled!", 5)
+        end
+    }
+
+    self:Command{
+        title="Unload",
+        desc="Unloads the admin",
+        aliases={"panic", "unload", "exit"},
+        executor=function()
+            Loading:Unload(Config)
+        end
+    }
+
+    self:Command{
+        title="saura",
+        desc="Automatically kills the nearest players",
+        aliases={},
+        executor=function()
+            funnyloop = true
+            local Backpack = Player:WaitForChild("Backpack")
+            local Character = Player.Character
+            local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
+            local RootPart = Character and Humanoid and Humanoid.RootPart or false
+            local RightArm = Character and Character:FindFirstChild("Right Arm") or Character:FindFirstChild("RightHand")
+            if not Humanoid or not RootPart or not RightArm then
+                return
+            end
+
+            local function GetClosest()
+                local Character = LocalPlayer.Character
+                local HumanoidRootPart = Character and Character:FindFirstChild("HumanoidRootPart")
+                if not (Character or HumanoidRootPart) then return end
+
+                local TargetDistance = math.huge
+                local Target
+
+                for i,v in ipairs(Players:GetPlayers()) do
+                    if v ~= LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+                        local TargetHRP = v.Character.HumanoidRootPart
+                        local mag = (HumanoidRootPart.Position - TargetHRP.Position).magnitude
+                        if mag < TargetDistance then
+                            TargetDistance = mag
+                            Target = v
+                        end
+
+                    end
+                end
+
+                return Target
+            end
+            Humanoid:UnequipTools()
+            local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
+            Humanoid:EquipTool(MainTool)
+            Notifications:Notify("SAura", "SAura ON!", 5)
+            repeat
+            task.wait()
+            MainTool:Activate()
+            task.wait()
+            MainTool:Activate()
+            firetouchinterest(MainTool.Handle, GetClosest().Character.PrimaryPart, 0)
+            firetouchinterest(MainTool.Handle,GetClosest().Character.PrimaryPart, 1)
+            until funnyloop == false or Character.Humanoid.Health == 0
+        end
+    }
+
+    self:Command{
+        title="unsaura",
+        desc="Turns off saura",
+        aliases={},
+        executor=function()
+            if funnyloop then
+                funnyloop = false
+                Notifications:Notify("SAura", "SAura OFF!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="gravity",
+        desc="Changes the gravity to arg",
+        aliases={"grav"},
+        executor=function(arg)
+            if arg then
+                workspace.Gravity = arg
+                Notifications:Notify("Gravity", "Gravity set!", 5)
+            else
+                workspace.Gravity = 196.2
+                Notifications:Notify("Gravity", "Gravity set to default!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="ungravity",
+        desc="Changes the gravity to default (196.2)",
+        aliases={"ungrav"},
+        executor=function()
+            workspace.Gravity = 196.2
+            Notifications:Notify("Gravity", "Gravity set to default!", 5)
+        end
+    }
+
+    self:Command{
+        title="maxslopeangle",
+        desc="Changes the maxslopeangle to arg",
+        aliases={"msa"},
+        executor=function(arg)
+            if arg then
+                Player.Character:FindFirstChildOfClass('Humanoid').MaxSlopeAngle = arg
+                Notifications:Notify("Maxslopeangle", "maxslopeangle set!", 5)
+            else
+                Player.Character:FindFirstChildOfClass('Humanoid')N.MaxSlopeAngle = 89
+                Notifications:Notify("Maxslopeangle", "maxslopeangle set to default!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="jump",
+        desc="Makes you jump",
+        aliases={},
+        executor=function()
+            Player.Character:FindFirstChildOfClass("Humanoid"):ChangeState(3)
+        end
+    }
+
+    self:Command{
+        title="infjump",
+        desc="Makes you jump as many times as you want in air",
+        aliases={"infinitejump"},
+        executor=function()
+            pcall(function()
+                infjumploop:Disconnect()
+            end)
+            infjumploop = UserInputService.JumpRequest:connect(function()
+                Player.Character:FindFirstChildOfClass("Humanoid"):ChangeState(3)
+            end)
+            Notifications:Notify("Infinite Jump", "Enabled!", 5)
+        end
+    }
+
+    self:Command{
+        title="uninfjump",
+        desc="Disables infinite jump",
+        aliases={"uninfinitejump"},
+        executor=function()
+            if infjumploop then
+                infjumploop:Disconnect()
+                Notifications:Notify("Infinite Jump", "Disabled!", 5)
+            else
+                Notifications:Notify("Infinite Jump", "Not Enabled!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="antivoid",
+        desc="Prevents people from attaching to you",
+        aliases={"antiattach"},
+        executor=function()
+            local Tools = {}
+            for i,v in pairs(LocalPlayer.Character:GetChildren()) do
+                if v:IsA("Tool") then
+                    table.insert(Tools,v:GetDebugId())
+                end
+            end
+            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+                if v:IsA("Tool") then
+                    table.insert(Tools,v:GetDebugId())
+                end
+            end
+            AAttach = LocalPlayer.Character.ChildAdded:Connect(function(instance)
+                if instance:IsA("Tool") and not table.find(Tools,instance:GetDebugId()) then
+                    task.wait()
+                    instance.Parent = nil
+                end
+            end)
+            Notifications:Notify("Anti Void", "Enabled!", 5)
+        end
+    }
+
+    self:Command{
+        title="rocket",
+        desc="Rockets player [TOOL REQUIRED]",
+        aliases={},
+        executor=function(Target)
+            local TPlayer = GetPlayer(Target)
+            TRootPart = TPlayer.Character.HumanoidRootPart
+            local Character = Player.Character
+            local PlayerGui = Player:WaitForChild("PlayerGui")
+            local Backpack = Player:WaitForChild("Backpack")
+            local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
+            local RootPart = Character and Humanoid and Humanoid.RootPart or false
+            local RightArm = Character and Character:FindFirstChild("Right Arm") or Character:FindFirstChild("RightHand")
+            if not Humanoid or not RootPart or not RightArm then
+                return
+            end
+            Humanoid:UnequipTools()
+            local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
+            if not MainTool or not MainTool:FindFirstChild("Handle") then
+                return
+            end
+            Humanoid.Name = "DAttach"
+            local l = Character["DAttach"]:Clone()
+            l.Parent = Character
+            l.Name = "Humanoid"
+            wait()
+            Character["DAttach"]:Destroy()
+            game.Workspace.CurrentCamera.CameraSubject = Character
+            Character.Animate.Disabled = true
+            wait()
+            Character.Animate.Disabled = false
+            Character.Humanoid:EquipTool(MainTool)
+            wait()
+            Notifications:Notify("Rocket", "Sending target to space!", 5)
+            CF = Player.Character.PrimaryPart.CFrame
+            if firetouchinterest then
+                local flag = false
+                task.defer(function()
+                    MainTool.Handle.AncestryChanged:wait()
+                    flag = true
+                end)
+                repeat
+                    firetouchinterest(MainTool.Handle, TRootPart, 0)
+                    firetouchinterest(MainTool.Handle, TRootPart, 1)
+                    wait()
+                    local a = Instance.new("BodyForce",Character.HumanoidRootPart)
+                    a.Force = Vector3.new(0,9e3,0)
+                    Character:FindFirstChildOfClass("Humanoid"):ChangeState(3)
+                until flag
+            else
+                Player.Character.HumanoidRootPart.CFrame =
+                TCharacter.HumanoidRootPart.CFrame
+                wait()
+                Player.Character.HumanoidRootPart.CFrame =
+                TCharacter.HumanoidRootPart.CFrame
+                wait()
+                local a = Instance.new("BodyForce",Character.HumanoidRootPart)
+                a.Force = Vector3.new(0,9e3,0)
+                Character:FindFirstChildOfClass("Humanoid"):ChangeState(3)
+                wait()
+            end
+            Player.CharacterAdded:wait():waitForChild("HumanoidRootPart").CFrame = CF
+        end
+    }
+
+    self:Command{
+        title="attach",
+        desc="Attaches to player [TOOL REQUIRED]",
+        aliases={},
+        executor=function(Target)
+            local TPlayer = GetPlayer(Target)
+            TRootPart = TPlayer.Character.HumanoidRootPart
+            local Character = Player.Character
+            local PlayerGui = Player:WaitForChild("PlayerGui")
+            local Backpack = Player:WaitForChild("Backpack")
+            local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
+            local RootPart = Character and Humanoid and Humanoid.RootPart or false
+            local RightArm = Character and Character:FindFirstChild("Right Arm") or Character:FindFirstChild("RightHand")
+            if not Humanoid or not RootPart or not RightArm then
+                return
+            end
+            Humanoid:UnequipTools()
+            local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
+            if not MainTool or not MainTool:FindFirstChild("Handle") then
+                return
+            end
+            Humanoid.Name = "DAttach"
+            local l = Character["DAttach"]:Clone()
+            l.Parent = Character
+            l.Name = "Humanoid"
+            wait()
+            Character["DAttach"]:Destroy()
+            game.Workspace.CurrentCamera.CameraSubject = Character
+            Character.Animate.Disabled = true
+            wait()
+            Character.Animate.Disabled = false
+            Character.Humanoid:EquipTool(MainTool)
+            wait()
+            Notifications:Notify("Attach", "Attaching to target!", 5)
+            CF = Player.Character.PrimaryPart.CFrame
+            if firetouchinterest then
+                local flag = false
+                task.defer(function()
+                    MainTool.Handle.AncestryChanged:wait()
+                    flag = true
+                end)
+                repeat
+                    firetouchinterest(MainTool.Handle, TRootPart, 0)
+                    firetouchinterest(MainTool.Handle, TRootPart, 1)
+                    wait()
+                until flag
+            else
+                Player.Character.HumanoidRootPart.CFrame =
+                TCharacter.HumanoidRootPart.CFrame
+                wait()
+                Player.Character.HumanoidRootPart.CFrame =
+                TCharacter.HumanoidRootPart.CFrame
+                wait()
+            end
+            Player.CharacterAdded:wait():waitForChild("HumanoidRootPart").CFrame = CF
+        end
+    }
+
+    self:Command{
+        title="unantivoid",
+        desc="Disables anti void",
+        aliases={"unantiattach"},
+        executor=function()
+            if AAttach then
+                AAttach:Disconnect()
+                Notifications:Notify("Anti Void", "Disabled!", 5)
+            else
+                Notifications:Notify("Anti Void", "Disabled!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="delete",
+        desc="Removes player from workspace",
+        aliases={"remove"},
+        executor=function(Target)
+            TPlayer = GetPlayer(Target)
+            TPlayer.Character.Parent = game.Lighting
+            Notifications:Notify("Delete", "Player now in lighting!", 5)
+        end
+    }
+
+    self:Command{
+        title="setspawn",
+        desc="Sets spawn to where you execute",
+        aliases={},
+        executor=function()
+            CF = Player.Character.HumanoidRootPart.CFrame
+            SpawnLoop = Player.CharacterAdded:Connect(function()
+                task.wait()
+                Player.Character.HumanoidRootPart.CFrame = CF
+            end)
+            Notifications:Notify("Spawn", "Spawn set!", 5)
+        end
+    }
+
+    self:Command{
+        title="removespawn",
+        desc="Removes spawn (set with setspawn)",
+        aliases={},
+        executor=function()
+            if SpawnLoop then
+                SpawnLoop:Disconnect()
+                Notifications:Notify("Spawn", "Spawn removed!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="savepos",
+        desc="Saves the position you execute, can be loaded with loadpos",
+        aliases={},
+        executor=function()
+            GLSavePos = Player.Character.HumanoidRootPart.CFrame
+            Notifications:Notify("Savepos", "Position set!", 5)
+        end
+    }
+
+    self:Command{
+        title="saydiscord",
+        desc="Makes you say the discord invite in chat",
+        aliases={},
+        executor=function()
+            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("" .. "HB Admin Invite: rZsAbyRasw", "All")
+            Notifications:Notify("Discord", "Sent invite!", 5)
+        end
+    }
+
+    
+    -- add a command called volume that takes a number as an argument and adjusts the mastervolume of the game
+    self:Command{
+        title="volume",
+        desc="Sets the volume of the game",
+        aliases={},
+        executor=function(Target)
+            UserSettings():GetService("UserGameSettings").MasterVolume = Target/10
+            Notifications:Notify("Volume", "Volume set to " .. Target, 5)
+        end
+    }
+
+    self:Command{
+        title="audiolog",
+        desc="Logs the audio id the target is playing",
+        aliases={},
+        executor=function(Target)
+            TPlayer = GetPlayer(Target)
+            for i,v in pairs(TPlayer.Character:GetDescendants()) do
+                if v:IsA("Tool") then
+                    for a,b in pairs(v:GetDescendants()) do
+                        if b:IsA("Sound") then
+                            setclipboard(b.SoundId)
+                            Notifications:Notify("Audio Log", "Audio ID: " .. b.SoundId, 5)
+                        end
+                    end
+                end
+            end
+        end
+    }
+
+    self:Command{
+        title="jobid",
+        desc="Gets the job id of the game",
+        aliases={},
+        executor=function()
+            setclipboard(game.JobId)
+            Notifications:Notify("Job ID", "Job ID: " .. game.JobId, 5)
+        end
+    }
+
+    self:Command{
+        title="autorj",
+        desc="Automatically rejoins when you are kicked",
+        aliases={},
+        executor=function()
+            RJLoop = game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child)
+                if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
+                    wait(1)
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, Player)
+                end
+            end)
+            Notifications:Notify("Auto RJ", "Enabled!", 5)
+        end
+    }
+    
+    self:Command{
+        title="loadpos",
+        desc="Loads the position you saved with savepos",
+        aliases={},
+        executor=function()
+            if GLSavePos then
+                Player.Character.HumanoidRootPart.CFrame = GLSavePos
+                Notifications:Notify("Loadpos", "Position loaded!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="removespawn",
+        desc="Removes spawn (set with setspawn)",
+        aliases={},
+        executor=function()
+            if SpawnLoop then
+                SpawnLoop:Disconnect()
+                Notifications:Notify("Spawn", "Spawn removed!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="ping",
+        desc="Returns your current ping",
+        aliases={},
+        executor=function()
+            local Ping = math.floor(tonumber(string.split(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString(), " ")[1]))
+            Notifications:Notify("Ping", "Your ping is "..Ping.."ms", 5)
+        end
+    }
+
+    self:Command{
+        title="headsit",
+        desc="Sit on the targets head!",
+        aliases={"ride"},
+        executor=function(Target)
+            TPlayer = GetPlayer(Target)
+            Player.Character.Humanoid.Sit = true
+            HSLoop = RunService.Heartbeat:connect(function()
+                if TPlayer.Character and Player.Character then
+                    Player.Character.HumanoidRootPart.CFrame = TPlayer.Character.Head.CFrame * CFrame.new(0, 2, 0)
+                    if Player.Character.Humanoid.Sit == false then
+                        Player.Character.Humanoid.Sit = true
+                    end
+                end
+            end)
+            Notifications:Notify("Headsit", "Sitting on "..Target.Name.."'s head!", 5)
+        end
+    }
+
+    self:Command{
+        title="unheadsit",
+        desc="Unheadsit on the target",
+        aliases={"unride"},
+        executor=function()
+            if HSLoop then
+                HSLoop:Disconnect()
+                Player.Character.Humanoid.Sit = false
+                Notifications:Notify("Headsit", "Unheadsitting!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="headsit",
+        desc="Sit on the targets head!",
+        aliases={"ride"},
+        executor=function(Target)
+            TPlayer = GetPlayer(Target)
+            Player.Character.Humanoid.Sit = true
+            HSLoop = RunService.Heartbeat:connect(function()
+                if TPlayer.Character and Player.Character then
+                    Player.Character.HumanoidRootPart.CFrame = TPlayer.Character.Head.CFrame * CFrame.new(0, 2, 0)
+                    if Player.Character.Humanoid.Sit == false then
+                        Player.Character.Humanoid.Sit = true
+                    end
+                end
+            end)
+            Notifications:Notify("Headsit", "Sitting on "..Target.Name.."'s head!", 5)
+        end
+    }
+
+    self:Command{
+        title="headstand",
+        desc="Standing on the targets head!",
+        aliases={"ride"},
+        executor=function(Target)
+            TPlayer = GetPlayer(Target)
+            HStLoop = RunService.Heartbeat:connect(function()
+                if TPlayer.Character and Player.Character then
+                    Player.Character.HumanoidRootPart.CFrame = TPlayer.Character.Head.CFrame * CFrame.new(0, 4, 0)
+                end
+            end)
+            Notifications:Notify("Headstand", "Standing on "..Target.Name.."'s head!", 5)
+        end
+    }
+
+    self:Command{
+        title="freeze",
+        desc="Freezes yourself",
+        aliases={},
+        executor=function()
+            if not Player.Character then
+                return
+            end
+            for i,v in pairs(Player.Character:GetChildren()) do
+                if v:IsA("BasePart") then
+                    v.Anchored = true
+                end
+            end
+            Notifications:Notify("Freeze", "Freezing!", 5)
+        end
+    }
+
+    self:Command{
+        title="unfreeze",
+        desc="Unfreezes yourself",
+        aliases={},
+        executor=function()
+            if not Player.Character then
+                return
+            end
+            for i,v in pairs(Player.Character:GetChildren()) do
+                if v:IsA("BasePart") then
+                    v.Anchored = false
+                end
+            end
+            Notifications:Notify("Freeze", "Unfreezing!", 5)
+        end
+    }
+
+
+
+    self:Command{
+        title="unheadstand",
+        desc="Unheadstand on the target",
+        aliases={},
+        executor=function()
+            if HStLoop then
+                HStLoop:Disconnect()
+                Notifications:Notify("Headstand", "Unheadstanding!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="hipheight",
+        desc="Changes the hipheight to arg",
+        aliases={"hh"},
+        executor=function(arg)
+            if arg then
+                Player.Character:FindFirstChildOfClass("Humanoid").HipHeight = arg
+                Notifications:Notify("HipHeight", "HipHeight set!", 5)
+            else
+                if Player.Character:FindFirstChildOfClass('Humanoid').RigType == Enum.HumanoidRigType.R15 then
+                    Player.Character:FindFirstChildOfClass("Humanoid").HipHeight = 2.1
+                else
+                    Player.Character:FindFirstChildOfClass("Humanoid").HipHeight = 0
+                end
+                Notifications:Notify("HipHeight", "HipHeight set to default!", 5)
+            end
+        end
+    }
+
+    self:Command{
+        title="unhipheight",
+        desc="Changes the hipheight to default",
+        aliases={"unhh"},
+        executor=function()
+            if Player.Character:FindFirstChildOfClass('Humanoid').RigType == Enum.HumanoidRigType.R15 then
+                Player.Character:FindFirstChildOfClass("Humanoid").HipHeight = 2.1
+            else
+                Player.Character:FindFirstChildOfClass("Humanoid").HipHeight = 0
+            end
+            Notifications:Notify("HipHeight", "HipHeight set to default!", 5)
+        end
+    }
+
     local reCommand
 
     reCommand = self:Command{
@@ -77,7 +848,6 @@ function Commands:Init(CommandController)
                 return
             end
             reCommand:SetStore("running", true)
-            local Player = game.Players.LocalPlayer
             local Character = Player.Character
             local Humanoid = Character:FindFirstChildOfClass("Humanoid")
 

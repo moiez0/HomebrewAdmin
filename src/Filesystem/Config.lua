@@ -7,7 +7,7 @@ local CommandConfig = require(hbAdmin.Commands.CommandConfig)
 
 local Config = {}
 
-Config._VERSION = "V2.06"
+Config._VERSION = "V2.09"
 Config._PREFIX = ";"
 
 Config._CurrentConfig = nil
