@@ -140,7 +140,7 @@ function Commands:Init(CommandController)
                 end)
                 IYLOADED = true
             end
-            execCmd((...),Player)
+            execCmd((...))
         end
     }
 
@@ -151,8 +151,8 @@ function Commands:Init(CommandController)
         executor=function()
             Mouse = Player:GetMouse()
             CLICKTPLOOP = Mouse.Button1Down:connect(function()
-                if  game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.LeftControl) then
-                Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Mouse.Hit.p))
+                if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+                    Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Mouse.Hit.p))
                 end
             end)
             Notifications:Notify("clicktp", "Enabled!", 5)
