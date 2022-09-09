@@ -8,7 +8,7 @@ local OldCommands = require(script.Parent.OldCommands)
 local Commands = {
     _commands = {}
 }
-
+local IYLOADED = false
 local Players = game:FindService("Players")
 local CoreGui = game:FindService("CoreGui")
 local StarterGui = game:FindService("StarterGui")
@@ -62,6 +62,10 @@ local GetPlayer = function(Name)
     end
 end
 
+function _G.notify(title, desc)
+    Notifications:Notify("IY: "..title, desc,5)
+end
+
 function Commands:Init(CommandController)
     OldCommands:Init(CommandController)
 
@@ -94,6 +98,49 @@ function Commands:Init(CommandController)
         aliases={"panic", "unload", "exit"},
         executor=function()
             Loading:Unload(Config)
+        end
+    }
+
+    self:Command{
+        title="test",
+        desc="this is a test",
+        aliases={},
+        executor=function(...)
+            print(...)
+        end
+    }
+
+    self:Command{
+        title="iy",
+        desc="Grab a command from IY",
+        aliases={},
+        executor=function(...)
+            if IYLOADED == false then
+                local function copytable(tbl) local copy = {} for i,v in pairs(tbl) do copy[i] = v end return copy end
+                local sandbox_env = copytable(getfenv())
+                setmetatable(sandbox_env, {
+                __index = function(self, i)
+                    if rawget(sandbox_env, i) then
+                        return rawget(sandbox_env, i)
+                    elseif getfenv()[i] then
+                        return getfenv()[i]
+                    end
+                end
+                })
+                sandbox_env.game = nil
+                iy, _ = game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"):gsub("local Main", "Main"):gsub("Players.LocalPlayer.Chatted","Funny = Players.LocalPlayer.Chatted"):gsub("local lastMessage","notify = _G.notify\nlocal lastMessage")
+                setfenv(loadstring(iy),sandbox_env)()
+                iy_cmds_table = sandbox_env.CMDs
+                iy_gui = sandbox_env.Main
+                iy_chathandler = sandbox_env.Funny
+                execCmd = sandbox_env.execCmd
+                iy_gui:Destroy()
+                pcall(function()
+                    iy_chathandler:Disconnect()
+                end)
+                IYLOADED = true
+            end
+            execCmd((...),Player)
         end
     }
 
@@ -436,6 +483,7 @@ function Commands:Init(CommandController)
             Character.Animate.Disabled = true
             wait()
             Character.Animate.Disabled = false
+            
             Character.Humanoid:EquipTool(MainTool)
             wait()
             Notifications:Notify("Rocket", "Sending target to space!", 5)
@@ -804,6 +852,106 @@ function Commands:Init(CommandController)
     }
 
     self:Command{
+        title="lvoid",
+        desc="Use leg resize and void plr",
+        aliases={"lkill"},
+        executor=function(Target)
+            TPlayer = GetPlayer(Target)
+            local Character = Player.Character
+            local Humanoid = Character:FindFirstChildWhichIsA("Humanoid")
+            local PlayerGui = Player:WaitForChild("PlayerGui")
+            local Backpack = Player:WaitForChild("Backpack")
+            local WaitFunc = function(x) x.DescendantAdded:wait() task.wait() end
+            if Humanoid.RigType == Enum.HumanoidRigType.R6 then Notifications:Notify("Leg Void", "R15 Only!", 5) return end
+            local Settings = { -- Credit to whitearmor#0001
+                Values = {
+                    BodyTypeScale = true;
+                    BodyProportionScale = true;
+                    BodyWidthScale = true;
+                    BodyHeightScale = true;
+                    BodyDepthScale = true;
+                    HeadScale = true;
+                };
+                OriginalSize = true;
+                OriginalPosition = false;
+            }
+            Character.LeftUpperLeg.LeftKneeRigAttachment:Destroy()
+            Character.LeftLowerLeg.LeftAnkleRigAttachment:Destroy()
+            Character.LeftFoot.LeftFootAttachment:Destroy()
+            for _,x in next, Settings.Values do
+                if x then
+                    if Settings.OriginalSize then
+                        for _, _os in next, Character:GetDescendants() do
+                            if _os.Name == "OriginalSize" and _os:IsA("ValueBase") then
+                                _os:Destroy()
+                            end
+                        end
+                    end
+                    if Settings.OriginalPosition then
+                        for _, _op in next, Character:GetDescendants() do
+                            if _op.Name == "OriginalPosition" and _op:IsA("ValueBase") then
+                                _op:Destroy()
+                            end
+                        end
+                    end
+                    if Humanoid:FindFirstChild(tostring(_)) then
+                        Humanoid:FindFirstChild(tostring(_)):Destroy()
+                    end
+                    WaitFunc(Character)
+                end
+            end
+            Humanoid:UnequipTools()
+            local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
+            if not MainTool or not MainTool:FindFirstChild("Handle") then
+                return
+            end
+            local TCharacter = TPlayer and TPlayer.Character
+            local THumanoid = TCharacter and TCharacter:FindFirstChildWhichIsA("Humanoid") or false
+            local TRootPart = TCharacter.HumanoidRootPart
+            if not THumanoid or not TRootPart then
+                return
+            end
+
+            function hwait() return game:GetService("RunService").Heartbeat:Wait() end
+
+            Character.Humanoid.Name = "DAttach"
+            local l = Character["DAttach"]:Clone()
+            l.Parent = Character
+            l.Name = "Humanoid"
+            hwait()
+            Character["DAttach"]:Destroy()
+            game.Workspace.CurrentCamera.CameraSubject = Character
+            Character.Animate.Disabled = true
+            hwait()
+            Character.Animate.Disabled = false
+            Character.Humanoid:EquipTool(MainTool)
+            hwait()
+            CF = Player.Character.PrimaryPart.CFrame
+            --workspace.CurrentCamera.CameraType = "Scriptable"
+            Notifications:Notify("Leg Void", "Leg Voiding "..TPlayer.Name.."!", 5)
+            if firetouchinterest then
+                local flag = false
+                task.defer(function()
+                    MainTool.Handle.AncestryChanged:wait()
+                    flag = true
+                end)
+                repeat
+                    firetouchinterest(MainTool.Handle, TRootPart, 0)
+                    firetouchinterest(MainTool.Handle, TRootPart, 1)
+                    wait(.1)
+                    for i,v in pairs(Player.Character:GetChildren()) do
+                            if v:IsA("BasePart") then
+                                v.CFrame = CFrame.new(0,workspace.FallenPartsDestroyHeight+(1.09),0)
+                        end
+                    end
+                until flag
+            end                  
+            Player.CharacterAdded:Wait()
+            Player.Character.HumanoidRootPart.CFrame = CF
+        end
+    }
+
+    self:Command{
         title="hipheight",
         desc="Changes the hipheight to arg",
         aliases={"hh"},
@@ -861,6 +1009,35 @@ function Commands:Init(CommandController)
             local SavePos = Character.HumanoidRootPart.CFrame
             Humanoid.Health = 0
             Player.CharacterAdded:Wait():WaitForChild("HumanoidRootPart").CFrame = SavePos
+            reCommand:SetStore("running", false)
+        end,
+        init=function()
+            reCommand:SetStore("running", false)
+        end
+    }
+
+    local grCommand
+    grCommand = self:Command{
+        title="respawn",
+        desc="Respawns your character",
+        aliases = {"gr"},
+        executor=function()
+            if reCommand:GetStore("running") then
+                Notifications:Notify("Refresh", "Already respawning character!", 3)
+                return
+            end
+            reCommand:SetStore("running", true)
+            local Character = Player.Character
+            local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+
+            local function anchor(model)
+                for i,v in pairs(model:GetChildren()) do
+                    if v:IsA("BasePart") then v.Anchored = true end
+                    anchor(v)
+                end
+            end
+            anchor(Character)
+            Humanoid.Health = 0
             reCommand:SetStore("running", false)
         end,
         init=function()
