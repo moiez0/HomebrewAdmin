@@ -25,6 +25,7 @@ function Main:Init()
     Commands:Init(CommandController)
     UI:Init()
     genv:Init()
+    HB.Config = Config
     
     notify("Total of " .. #CommandController.Commands .. " commands.", "Commands Loaded!")
     notify("Current prefix is `"..Config:Get("prefix").."`", "Prefix")
