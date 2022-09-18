@@ -4,7 +4,7 @@ local LoadingMaid = Loading:GetMaid()
 local Config = require(hbAdmin.Filesystem.Config)
 local CommandController = require(hbAdmin.Commands.CommandController)
 local Plugin = require(hbAdmin.Plugins.Plugin)
-local Notifications = require(hbAdmin.UI.Components.Notifications)
+local UI = require(hbAdmin.UI)
 
 local genv = {}
 
@@ -25,7 +25,7 @@ function genv:Init()
         if s then
             LoadPlugin(Plugin.new(e))
         else
-            Notifications:Notify("Plugins", "Could not load plugin `"..filepath.."`", 5)
+            UI:Notify("Plugins", "Could not load plugin `"..filepath.."`", 5)
         end
     end
     LoadingMaid:GiveTask(function() getgenv().HB = nil end)

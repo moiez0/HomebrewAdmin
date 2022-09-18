@@ -1,7 +1,7 @@
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Command = require(hbAdmin.Commands.Command)
 local Config = require(hbAdmin.Filesystem.Config)
-local Notifications = require(hbAdmin.UI.Components.Notifications)
+local UI = require(hbAdmin.UI)
 local Loading = require(hbAdmin.Loading.Maid)
 
 local OldCommands = require(script.Parent.OldCommands)
@@ -39,7 +39,7 @@ function Commands:Command(table)
     task.delay(.3, function()
         local s,e = pcall(init, command)
         if not s then
-            Notifications:Notify("Error", "Error loading command "..command:GetName()..". Check Console for more info", 5)
+            UI:Notify("Error", "Error loading command "..command:GetName()..". Check Console for more info", 5)
             warn("Error loading command "..command:GetName()..". \n\n"..e.."\n"..debug.traceback())
         end
     end)
@@ -63,7 +63,7 @@ local GetPlayer = function(Name)
 end
 
 function _G.notify(title, desc)
-    Notifications:Notify("IY: "..title, desc,5)
+    UI:Notify("IY: "..title, desc,5)
 end
 
 function Commands:Init(CommandController)
@@ -77,11 +77,11 @@ function Commands:Init(CommandController)
         executor = function()
             local enabled = antikill:GetStore("enabled")
             if not enabled then
-                Notifications:Notify("Anti Kill", "Anti Kill enabled", 5)
+                UI:Notify("Anti Kill", "Anti Kill enabled", 5)
                 Player.Character.Humanoid:SetStateEnabled("Seated", false)
                 Player.Character.Humanoid.Sit = true
             else
-                Notifications:Notify("Anti Kill", "Anti Kill disabled", 5)
+                UI:Notify("Anti Kill", "Anti Kill disabled", 5)
                 Player.Character.Humanoid:SetStateEnabled("Seated", true)
                 Player.Character.Humanoid.Sit = false
             end
@@ -155,7 +155,7 @@ function Commands:Init(CommandController)
                     Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Mouse.Hit.p))
                 end
             end)
-            Notifications:Notify("clicktp", "Enabled!", 5)
+            UI:Notify("clicktp", "Enabled!", 5)
         end
     }
 
@@ -167,7 +167,7 @@ function Commands:Init(CommandController)
             if CLICKTPLOOP then
                 CLICKTPLOOP:Disconnect()
             end
-            Notifications:Notify("clicktp", "Disabled!", 5)
+            UI:Notify("clicktp", "Disabled!", 5)
         end
     }
 
@@ -177,7 +177,7 @@ function Commands:Init(CommandController)
         aliases={},
         executor=function()
             Player.Character:FindFirstChildOfClass('Humanoid').Sit = true
-            Notifications:Notify("Sit", "Sitting!", 5)
+            UI:Notify("Sit", "Sitting!", 5)
         end
     }
 
@@ -187,7 +187,7 @@ function Commands:Init(CommandController)
         aliases={},
         executor=function()
             Player.Character:FindFirstChildOfClass('Humanoid').Sit = false
-            Notifications:Notify("Sit", "Unsitting!", 5)
+            UI:Notify("Sit", "Unsitting!", 5)
         end
     }
 
@@ -209,7 +209,7 @@ function Commands:Init(CommandController)
                 Path:Run(Goal)
             end)
             Path:Run(Goal)
-            Notifications:Notify("Pathfind", "Going to target!", 5)
+            UI:Notify("Pathfind", "Going to target!", 5)
         end
     }
 
@@ -221,7 +221,7 @@ function Commands:Init(CommandController)
             if Path then
                 Path:Stop()
                 Path:Destroy()
-                Notifications:Notify("Pathfind", "Stopped!", 5)
+                UI:Notify("Pathfind", "Stopped!", 5)
             end
         end
     }
@@ -237,7 +237,7 @@ function Commands:Init(CommandController)
             A.BinType = 3
             A = Instance.new("HopperBin", Player.Backpack)
             A.BinType = 4
-            Notifications:Notify("Btools", "Got btools!", 5)
+            UI:Notify("Btools", "Got btools!", 5)
         end
     }
 
@@ -251,7 +251,7 @@ function Commands:Init(CommandController)
                     v:Destroy()
                 end
             end
-            Notifications:Notify("Naked", "Clothes removed!", 5)
+            UI:Notify("Naked", "Clothes removed!", 5)
         end
     }
 
@@ -261,7 +261,7 @@ function Commands:Init(CommandController)
         aliases={"bubblechat"},
         executor=function()
             Chat.BubbleChatEnabled = true
-            Notifications:Notify("Bubble Chat", "Enabled!", 5)
+            UI:Notify("Bubble Chat", "Enabled!", 5)
         end
     }
 
@@ -271,7 +271,7 @@ function Commands:Init(CommandController)
         aliases={"nobubblechat","unbubblechat"},
         executor=function()
             Chat.BubbleChatEnabled = false
-            Notifications:Notify("Bubble Chat", "Disabled!", 5)
+            UI:Notify("Bubble Chat", "Disabled!", 5)
         end
     }
 
@@ -324,7 +324,7 @@ function Commands:Init(CommandController)
             Humanoid:UnequipTools()
             local MainTool = Backpack:FindFirstChildWhichIsA("Tool") or false
             Humanoid:EquipTool(MainTool)
-            Notifications:Notify("SAura", "SAura ON!", 5)
+            UI:Notify("SAura", "SAura ON!", 5)
             repeat
             task.wait()
             MainTool:Activate()
@@ -343,7 +343,7 @@ function Commands:Init(CommandController)
         executor=function()
             if funnyloop then
                 funnyloop = false
-                Notifications:Notify("SAura", "SAura OFF!", 5)
+                UI:Notify("SAura", "SAura OFF!", 5)
             end
         end
     }
@@ -355,10 +355,10 @@ function Commands:Init(CommandController)
         executor=function(arg)
             if arg then
                 workspace.Gravity = arg
-                Notifications:Notify("Gravity", "Gravity set!", 5)
+                UI:Notify("Gravity", "Gravity set!", 5)
             else
                 workspace.Gravity = 196.2
-                Notifications:Notify("Gravity", "Gravity set to default!", 5)
+                UI:Notify("Gravity", "Gravity set to default!", 5)
             end
         end
     }
@@ -369,7 +369,7 @@ function Commands:Init(CommandController)
         aliases={"ungrav"},
         executor=function()
             workspace.Gravity = 196.2
-            Notifications:Notify("Gravity", "Gravity set to default!", 5)
+            UI:Notify("Gravity", "Gravity set to default!", 5)
         end
     }
 
@@ -380,10 +380,10 @@ function Commands:Init(CommandController)
         executor=function(arg)
             if arg then
                 Player.Character:FindFirstChildOfClass('Humanoid').MaxSlopeAngle = arg
-                Notifications:Notify("Maxslopeangle", "maxslopeangle set!", 5)
+                UI:Notify("Maxslopeangle", "maxslopeangle set!", 5)
             else
                 Player.Character:FindFirstChildOfClass('Humanoid')N.MaxSlopeAngle = 89
-                Notifications:Notify("Maxslopeangle", "maxslopeangle set to default!", 5)
+                UI:Notify("Maxslopeangle", "maxslopeangle set to default!", 5)
             end
         end
     }
@@ -408,7 +408,7 @@ function Commands:Init(CommandController)
             infjumploop = UserInputService.JumpRequest:connect(function()
                 Player.Character:FindFirstChildOfClass("Humanoid"):ChangeState(3)
             end)
-            Notifications:Notify("Infinite Jump", "Enabled!", 5)
+            UI:Notify("Infinite Jump", "Enabled!", 5)
         end
     }
 
@@ -419,9 +419,9 @@ function Commands:Init(CommandController)
         executor=function()
             if infjumploop then
                 infjumploop:Disconnect()
-                Notifications:Notify("Infinite Jump", "Disabled!", 5)
+                UI:Notify("Infinite Jump", "Disabled!", 5)
             else
-                Notifications:Notify("Infinite Jump", "Not Enabled!", 5)
+                UI:Notify("Infinite Jump", "Not Enabled!", 5)
             end
         end
     }
@@ -448,7 +448,7 @@ function Commands:Init(CommandController)
                     instance.Parent = nil
                 end
             end)
-            Notifications:Notify("Anti Void", "Enabled!", 5)
+            UI:Notify("Anti Void", "Enabled!", 5)
         end
     }
 
@@ -486,7 +486,7 @@ function Commands:Init(CommandController)
             
             Character.Humanoid:EquipTool(MainTool)
             wait()
-            Notifications:Notify("Rocket", "Sending target to space!", 5)
+            UI:Notify("Rocket", "Sending target to space!", 5)
             CF = Player.Character.PrimaryPart.CFrame
             if firetouchinterest then
                 local flag = false
@@ -551,7 +551,7 @@ function Commands:Init(CommandController)
             Character.Animate.Disabled = false
             Character.Humanoid:EquipTool(MainTool)
             wait()
-            Notifications:Notify("Attach", "Attaching to target!", 5)
+            UI:Notify("Attach", "Attaching to target!", 5)
             CF = Player.Character.PrimaryPart.CFrame
             if firetouchinterest then
                 local flag = false
@@ -583,9 +583,9 @@ function Commands:Init(CommandController)
         executor=function()
             if AAttach then
                 AAttach:Disconnect()
-                Notifications:Notify("Anti Void", "Disabled!", 5)
+                UI:Notify("Anti Void", "Disabled!", 5)
             else
-                Notifications:Notify("Anti Void", "Disabled!", 5)
+                UI:Notify("Anti Void", "Disabled!", 5)
             end
         end
     }
@@ -597,7 +597,7 @@ function Commands:Init(CommandController)
         executor=function(Target)
             TPlayer = GetPlayer(Target)
             TPlayer.Character.Parent = game.Lighting
-            Notifications:Notify("Delete", "Player now in lighting!", 5)
+            UI:Notify("Delete", "Player now in lighting!", 5)
         end
     }
 
@@ -611,7 +611,7 @@ function Commands:Init(CommandController)
                 task.wait()
                 Player.Character.HumanoidRootPart.CFrame = CF
             end)
-            Notifications:Notify("Spawn", "Spawn set!", 5)
+            UI:Notify("Spawn", "Spawn set!", 5)
         end
     }
 
@@ -622,7 +622,7 @@ function Commands:Init(CommandController)
         executor=function()
             if SpawnLoop then
                 SpawnLoop:Disconnect()
-                Notifications:Notify("Spawn", "Spawn removed!", 5)
+                UI:Notify("Spawn", "Spawn removed!", 5)
             end
         end
     }
@@ -633,7 +633,7 @@ function Commands:Init(CommandController)
         aliases={},
         executor=function()
             GLSavePos = Player.Character.HumanoidRootPart.CFrame
-            Notifications:Notify("Savepos", "Position set!", 5)
+            UI:Notify("Savepos", "Position set!", 5)
         end
     }
 
@@ -643,7 +643,7 @@ function Commands:Init(CommandController)
         aliases={},
         executor=function()
             ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("" .. "HB Admin Invite: rZsAbyRasw", "All")
-            Notifications:Notify("Discord", "Sent invite!", 5)
+            UI:Notify("Discord", "Sent invite!", 5)
         end
     }
 
@@ -655,7 +655,7 @@ function Commands:Init(CommandController)
         aliases={},
         executor=function(Target)
             UserSettings():GetService("UserGameSettings").MasterVolume = Target/10
-            Notifications:Notify("Volume", "Volume set to " .. Target, 5)
+            UI:Notify("Volume", "Volume set to " .. Target, 5)
         end
     }
 
@@ -670,7 +670,7 @@ function Commands:Init(CommandController)
                     for a,b in pairs(v:GetDescendants()) do
                         if b:IsA("Sound") then
                             setclipboard(b.SoundId)
-                            Notifications:Notify("Audio Log", "Audio ID: " .. b.SoundId, 5)
+                            UI:Notify("Audio Log", "Audio ID: " .. b.SoundId, 5)
                         end
                     end
                 end
@@ -684,7 +684,7 @@ function Commands:Init(CommandController)
         aliases={},
         executor=function()
             setclipboard(game.JobId)
-            Notifications:Notify("Job ID", "Job ID: " .. game.JobId, 5)
+            UI:Notify("Job ID", "Job ID: " .. game.JobId, 5)
         end
     }
 
@@ -699,7 +699,7 @@ function Commands:Init(CommandController)
                     game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, Player)
                 end
             end)
-            Notifications:Notify("Auto RJ", "Enabled!", 5)
+            UI:Notify("Auto RJ", "Enabled!", 5)
         end
     }
     
@@ -710,7 +710,7 @@ function Commands:Init(CommandController)
         executor=function()
             if GLSavePos then
                 Player.Character.HumanoidRootPart.CFrame = GLSavePos
-                Notifications:Notify("Loadpos", "Position loaded!", 5)
+                UI:Notify("Loadpos", "Position loaded!", 5)
             end
         end
     }
@@ -722,7 +722,7 @@ function Commands:Init(CommandController)
         executor=function()
             if SpawnLoop then
                 SpawnLoop:Disconnect()
-                Notifications:Notify("Spawn", "Spawn removed!", 5)
+                UI:Notify("Spawn", "Spawn removed!", 5)
             end
         end
     }
@@ -733,7 +733,7 @@ function Commands:Init(CommandController)
         aliases={},
         executor=function()
             local Ping = math.floor(tonumber(string.split(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString(), " ")[1]))
-            Notifications:Notify("Ping", "Your ping is "..Ping.."ms", 5)
+            UI:Notify("Ping", "Your ping is "..Ping.."ms", 5)
         end
     }
 
@@ -752,7 +752,7 @@ function Commands:Init(CommandController)
                     end
                 end
             end)
-            Notifications:Notify("Headsit", "Sitting on "..Target.Name.."'s head!", 5)
+            UI:Notify("Headsit", "Sitting on "..Target.Name.."'s head!", 5)
         end
     }
 
@@ -764,7 +764,7 @@ function Commands:Init(CommandController)
             if HSLoop then
                 HSLoop:Disconnect()
                 Player.Character.Humanoid.Sit = false
-                Notifications:Notify("Headsit", "Unheadsitting!", 5)
+                UI:Notify("Headsit", "Unheadsitting!", 5)
             end
         end
     }
@@ -784,7 +784,7 @@ function Commands:Init(CommandController)
                     end
                 end
             end)
-            Notifications:Notify("Headsit", "Sitting on "..Target.Name.."'s head!", 5)
+            UI:Notify("Headsit", "Sitting on "..Target.Name.."'s head!", 5)
         end
     }
 
@@ -799,7 +799,7 @@ function Commands:Init(CommandController)
                     Player.Character.HumanoidRootPart.CFrame = TPlayer.Character.Head.CFrame * CFrame.new(0, 4, 0)
                 end
             end)
-            Notifications:Notify("Headstand", "Standing on "..Target.Name.."'s head!", 5)
+            UI:Notify("Headstand", "Standing on "..Target.Name.."'s head!", 5)
         end
     }
 
@@ -816,7 +816,7 @@ function Commands:Init(CommandController)
                     v.Anchored = true
                 end
             end
-            Notifications:Notify("Freeze", "Freezing!", 5)
+            UI:Notify("Freeze", "Freezing!", 5)
         end
     }
 
@@ -833,7 +833,7 @@ function Commands:Init(CommandController)
                     v.Anchored = false
                 end
             end
-            Notifications:Notify("Freeze", "Unfreezing!", 5)
+            UI:Notify("Freeze", "Unfreezing!", 5)
         end
     }
 
@@ -846,7 +846,7 @@ function Commands:Init(CommandController)
         executor=function()
             if HStLoop then
                 HStLoop:Disconnect()
-                Notifications:Notify("Headstand", "Unheadstanding!", 5)
+                UI:Notify("Headstand", "Unheadstanding!", 5)
             end
         end
     }
@@ -862,7 +862,7 @@ function Commands:Init(CommandController)
             local PlayerGui = Player:WaitForChild("PlayerGui")
             local Backpack = Player:WaitForChild("Backpack")
             local WaitFunc = function(x) x.DescendantAdded:wait() task.wait() end
-            if Humanoid.RigType == Enum.HumanoidRigType.R6 then Notifications:Notify("Leg Void", "R15 Only!", 5) return end
+            if Humanoid.RigType == Enum.HumanoidRigType.R6 then UI:Notify("Leg Void", "R15 Only!", 5) return end
             local Settings = { -- Credit to whitearmor#0001
                 Values = {
                     BodyTypeScale = true;
@@ -928,7 +928,7 @@ function Commands:Init(CommandController)
             hwait()
             CF = Player.Character.PrimaryPart.CFrame
             --workspace.CurrentCamera.CameraType = "Scriptable"
-            Notifications:Notify("Leg Void", "Leg Voiding "..TPlayer.Name.."!", 5)
+            UI:Notify("Leg Void", "Leg Voiding "..TPlayer.Name.."!", 5)
             if firetouchinterest then
                 local flag = false
                 task.defer(function()
@@ -958,14 +958,14 @@ function Commands:Init(CommandController)
         executor=function(arg)
             if arg then
                 Player.Character:FindFirstChildOfClass("Humanoid").HipHeight = arg
-                Notifications:Notify("HipHeight", "HipHeight set!", 5)
+                UI:Notify("HipHeight", "HipHeight set!", 5)
             else
                 if Player.Character:FindFirstChildOfClass('Humanoid').RigType == Enum.HumanoidRigType.R15 then
                     Player.Character:FindFirstChildOfClass("Humanoid").HipHeight = 2.1
                 else
                     Player.Character:FindFirstChildOfClass("Humanoid").HipHeight = 0
                 end
-                Notifications:Notify("HipHeight", "HipHeight set to default!", 5)
+                UI:Notify("HipHeight", "HipHeight set to default!", 5)
             end
         end
     }
@@ -980,7 +980,7 @@ function Commands:Init(CommandController)
             else
                 Player.Character:FindFirstChildOfClass("Humanoid").HipHeight = 0
             end
-            Notifications:Notify("HipHeight", "HipHeight set to default!", 5)
+            UI:Notify("HipHeight", "HipHeight set to default!", 5)
         end
     }
 
@@ -992,7 +992,7 @@ function Commands:Init(CommandController)
         aliases = {"re", "kys", "suicide", "refresh"},
         executor=function()
             if reCommand:GetStore("running") then
-                Notifications:Notify("Refresh", "Already refreshing character!", 3)
+                UI:Notify("Refresh", "Already refreshing character!", 3)
                 return
             end
             reCommand:SetStore("running", true)
@@ -1023,7 +1023,7 @@ function Commands:Init(CommandController)
         aliases = {"gr"},
         executor=function()
             if reCommand:GetStore("running") then
-                Notifications:Notify("Refresh", "Already respawning character!", 3)
+                UI:Notify("Refresh", "Already respawning character!", 3)
                 return
             end
             reCommand:SetStore("running", true)
@@ -1051,7 +1051,7 @@ function Commands:Init(CommandController)
         aliases = { "clickdetectors", "firecd" },
         executor = function()
             if fireclickdetector == nil then
-                Notifications:Notify("Fire ClickDetectors", "Unsupported exploit: missing fireclickdetector")
+                UI:Notify("Fire ClickDetectors", "Unsupported exploit: missing fireclickdetector")
                 return
             end
 
@@ -1071,7 +1071,7 @@ function Commands:Init(CommandController)
         aliases = { "proximityprompts", "fireprompts", "firepp" },
         executor = function()
             if fireproximityprompt == nil then
-                Notifications:Notify("Fire ProximityPrompts", "Unsupported exploit: missing fireproximityprompt")
+                UI:Notify("Fire ProximityPrompts", "Unsupported exploit: missing fireproximityprompt")
                 return
             end
 
@@ -1091,7 +1091,7 @@ function Commands:Init(CommandController)
         aliases = { "touchinterests", "firetouch", "fireti" },
         executor = function()
             if firetouchinterest == nil then
-                Notifications:Notify("Fire TouchInterests", "Unsupported exploit: missing firetouchinterest")
+                UI:Notify("Fire TouchInterests", "Unsupported exploit: missing firetouchinterest")
                 return
             end
 
@@ -1099,7 +1099,7 @@ function Commands:Init(CommandController)
             local hrp = pl.Character and pl.Character:FindFirstChild("HumanoidRootPart")
 
             if (hrp == nil) then
-                Notifications:Notify("Fire TouchInterests", "Failed: character has no root part")
+                UI:Notify("Fire TouchInterests", "Failed: character has no root part")
                 return
             end
 
