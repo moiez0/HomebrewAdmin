@@ -9,7 +9,7 @@ local CommandController = require(hbAdmin.Commands.CommandController)
 local ChatController = require(hbAdmin.Chat.ChatController)
 local Config = require(hbAdmin.Filesystem.Config)
 local Commands = require(hbAdmin.Setup.Commands)
-local UI = require(hbAdmin.UI.UIApp)
+local UI = require(hbAdmin.UI)
 local genv = require(hbAdmin.Setup.genv)
 
 
@@ -20,13 +20,12 @@ end
 
 function Main:Init()
     Config:Init()
+    UI:Init()
     CommandController:Init()
     ChatController:Init(CommandController)
     Commands:Init(CommandController)
-    UI:Init()
     genv:Init()
     HB.Config = Config
-    
     notify("Total of " .. #CommandController.Commands .. " commands.", "Commands Loaded!")
     notify("Current prefix is `"..Config:Get("prefix").."`", "Prefix")
     notify(Config.VERSION, "Version")

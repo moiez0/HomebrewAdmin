@@ -1,7 +1,8 @@
+
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 local Plugin = require(hbAdmin.Plugins.Plugin)
 local CommandController = require(hbAdmin.Commands.CommandController)
-local Notifications = require(hbAdmin.UI.Components.Notifications)
+local Notifications = require(hbAdmin.UI.Default.Components.Notifications)
 
 local CommandConfig = require(hbAdmin.Commands.CommandConfig)
 
@@ -45,7 +46,7 @@ function Config:GetPlugins()
             local plugin = e
             plugins[#plugins+1] = Plugin.new(plugin)
         else
-            UI:Notify("Plugins", "Could not load plugin `"..path.."`")
+            Notifications:Notify("Plugins", "Could not load plugin `"..path.."`")
         end
     end
     return plugins

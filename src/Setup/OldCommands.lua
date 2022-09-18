@@ -22,10 +22,9 @@ local Commands = {}
 function Commands:Init(CommandController)
     local Command = require(hbAdmin.Commands.Command)
     local Config = require(hbAdmin.Filesystem.Config)
-    local UI = require(hbAdmin.UI.UIApp)
-    local Components = hbAdmin.UI.Components
-    local CommandsUI = require(Components.Commands)
-    local ChatLogs = require(Components.ChatLogs)
+    local UI = require(hbAdmin.UI):GetApp()
+    local CommandsUI = UI:GetCommands()
+    local ChatLogs = UI:GetChatLogs()
 
     local VERSION = Config:Get("version")
 
@@ -2595,9 +2594,9 @@ function Commands:Init(CommandController)
         1,
         {},
         function(msg)
-            notify("Chatting " .. msg .. "!")
+            notify("Chatting " .. tostring(msg) .. "!")
             task.wait()
-            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("" .. msg, "All")
+            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("" .. tostring(msg), "All")
         end
     )
 

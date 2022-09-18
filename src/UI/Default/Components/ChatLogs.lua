@@ -1,9 +1,13 @@
 local hbAdmin = script:FindFirstAncestor("HBAdmin")
 
 local Maid = require(hbAdmin.Util.Maid)
-local Message = require(hbAdmin.UI.Message)
-local Notifications = require(hbAdmin.UI.Components.Notifications)
-local FastDraggable = require(hbAdmin.UI.FastDraggable)
+
+local Components = script.Parent
+local UI = Components.Parent
+
+local Message = require(UI.Message)
+local Notifications = require(UI.Components.Notifications)
+local FastDraggable = require(UI.FastDraggable)
 
 local Loading = require(hbAdmin.Loading.Maid)
 local LoadingMaid = Loading:GetMaid()
