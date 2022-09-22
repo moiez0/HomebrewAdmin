@@ -3,7 +3,7 @@
 
 A open-sourced admin with unique scripts and features.
 
- [Discord Server](https://discord.gg/rZsAbyRasw)
+ [Discord Server](https://discord.gg/GH5mEDgpVp)
 
 ## Developers
 
