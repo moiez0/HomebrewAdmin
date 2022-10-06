@@ -10,6 +10,7 @@ A open-sourced admin with unique scripts and features.
 - Syntax 64 - Creator and Developer
 - 7n7o - Developer
 - Whited - Contributor
+- whitearmor - esex with mods
 - Anthonylol - Contributor
 - ArianBlack - Contributor
 - nickk - UI 
