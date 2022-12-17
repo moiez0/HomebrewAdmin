@@ -7,7 +7,6 @@ A open-sourced admin with unique scripts and features.
 
 ## Developers
 
-- Muhammad-MM - Creator and Developer
 - 7n7o - Developer
 - Whited - Contributor
 - Anthonylol - Contributor
